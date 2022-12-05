@@ -1,7 +1,7 @@
-import React, { PropsWithChildren, ReactNode } from "react";
+import React, { PropsWithChildren } from "react";
 import { UserContext } from "./UserContext";
 
-type ProviderProps = PropsWithChildren<{ user: { user: Object } }>;
+type ProviderProps = PropsWithChildren<{ user: Object | undefined }>;
 
 const UserProvider = ({ user, children }: ProviderProps) => {
   return <UserContext.Provider value={user}> {children} </UserContext.Provider>;
