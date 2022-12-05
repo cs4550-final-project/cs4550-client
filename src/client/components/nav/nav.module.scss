@@ -1,6 +1,14 @@
 @use "../../styles/colors.scss" as c;
-.red {
+.primary {
   color: c.$primary;
+}
+
+.secondary {
+  color: c.$secondary;
+}
+
+.tertiary {
+  color: c.$tertiary;
 }
 
 .navbar {
