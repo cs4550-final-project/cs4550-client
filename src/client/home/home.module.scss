@@ -1,27 +1,25 @@
 .homeContainer {
-    .filterContainer {
+  .filterContainer {
+  }
+  .filterCheckbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .browseContainer {
+    .searchBarContainer {
+      display: flex;
 
-    }
-    .filterCheckbox {
+      .searchInput {
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex: 1;
+      }
+      .searchButton {
+        margin-left: 4px;
+      }
     }
-    .browseContainer {
-                
-        .searchBarContainer {
-            display: flex;
-
-            .searchInput {
-                display: flex;
-                flex: 1;
-            }
-            .searchButton {
-                margin-left: 4px;
-            }
-        }
-        .listingsContainer {
-            margin-top: 12px;
-        }
+    .listingsContainer {
+      margin-top: 12px;
     }
+  }
 }

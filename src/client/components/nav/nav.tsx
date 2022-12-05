@@ -11,8 +11,9 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import KeyboardIcon from "@mui/icons-material/Keyboard";
 import styles from "./nav.module.scss";
+import { colors } from "../../styles/colors";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contextProviders/user/UserContext";
 
@@ -28,7 +29,13 @@ const Nav = () => {
     navigateTo(link);
   };
 
-  const handleLoginLogout = () => {};
+  const handleSignInOut = () => {
+    if (user) {
+      // do logout stuff
+    } else {
+      navigateTo("/signin");
+    }
+  };
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -59,11 +66,11 @@ const Nav = () => {
   return (
     <AppBar
       position="static"
-      sx={{ backgroundColor: "white", color: "#ff7d00" }}
+      sx={{ backgroundColor: "white", color: colors.primary }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <KeyboardIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -74,7 +81,7 @@ const Nav = () => {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              color: "#ff7d00",
+              color: colors.primary,
               letterSpacing: ".3rem",
               textDecoration: "none",
             }}
@@ -170,22 +177,23 @@ const Nav = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {user &&
-                settings.map((setting) => (
-                  <MenuItem
-                    key={setting.title}
-                    onClick={() => {
-                      handleSettingsClick(setting.link);
-                    }}
-                  >
-                    <p className={styles.tertiary}>{setting.title}</p>
-                  </MenuItem>
-                ))}
+              {settings.map((setting) => (
+                <MenuItem
+                  key={setting.title}
+                  onClick={() => {
+                    handleSettingsClick(setting.link);
+                  }}
+                >
+                  <p className={styles.tertiary}>{setting.title}</p>
+                </MenuItem>
+              ))}
               <MenuItem
-                key={user ? "logout" : "login"}
-                onClick={handleLoginLogout}
+                key={user ? "Sign Out" : "Sign In"}
+                onClick={handleSignInOut}
               >
-                <p className={styles.tertiary}>{user ? "Logout" : "Login"}</p>
+                <p className={styles.tertiary}>
+                  {user ? "Sign Out" : "Sign In"}
+                </p>
               </MenuItem>
             </Menu>
           </Box>

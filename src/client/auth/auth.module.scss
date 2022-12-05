@@ -1,0 +1,26 @@
+@use "../styles/colors.scss" as c;
+.authContainer {
+  height: 100%;
+  margin-top: 100px;
+}
+
+.formControl {
+  width: 100%;
+
+  button {
+    margin-top: 16px;
+  }
+}
+
+.description {
+  margin: 8px 0;
+}
+
+.bottomLink {
+  margin-top: 16px;
+
+  a {
+    color: c.$primary2;
+    cursor: pointer;
+  }
+}

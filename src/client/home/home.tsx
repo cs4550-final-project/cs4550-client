@@ -57,7 +57,7 @@ const Home = () => {
   return (
     <Box>
       <Grid container spacing={2} className={styles.homeContainer}>
-        <Grid item xs={3} className="filter-contianer">
+        <Grid item xs={3} className="filter-container">
           {Object.values(filterOptions).map((option) => (
             <Accordion key={option.id}>
               <AccordionSummary>

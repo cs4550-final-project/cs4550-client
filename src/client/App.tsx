@@ -7,21 +7,23 @@ import Nav from "./components/nav/nav";
 import Home from "./home/home";
 import Profile from "./profile/profile";
 import Store from "./store/store";
+import SignIn from "./auth/signIn/signIn";
+import SignUp from "./auth/signUp/signUp";
 
 function App() {
   const [user, setUser] = useState<Object | undefined>(undefined);
   return (
     <UserProvider user={user}>
-      <div>
-        <Nav></Nav>
-        <Box sx={{ ml: 12, mr: 12, mt: 2, mb: 2 }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/stores" element={<Store />} />
-          </Routes>
-        </Box>
-      </div>
+      <Nav></Nav>
+      <Box sx={{ ml: 12, mr: 12, mt: 2, mb: 2 }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/stores" element={<Store />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </Box>
     </UserProvider>
   );
 }
