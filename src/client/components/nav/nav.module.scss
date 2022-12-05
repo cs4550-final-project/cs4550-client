@@ -1,0 +1,8 @@
+@use "../../styles/colors.scss" as c;
+.red {
+  color: c.$primary;
+}
+
+.navbar {
+  background-color: c.$white;
+}

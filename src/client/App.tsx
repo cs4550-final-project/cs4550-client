@@ -1,20 +1,30 @@
 import Box from "@mui/material/Box";
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import UserProvider from "./contextProviders/user/UserProvider";
 import "./App.scss";
+import Nav from "./components/nav/nav";
 import Home from "./home/home";
 import Profile from "./profile/profile";
 import Store from "./store/store";
+import GroupBuys from "./groupBuys/groupBuys";
 
 function App() {
+  const [user, setUser] = useState({ user: {} });
   return (
-    <Box sx={{ ml: 12, mr: 12, mt: 2, mb: 2 }}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/stores/:id" element={<Store />} />
-      </Routes>
-    </Box>
+    <UserProvider user={user}>
+      <div>
+        <Nav></Nav>
+        <Box sx={{ ml: 12, mr: 12, mt: 2, mb: 2 }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/stores/:id" element={<Store />} />
+            <Route path="/groupbuys" element={<GroupBuys />} />
+          </Routes>
+        </Box>
+      </div>
+    </UserProvider>
   );
 }
 
