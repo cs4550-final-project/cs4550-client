@@ -14,7 +14,7 @@ const SignUp = () => {
   return (
     <Grid container justifyContent="center" className={styles.authContainer}>
       <Grid item xs={12} md={4}>
-        <h3>Sign In</h3>
+        <h3>Sign Up</h3>
         <p className={styles.description}>
           Welcome to SandWitches! Enter a username and password to get started.
         </p>

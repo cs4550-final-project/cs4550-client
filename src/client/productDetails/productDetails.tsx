@@ -37,10 +37,10 @@ const ProductDetails = () => {
   return (
     <Grid container spacing={2} className={styles.pdpContainer} mt={3}>
       {!product && <Loading></Loading>}
-      <Grid item xs={12} md={6} justifyContent="center" alignItems="center">
+      <Grid item xs={12} md={7} justifyContent="center" alignItems="center">
         <img className={styles.productDetailImg} src={productDetailImg} />
       </Grid>
-      <Grid item xs={12} md={6} justifyContent="center" alignItems="center">
+      <Grid item xs={12} md={5} justifyContent="center" alignItems="center">
         <div className={styles.pdpHeader}>
           {product ? <p>{product.store.name}</p> : placeholders.sm}
           {product ? <h3>{product.productName}</h3> : placeholders.md}
@@ -48,7 +48,7 @@ const ProductDetails = () => {
         </div>
         <div className={styles.pdpMain}>
           {product ? <p>{product.description}</p> : placeholders.text}
-          <Button label="Add to cart" />
+          <Button label="Add to cart" sx={{ margin: "16px auto" }} />
           {product ? (
             <div className={styles.pdpDetails}>
               <h4>Details</h4>

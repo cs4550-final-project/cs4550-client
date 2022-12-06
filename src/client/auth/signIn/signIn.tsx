@@ -17,7 +17,11 @@ const SignIn = () => {
         <h3>Sign In</h3>
         <p className={styles.description}> Welcome back to SandWitches!</p>
         <FormControl className={styles.formControl}>
-          <TextField id="email" label="Email" sx={{ marginTop: "16px" }} />
+          <TextField
+            id="username"
+            label="Username"
+            sx={{ marginTop: "16px" }}
+          />
           <TextField
             id="password"
             label="Password"
