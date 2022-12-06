@@ -16,10 +16,14 @@ const SignUp = () => {
       <Grid item xs={12} md={4}>
         <h3>Sign In</h3>
         <p className={styles.description}>
-          Welcome to SandWitches! Enter an email and password to get started.
+          Welcome to SandWitches! Enter a username and password to get started.
         </p>
         <FormControl className={styles.formControl}>
-          <TextField id="email" label="Email" sx={{ marginTop: "16px" }} />
+          <TextField
+            id="username"
+            label="Username"
+            sx={{ marginTop: "16px" }}
+          />
           <TextField
             id="password"
             label="Password"

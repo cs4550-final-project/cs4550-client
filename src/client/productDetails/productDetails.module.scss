@@ -27,8 +27,12 @@
   }
 
   .pdpDetails {
+    margin-top: 24px;
     h4 {
       margin-bottom: 16px;
+    }
+    .detailItem {
+      margin: 8px 0;
     }
   }
 
@@ -49,5 +53,9 @@
     &Text {
       height: 98px;
     }
+  }
+
+  .productReviews {
+    margin: 64px 0;
   }
 }

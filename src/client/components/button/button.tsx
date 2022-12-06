@@ -9,6 +9,7 @@ type ButtonProps = {
   disabled?: boolean | undefined;
   style?: "primary" | "secondary" | "tertiary";
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  sx?: object;
 };
 
 const getButtonStyles = (style: string, variant: string) => {
@@ -46,6 +47,7 @@ const Button = ({
   disabled = false,
   style = "primary",
   onClick,
+  sx,
 }: ButtonProps) => {
   const styles = getButtonStyles(style, variant);
   return (
@@ -55,7 +57,10 @@ const Button = ({
       }}
       variant={variant}
       disabled={disabled}
-      sx={styles}
+      sx={{
+        ...styles,
+        ...sx,
+      }}
     >
       {label}
     </MuiButton>

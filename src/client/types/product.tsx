@@ -15,7 +15,19 @@ export type Product = {
   price: number;
   quantity: number;
   status: string;
-  usersFavorited: string[];
+  usersFavorited?: string[];
+  upc?: number;
+  attributes?: {
+    topHousingMaterial?: string;
+    bottomHousingMaterial?: string;
+    stemMaterial?: string;
+    springWeight?: number;
+    prelubed?: boolean;
+    switchType?: string;
+    packSize?: number;
+    mountingPins?: number;
+    manufacturer?: string;
+  };
   createdAt: string;
   updatedAt: string;
 };

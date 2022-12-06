@@ -6,47 +6,17 @@ import { Product } from "../types/product";
 import Loading from "../components/loading/loading";
 import productDetailImg from "./switches.jpeg";
 import Button from "../components/button/button";
-
-const mockProduct = {
-  product: {
-    dimensions: {
-      height: 3,
-      width: 2,
-      weight: 1,
-    },
-    _id: "638eab458de6191ce8205cde",
-    store: {
-      _id: "638eaaed197ce5b186de1a32",
-      owner: "638510f68ec22284054b919d",
-      name: "britney's main store",
-      description: "THIS ONE!",
-      status: "active",
-      createdAt: "2022-12-06T02:37:33.715Z",
-      updatedAt: "2022-12-06T02:37:33.715Z",
-      __v: 0,
-    },
-    productName: "Best switches ever",
-    brand: "Britney's Brand",
-    description: "This is a description!!!",
-    productType: "switch",
-    materials: ["nylon", "plastic"],
-    price: 200,
-    quantity: 100,
-    status: "active",
-    usersFavorited: ["638510f68ec22284054b919d"],
-    createdAt: "2022-12-06T02:39:01.875Z",
-    updatedAt: "2022-12-06T02:40:04.671Z",
-    __v: 0,
-  },
-};
+import ReviewInput from "../components/reviewInput/reviewInput";
+import { getProductById } from "../../service/products/productService";
 
 const ProductDetails = () => {
   let { id } = useParams();
   const [product, setProduct] = useState<Product | undefined>();
   useEffect(() => {
     setTimeout(() => {
-      setProduct(mockProduct.product);
-    }, 1500);
+      const { product } = getProductById(id);
+      setProduct(product);
+    }, 1000);
   });
 
   const placeholders = {
@@ -71,17 +41,38 @@ const ProductDetails = () => {
         <div className={styles.pdpMain}>
           {product ? <p>{product.description}</p> : placeholders.text}
           <Button label="Add to cart" />
+          {product ? (
+            <div className={styles.pdpDetails}>
+              <h4>Details</h4>
+              <p className={styles.detailItem}>
+                MATERIALS: {product.materials.join(", ")}
+              </p>
+              <div>
+                {Object.keys(product.attributes || {}).map((key: string) => {
+                  return (
+                    <p className={styles.detailItem}>{`${key
+                      .replace(/([a-z])([A-Z])/g, "$1 $2")
+                      .toUpperCase()}: ${
+                      product.attributes
+                        ? product.attributes[
+                            key as keyof typeof product.attributes
+                          ]
+                        : ""
+                    }`}</p>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            placeholders.text
+          )}
         </div>
       </Grid>
       <Grid item xs={12} justifyContent="center" alignItems="center">
-        {product ? (
-          <div className={styles.pdpDetails}>
-            <h4>Details</h4>
-            <p>Materials: {product.materials.join(", ")}</p>
-          </div>
-        ) : (
-          placeholders.text
-        )}
+        <ReviewInput></ReviewInput>
+        <div className={styles.productReviews}>
+          <h5>What other buyers are saying:</h5>
+        </div>
       </Grid>
     </Grid>
   );
