@@ -56,7 +56,7 @@ const Nav = () => {
     setAnchorElUser(null);
   };
 
-  const pages = ["Shop"];
+  const pages = ["Shop", "Switches Guide"];
   const settings = [
     { title: "Profile", link: "/profile" },
     { title: "My Store", link: "/store" },

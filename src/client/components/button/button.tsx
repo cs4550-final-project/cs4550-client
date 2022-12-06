@@ -36,7 +36,7 @@ const getButtonStyles = (style: string, variant: string) => {
       };
       break;
   }
-  return styles;
+  return { ...styles, width: "100%" };
 };
 
 const Button = ({

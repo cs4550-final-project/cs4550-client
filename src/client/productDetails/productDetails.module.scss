@@ -1,0 +1,53 @@
+@use "../styles/colors.scss" as c;
+.pdpContainer {
+  .productDetailImg {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .pdpHeader {
+    padding: 16px 0;
+    border-bottom: 2px solid c.$secondary;
+    p,
+    h3 {
+      margin: 8px 0;
+    }
+
+    p {
+      color: c.$tertiary;
+    }
+  }
+
+  .pdpMain {
+    margin-top: 24px;
+
+    p {
+      margin-bottom: 24px;
+    }
+  }
+
+  .pdpDetails {
+    h4 {
+      margin-bottom: 16px;
+    }
+  }
+
+  .placeholder {
+    background-color: lightgray;
+    width: 100%;
+    margin: 8px 0;
+
+    &Sm {
+      height: 16px;
+    }
+    &Md {
+      height: 28px;
+    }
+    &Lg {
+      height: 48px;
+    }
+    &Text {
+      height: 98px;
+    }
+  }
+}

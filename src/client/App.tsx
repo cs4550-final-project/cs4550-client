@@ -9,6 +9,7 @@ import Profile from "./profile/profile";
 import Store from "./store/store";
 import SignIn from "./auth/signIn/signIn";
 import SignUp from "./auth/signUp/signUp";
+import ProductDetails from "./productDetails/productDetails";
 
 function App() {
   const [user, setUser] = useState<Object | undefined>(undefined);
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/stores" element={<Store />} />
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>

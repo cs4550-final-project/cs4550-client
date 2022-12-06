@@ -12,38 +12,36 @@ const SignUp = () => {
     navigateTo("/signin");
   };
   return (
-    <Box>
-      <Grid container justifyContent="center" className={styles.authContainer}>
-        <Grid item xs={12} md={4}>
-          <h3>Sign In</h3>
-          <p className={styles.description}>
-            Welcome to SandWitches! Enter an email and password to get started.
-          </p>
-          <FormControl className={styles.formControl}>
-            <TextField id="email" label="Email" sx={{ marginTop: "16px" }} />
-            <TextField
-              id="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              sx={{ marginTop: "16px" }}
-            />
-            <TextField
-              id="password"
-              label="Password Confirmation"
-              type="password"
-              autoComplete="current-password"
-              sx={{ marginTop: "16px" }}
-            />
-            <Button label={"Sign In"} variant="contained" style="primary" />
-          </FormControl>
-          <p className={`caption ${styles.bottomLink}`}>
-            Already have an account?
-            <a onClick={handleSignInClick}>Click here to sign in.</a>
-          </p>
-        </Grid>
+    <Grid container justifyContent="center" className={styles.authContainer}>
+      <Grid item xs={12} md={4}>
+        <h3>Sign In</h3>
+        <p className={styles.description}>
+          Welcome to SandWitches! Enter an email and password to get started.
+        </p>
+        <FormControl className={styles.formControl}>
+          <TextField id="email" label="Email" sx={{ marginTop: "16px" }} />
+          <TextField
+            id="password"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            sx={{ marginTop: "16px" }}
+          />
+          <TextField
+            id="password"
+            label="Password Confirmation"
+            type="password"
+            autoComplete="current-password"
+            sx={{ marginTop: "16px" }}
+          />
+          <Button label={"Sign In"} variant="contained" style="primary" />
+        </FormControl>
+        <p className={`caption ${styles.bottomLink}`}>
+          Already have an account?{" "}
+          <a onClick={handleSignInClick}>Click here to sign in.</a>
+        </p>
       </Grid>
-    </Box>
+    </Grid>
   );
 };
 
