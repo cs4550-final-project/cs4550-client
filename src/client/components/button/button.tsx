@@ -8,6 +8,7 @@ type ButtonProps = {
   label: string;
   disabled?: boolean | undefined;
   style?: "primary" | "secondary" | "tertiary";
+  onClick?: Function;
 };
 
 const getButtonStyles = (style: string, variant: string) => {
@@ -44,6 +45,7 @@ const Button = ({
   label,
   disabled = false,
   style = "primary",
+  onClick,
 }: ButtonProps) => {
   const styles = getButtonStyles(style, variant);
   return (

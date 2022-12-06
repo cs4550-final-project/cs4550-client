@@ -7,9 +7,9 @@ import {
   Typography,
   AccordionDetails,
   Checkbox,
-  Button,
   Input,
 } from "@mui/material";
+import Button from "../components/button/button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import ListingTile from "../components/listingTile/listingTile";
@@ -88,13 +88,13 @@ const Home = () => {
               className={styles.searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
-            <Button
-              variant="contained"
-              className={styles.searchButton}
-              onClick={() => console.log("Search for: ", searchInput)}
-            >
-              Search
-            </Button>
+            <div className={styles.searchButton}>
+              <Button
+                variant="outlined"
+                onClick={() => console.log("Search for: ", searchInput)}
+                label="Search"
+              />
+            </div>
           </div>
           <section className={styles.listingsContainer}>
             {Object.values(listings).map((listing) => (
