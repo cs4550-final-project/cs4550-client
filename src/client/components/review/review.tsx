@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import { Box } from "@mui/system";
 import { TextField, Rating } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 type ReviewProps = {
   rating: number;
   review: string;
-  username: string;
+  user: {
+    _id: string;
+    username: string;
+  };
 };
 
-const Review = ({ rating, review, username }: ReviewProps) => {
+const Review = ({ rating, review, user }: ReviewProps) => {
+  const navigateTo = useNavigate();
   const [value, setValue] = React.useState<number | null>(2);
+
+  const handleUsernameClick = () => {
+    navigateTo("/profile/" + user.username, { state: { id: user._id } });
+  };
 
   return (
     <Box
@@ -30,7 +39,12 @@ const Review = ({ rating, review, username }: ReviewProps) => {
           setValue(newValue);
         }}
       />
-      <h6 style={{ marginBottom: "4px", marginLeft: "4px" }}>{username}</h6>
+      <h6
+        style={{ marginBottom: "4px", marginLeft: "4px", cursor: "pointer" }}
+        onClick={handleUsernameClick}
+      >
+        {user.username}
+      </h6>
       <p style={{ marginBottom: "48px", marginLeft: "4px" }}>{review}</p>
     </Box>
   );

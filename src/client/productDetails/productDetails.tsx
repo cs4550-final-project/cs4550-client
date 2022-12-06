@@ -82,7 +82,7 @@ const ProductDetails = () => {
           <h5>What other buyers are saying:</h5>
           {reviews?.map((review) => (
             <Review
-              username={review.owner.username}
+              user={review.owner}
               rating={review.rating}
               review={review.review}
             />
