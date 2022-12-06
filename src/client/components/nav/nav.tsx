@@ -56,7 +56,15 @@ const Nav = () => {
     setAnchorElUser(null);
   };
 
-  const pages = ["Shop", "Switches Guide"];
+  const handlePageClick = (link: string) => {
+    handleCloseNavMenu();
+    navigateTo(link);
+  };
+
+  const pages = [
+    { title: "Shop", link: "/" },
+    { title: "Switches Guide", link: "/guide" },
+  ];
   const settings = [
     { title: "Profile", link: "/profile" },
     { title: "My Store", link: "/store" },
@@ -119,8 +127,11 @@ const Nav = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <p className={styles.tertiary}> {page} </p>
+                <MenuItem
+                  key={page.title}
+                  onClick={() => handlePageClick(page.link)}
+                >
+                  <p className={styles.tertiary}> {page.title} </p>
                 </MenuItem>
               ))}
             </Menu>
@@ -146,11 +157,11 @@ const Nav = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                key={page.title}
+                onClick={() => handlePageClick(page.link)}
                 sx={{ my: 2, color: "#515151", display: "block" }}
               >
-                {page}
+                {page.title}
               </Button>
             ))}
           </Box>

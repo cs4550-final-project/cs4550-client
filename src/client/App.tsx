@@ -5,6 +5,7 @@ import UserProvider from "./contextProviders/user/UserProvider";
 import "./App.scss";
 import Nav from "./components/nav/nav";
 import Home from "./home/home";
+import Guide from "./guide/guide";
 import Profile from "./profile/profile";
 import Store from "./store/store";
 import SignIn from "./auth/signIn/signIn";
@@ -19,8 +20,10 @@ function App() {
       <Box sx={{ ml: 12, mr: 12, mt: 2, mb: 2 }}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/guide" element={<Guide />} />
+
           <Route path="/profile" element={<Profile />} />
-          <Route path="/stores" element={<Store />} />
+          <Route path="/store" element={<Store />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
