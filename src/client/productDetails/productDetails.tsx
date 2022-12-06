@@ -7,15 +7,23 @@ import Loading from "../components/loading/loading";
 import productDetailImg from "./switches.jpeg";
 import Button from "../components/button/button";
 import ReviewInput from "../components/reviewInput/reviewInput";
-import { getProductById } from "../../service/products/productService";
+import {
+  getProductById,
+  getProductReviews,
+} from "../../service/products/productService";
+import { UserProductReview } from "../types/userProductReview";
+import Review from "../components/review/review";
 
 const ProductDetails = () => {
   let { id } = useParams();
   const [product, setProduct] = useState<Product | undefined>();
+  const [reviews, setReviews] = useState<UserProductReview[] | undefined>();
   useEffect(() => {
     setTimeout(() => {
       const { product } = getProductById(id);
       setProduct(product);
+      const reviews = getProductReviews(id);
+      setReviews(reviews);
     }, 1000);
   });
 
@@ -72,6 +80,13 @@ const ProductDetails = () => {
         <ReviewInput></ReviewInput>
         <div className={styles.productReviews}>
           <h5>What other buyers are saying:</h5>
+          {reviews?.map((review) => (
+            <Review
+              username={review.owner.username}
+              rating={review.rating}
+              review={review.review}
+            />
+          ))}
         </div>
       </Grid>
     </Grid>
