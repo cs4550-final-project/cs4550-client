@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./productDetails.module.scss";
 import { Product } from "../types/product";
@@ -7,23 +7,31 @@ import Loading from "../components/loading/loading";
 import productDetailImg from "./switches.jpeg";
 import Button from "../components/button/button";
 import ReviewInput from "../components/reviewInput/reviewInput";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
   getProductById,
   getProductReviews,
 } from "../../service/products/productService";
 import { UserProductReview } from "../types/userProductReview";
 import Review from "../components/review/review";
+import { UserContext } from "../contextProviders/user/UserContext";
 
 const ProductDetails = () => {
   let { id } = useParams();
+  const user = useContext(UserContext);
   const [product, setProduct] = useState<Product | undefined>();
   const [reviews, setReviews] = useState<UserProductReview[] | undefined>();
+  const [liked, setLiked] = useState<Boolean>(false);
   useEffect(() => {
     setTimeout(() => {
       const { product } = getProductById(id);
       setProduct(product);
       const reviews = getProductReviews(id);
       setReviews(reviews);
+      if (user && product.usersFavorited.includes(user._id)) {
+        setLiked(true);
+      }
     }, 1000);
   });
 
@@ -42,6 +50,11 @@ const ProductDetails = () => {
       </Grid>
       <Grid item xs={12} md={5} justifyContent="center" alignItems="center">
         <div className={styles.pdpHeader}>
+          {liked ? (
+            <FavoriteIcon sx={{ fill: "red" }} />
+          ) : (
+            <FavoriteBorderIcon sx={{ fill: "red" }} />
+          )}
           {product ? <p>{product.store.name}</p> : placeholders.sm}
           {product ? <h3>{product.productName}</h3> : placeholders.md}
           {product ? <p>$ {product.price} USD</p> : placeholders.sm}

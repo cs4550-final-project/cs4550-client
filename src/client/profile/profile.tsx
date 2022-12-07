@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import styles from "./profile";
 import Error404 from "../components/error404/error404";
@@ -7,23 +7,34 @@ import { Box } from "@mui/system";
 import VerticalTabs from "../components/verticalTabs/verticalTabs";
 import ProfilePanel from "./panels/profilePanel/profilePanel";
 import LikesPanel from "./panels/likesPanel/likesPanel";
+import { getUserById } from "../../service/users/userService";
+import { User } from "../types/user";
 
 const Profile = () => {
   const [tabValue, setTabValue] = useState(0);
   const tabs = ["Profile", "Likes"];
+  const [user, setUser] = useState<User | undefined>();
+  const { id } = useParams();
+  const currentUser = useContext(UserContext);
+  useEffect(() => {
+    if (id) {
+      setUser(getUserById(id));
+    }
+    if (!id && currentUser) {
+      setUser(currentUser);
+    }
+  });
 
-  const getPanel = () => {
+  const getPanel = (u: User) => {
     switch (tabValue) {
       case 0:
-        return <ProfilePanel value={tabValue} />;
+        return <ProfilePanel value={tabValue} user={u} />;
       case 1:
         return <LikesPanel value={tabValue} />;
     }
   };
 
-  const panel = getPanel();
-
-  return (
+  return user ? (
     <Box
       sx={{
         flexGrow: 1,
@@ -37,8 +48,10 @@ const Profile = () => {
         setValue={setTabValue}
         tabs={tabs}
       ></VerticalTabs>
-      {panel}
+      {getPanel(user)}
     </Box>
+  ) : (
+    <Error404 />
   );
 };
 
