@@ -8,7 +8,8 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import ListingTile from "../components/listingTile/listingTile";
 import Button from "../components/button/button";
-
+import { getAllProducts } from "../../service/products/productService";
+import { Product } from "../types/product";
 const Home = () => {
   const filterOptions = {
     filter1: {
@@ -28,80 +29,26 @@ const Home = () => {
     },
   };
 
-  const listings = {
-    listing1: {
-      id: 1,
-      title: "listing 1",
-      price: 200,
-    },
-    listing2: {
-      id: 2,
-      title: "listing 2",
-      price: 400,
-    },
-    listing3: {
-      id: 3,
-      title: "listing 3",
-      price: 350,
-    },
-    listing4: {
-      id: 4,
-      title: "listing 4",
-      price: 150
-    },
-    listing5: {
-      id: 5,
-      title: "listing 5",
-      price: 200,
-    },
-    listing6: {
-      id: 6,
-      title: "listing 6",
-      price: 400,
-    },
-    listing7: {
-      id: 7,
-      title: "listing 7",
-      price: 350,
-    },
-    listing8: {
-      id: 8,
-      title: "listing 8",
-      price: 150
-    },
-    listing9: {
-      id: 9,
-      title: "listing 9",
-      price: 200,
-    },
-    listing10: {
-      id: 10,
-      title: "listing 10",
-      price: 400,
-    },
-    listing11: {
-      id: 11,
-      title: "listing 11",
-      price: 350,
-    },
-    listing12: {
-      id: 12,
-      title: "listing 12",
-      price: 150
-    },
-  };
-
   const [searchInput, setSearchInput] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
-
+  const [products, setProducts] = useState<Product[] | undefined>();
+  
   const closeMobileFilterOnResize = () => {
     if (window.innerWidth >= 900) {
       setFilterOpen(false);
     }
   };
-
+  
   // Run on initial load
   useEffect(() => {
+    const fetchProducts = async () => {
+      const allProducts = getAllProducts();
+      return allProducts;
+    }
+    fetchProducts().then((res) => {
+      setProducts(res.products);
+    });
+
     closeMobileFilterOnResize();
   }, []);
 
@@ -171,7 +118,12 @@ const Home = () => {
       </>
       <Box pb={2} className={styles.homeHeader}>
         <Typography variant="h6">
-          {`${Object.keys(listings).length} listings` }
+          {
+            products ?
+            `${Object.keys(products).length} listings`
+            :
+            <></>
+          }
         </Typography>
         <Box sx={{ display: {md: "none", sm: "block", xs: "block"} }}>
           <Button
@@ -239,11 +191,15 @@ const Home = () => {
             </div>
           </Box>
           <Grid columns={ 12 } container spacing={2} className={styles.listingsContainer}>
-            {Object.values(listings).map((listing) => (
-              <Grid className={styles.listingItem} item xs={false} onClick={() => console.log("Navigate to item details")}>
-                <ListingTile key={listing.id} title={listing.title} price={listing.price} />
-              </Grid>
-            ))}
+            { products ? 
+              Object.values(products).map((product) => (
+                <Grid className={styles.listingItem} item xs={false} onClick={() => console.log("Navigate to item details")}>
+                  <ListingTile key={product._id} title={product.productName} price={product.price} id={product._id} />
+                </Grid>
+              ))
+              :
+              <></>
+            }
           </Grid>
         </Grid>
       </Grid>
