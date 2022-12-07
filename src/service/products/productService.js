@@ -1,11 +1,19 @@
-import { mockProduct } from "./mockProduct";
 import { mockProductReviews } from "./mockProductReviews";
+import { mockProducts } from "./mockProducts";
 
 export const getProductById = (id) => {
-  return mockProduct;
+  return mockProducts[0];
   // return axios({
   //     method: "GET",
-  //     url: apiUrl + "/product" + id,
+  //     url: apiUrl + "/products/" + id,
+  //   });
+};
+
+export const getAllProducts = () => {
+  return mockProducts;
+  // return axios({
+  //     method: "GET",
+  //     url: apiUrl + "/products",
   //   });
 };
 
@@ -13,6 +21,6 @@ export const getProductReviews = (id) => {
   return mockProductReviews;
   // return axios({
   //     method: "GET",
-  //     url: apiUrl + "/product" + id + "/reviews",
+  //     url: apiUrl + "/products/" + id + "/reviews",
   //   });
 };
