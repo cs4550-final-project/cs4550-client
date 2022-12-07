@@ -18,7 +18,11 @@ function App() {
   return (
     <UserProvider user={user}>
       <Nav></Nav>
-      <Box sx={{ ml: 12, mr: 12, mt: 2, mb: 2 }}>
+      <Box 
+        sx={{ 
+          margin: {xl: "16px 180px", lg: "16px 160px", md: "16px 100px", sm: "16px 64px", xs: "16px 32px"} 
+        }}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/guide" element={<Guide />} />

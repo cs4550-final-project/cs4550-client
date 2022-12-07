@@ -75,7 +75,11 @@ const Nav = () => {
       position="static"
       sx={{ backgroundColor: "white", color: colors.primary }}
     >
-      <Container maxWidth="xl">
+      <Box
+        sx={{ 
+          margin: {xl: "0 180px", lg: "0 160px", md: "0 100px", sm: "0 64px", xs: "0 32px"} 
+        }}
+      >
         <Toolbar disableGutters>
           <KeyboardIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -209,7 +213,7 @@ const Nav = () => {
             </Menu>
           </Box>
         </Toolbar>
-      </Container>
+      </Box>
     </AppBar>
   );
 };
