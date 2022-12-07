@@ -18,16 +18,22 @@ function App() {
   return (
     <UserProvider user={user}>
       <Nav></Nav>
-      <Box 
-        sx={{ 
-          margin: {xl: "16px 180px", lg: "16px 160px", md: "16px 100px", sm: "16px 64px", xs: "16px 32px"} 
+      <Box
+        sx={{
+          margin: {
+            xl: "16px 180px",
+            lg: "16px 160px",
+            md: "16px 100px",
+            sm: "16px 64px",
+            xs: "16px 32px",
+          },
         }}
       >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/guide" element={<Guide />} />
-
-          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<Profile />} />
           <Route path="/store" element={<Store />} />
           <Route path="/details/:id" element={<ProductDetails />} />
           <Route path="/signin" element={<SignIn />} />

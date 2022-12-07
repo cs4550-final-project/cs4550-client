@@ -17,7 +17,7 @@ const Review = ({ rating, review, user }: ReviewProps) => {
   const [value, setValue] = React.useState<number | null>(2);
 
   const handleUsernameClick = () => {
-    navigateTo("/profile/" + user.username, { state: { id: user._id } });
+    navigateTo("/profile/" + user._id);
   };
 
   return (
