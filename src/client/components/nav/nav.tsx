@@ -66,9 +66,8 @@ const Nav = () => {
     { title: "Switches Guide", link: "/guide" },
   ];
   const settings = [
-    { title: "Profile", link: "/profile" },
+    { title: "Profile", link: user ? `/profile/${user._id}` : "/profile/test" },
     { title: "My Store", link: "/store" },
-    { title: "Likes", link: "/likes" },
   ];
 
   return (
@@ -188,20 +187,21 @@ const Nav = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting.title}
-                  onClick={() => {
-                    handleSettingsClick(setting.link);
-                  }}
-                >
-                  <p className={styles.tertiary}>{setting.title}</p>
-                </MenuItem>
-              ))}
-              <MenuItem
-                key={user ? "Sign Out" : "Sign In"}
-                onClick={handleSignInOut}
-              >
+              {/* TODO add a case to check if user exists so settings don't show otherwise */}
+              {
+                // user &&
+                settings.map((setting) => (
+                  <MenuItem
+                    key={setting.title}
+                    onClick={() => {
+                      handleSettingsClick(setting.link);
+                    }}
+                  >
+                    <p className={styles.tertiary}>{setting.title}</p>
+                  </MenuItem>
+                ))
+              }
+              <MenuItem key="sign-in-out" onClick={handleSignInOut}>
                 <p className={styles.tertiary}>
                   {user ? "Sign Out" : "Sign In"}
                 </p>

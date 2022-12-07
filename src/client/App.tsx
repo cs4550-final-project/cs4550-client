@@ -11,9 +11,10 @@ import Store from "./store/store";
 import SignIn from "./auth/signIn/signIn";
 import SignUp from "./auth/signUp/signUp";
 import ProductDetails from "./productDetails/productDetails";
+import { User } from "./types/user";
 
 function App() {
-  const [user, setUser] = useState<Object | undefined>(undefined);
+  const [user, setUser] = useState<User | undefined>(undefined);
   return (
     <UserProvider user={user}>
       <Nav></Nav>

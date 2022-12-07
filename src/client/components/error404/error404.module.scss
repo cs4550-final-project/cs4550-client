@@ -1,0 +1,15 @@
+@use "../../styles/colors.scss" as c;
+.error {
+  height: 60vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: c.$primary;
+  h5 {
+    text-align: center;
+    width: 100%;
+    padding: 48px 24px;
+    border: 1px solid c.$secondary;
+  }
+}
