@@ -200,7 +200,7 @@ const Home = () => {
                     {
                       filter.options.map((option) => (
                         <div key={filter.id + option} className={styles.filterCheckbox}>
-                          <Checkbox defaultChecked />
+                          <Checkbox defaultChecked={false} />
                           <div>{option}</div>
                         </div>
                       ))
