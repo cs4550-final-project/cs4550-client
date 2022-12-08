@@ -1,4 +1,5 @@
 import axios from "axios";
+import { mockProductReviews } from "./mockProductReviews";
 
 const API_KEY = "28f92c9674274356b51f77cb7c8ce68e";
 
@@ -33,4 +34,20 @@ export const getRandomRecipes = async () => {
     // },
   });
   return randomRecipes.data;
+};
+
+export const getRecipeReviews = (id) => {
+  return mockProductReviews;
+  // return axios({
+  //     method: "GET",
+  //     url: apiUrl + "/recipes/" + id + "/reviews",
+  //   });
+};
+
+export const getRecipeById = async (id) => {
+  const recipeMatchingId = await axios({
+    method: "GET",
+    url: `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`,
+  });
+  return recipeMatchingId.data;
 };

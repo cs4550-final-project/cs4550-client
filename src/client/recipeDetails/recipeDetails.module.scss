@@ -1,12 +1,12 @@
 @use "../styles/colors.scss" as c;
 .pdpContainer {
-  .productDetailImg {
+  .recipeDetailImg {
     width: 100%;
     min-height: 300px;
   }
 
   .pdpHeader {
-    padding: 16px 0;
+    padding-top: 16px;
     border-bottom: 2px solid c.$secondary;
     p,
     h3 {
@@ -31,8 +31,25 @@
     h4 {
       margin-bottom: 16px;
     }
+    .pdpSummary {
+      margin: 16px 0;
+    }
     .detailItem {
       margin: 8px 0;
+    }
+  }
+  .instructionsContainer {
+    margin: 0 16px;
+
+    .stepContainer {
+      padding: 4px 0;
+      .stepNumber {
+        font-weight: bold;
+        display: inline;
+      }
+      .stepInstruction {
+        display: inline;
+      }
     }
   }
 
@@ -55,7 +72,7 @@
     }
   }
 
-  .productReviews {
+  .recipeReviews {
     margin: 64px 0;
 
     h5 {

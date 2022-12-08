@@ -1,37 +1,55 @@
-import { Grid } from "@mui/material";
+import {
+  Grid,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
+} from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./recipeDetails.module.scss";
-import { Product } from "../types/product";
 import Loading from "../components/loading/loading";
-import productDetailImg from "./switches.jpeg";
+import recipeDetailImg from "./switches.jpeg";
 import Button from "../components/button/button";
 import ReviewInput from "../components/reviewInput/reviewInput";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
-  getProductById,
-  getProductReviews,
-} from "../../service/products/productService";
-import { UserProductReview } from "../types/userProductReview";
+  getRecipeReviews,
+  getRecipeById,
+} from "../../service/spoonacular/recipesService";
+import { UserRecipeReview } from "../types/userRecipeReview";
 import Review from "../components/review/review";
 import { UserContext } from "../contextProviders/user/UserContext";
+import { Recipe } from "../types/recipes";
+import { mockRecipes } from "../../service/spoonacular/mockRecipes";
+import Accordion from "@mui/material/Accordion";
 
 const RecipeDetails = () => {
   let { id } = useParams();
   const user = useContext(UserContext);
-  const [product, setProduct] = useState<Product | undefined>();
-  const [reviews, setReviews] = useState<UserProductReview[] | undefined>();
+  const [recipe, setRecipe] = useState<Recipe | undefined>();
+  const [reviews, setReviews] = useState<UserRecipeReview[] | undefined>();
   const [liked, setLiked] = useState<Boolean>(false);
+
   useEffect(() => {
-    setTimeout(() => {
-      const { product } = getProductById(id);
-      setProduct(product);
-      const reviews = getProductReviews(id);
+    setRecipe(mockRecipes.results[0]);
+    // const fetchRecipes = async () => {
+    //   const recipe = getRecipeById(id);
+    //   return recipe;
+    // };
+    // fetchRecipes().then((res) => {
+    //   setRecipe(res);
+    // });
+  }, []);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      const reviews = getRecipeReviews(id);
       setReviews(reviews);
-      if (user && product.usersFavorited.includes(user._id)) {
-        setLiked(true);
-      }
+      // if (user && recipe.usersFavorited.includes(user._id)) {
+      //   setLiked(true);
+      // }
     }, 1000);
   });
 
@@ -44,9 +62,28 @@ const RecipeDetails = () => {
   };
   return (
     <Grid container spacing={2} className={styles.pdpContainer} mt={3}>
-      {!product && <Loading></Loading>}
+      {!recipe && <Loading></Loading>}
       <Grid item xs={12} md={7} justifyContent="center" alignItems="center">
-        <img className={styles.productDetailImg} src={productDetailImg} />
+        <img className={styles.recipeDetailImg} src={recipe?.image} />
+        <Accordion key={recipe?.id} className={styles.instructionsContainer}>
+          <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+            <Typography>Instructions</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {recipe?.analyzedInstructions.map((instruction) => (
+              <div>
+                {instruction.steps.map((step) => (
+                  <div className={styles.stepContainer}>
+                    <p
+                      className={styles.stepNumber}
+                    >{`Step ${step.number}: `}</p>
+                    <p className={styles.stepInstruction}>{`${step.step}`}</p>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </AccordionDetails>
+        </Accordion>
       </Grid>
       <Grid item xs={12} md={5} justifyContent="center" alignItems="center">
         <div className={styles.pdpHeader}>
@@ -55,34 +92,22 @@ const RecipeDetails = () => {
           ) : (
             <FavoriteBorderIcon sx={{ fill: "red" }} />
           )}
-          {product ? <p>{product.store.name}</p> : placeholders.sm}
-          {product ? <h3>{product.productName}</h3> : placeholders.md}
-          {product ? <p>$ {product.price} USD</p> : placeholders.sm}
+          {recipe ? <h3>{recipe.title}</h3> : placeholders.md}
         </div>
         <div className={styles.pdpMain}>
-          {product ? <p>{product.description}</p> : placeholders.text}
-          <Button label="Add to cart" sx={{ margin: "16px auto" }} />
-          {product ? (
+          {recipe ? (
             <div className={styles.pdpDetails}>
-              <h4>Details</h4>
-              <p className={styles.detailItem}>
-                MATERIALS: {product.materials.join(", ")}
-              </p>
-              <div>
-                {Object.keys(product.attributes || {}).map((key: string) => {
-                  return (
-                    <p className={styles.detailItem}>{`${key
-                      .replace(/([a-z])([A-Z])/g, "$1 $2")
-                      .toUpperCase()}: ${
-                      product.attributes
-                        ? product.attributes[
-                            key as keyof typeof product.attributes
-                          ]
-                        : ""
-                    }`}</p>
-                  );
-                })}
-              </div>
+              <h4>Summary</h4>
+              <div
+                className={styles.pdpSummary}
+                dangerouslySetInnerHTML={{ __html: recipe.summary }}
+              />
+              <Button
+                label="View full details"
+                onClick={() =>
+                  window.open(recipe.sourceUrl, "_blank", "noopener,noreferrer")
+                }
+              />
             </div>
           ) : (
             placeholders.text
@@ -91,8 +116,8 @@ const RecipeDetails = () => {
       </Grid>
       <Grid item xs={12} justifyContent="center" alignItems="center">
         <ReviewInput></ReviewInput>
-        <div className={styles.productReviews}>
-          <h5>What other buyers are saying:</h5>
+        <div className={styles.recipeReviews}>
+          <h5>Critic Reviews:</h5>
           {reviews?.map((review) => (
             <Review
               user={review.owner}
