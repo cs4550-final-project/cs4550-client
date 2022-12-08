@@ -17,6 +17,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
   getRecipeReviews,
   getRecipeById,
+  addRecipeToLiked,
 } from "../../service/spoonacular/recipesService";
 import { UserRecipeReview } from "../types/userRecipeReview";
 import Review from "../components/review/review";
@@ -25,7 +26,7 @@ import { Recipe } from "../types/recipes";
 import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import Accordion from "@mui/material/Accordion";
 
-const RecipeDetails = () => {
+const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   let { id } = useParams();
   const user = useContext(UserContext);
   const [recipe, setRecipe] = useState<Recipe | undefined>();
@@ -34,24 +35,14 @@ const RecipeDetails = () => {
 
   useEffect(() => {
     setRecipe(mockRecipes.results[0]);
-    // const fetchRecipes = async () => {
-    //   const recipe = getRecipeById(id);
-    //   return recipe;
-    // };
-    // fetchRecipes().then((res) => {
-    //   setRecipe(res);
-    // });
-  }, []);
-
-  useEffect(() => {
     setTimeout(async () => {
       const reviews = getRecipeReviews(id);
       setReviews(reviews);
-      // if (user && recipe.usersFavorited.includes(user._id)) {
-      //   setLiked(true);
-      // }
+      if (user && recipe && user.favorites.includes(recipe?.id)) {
+        setLiked(true);
+      }
     }, 1000);
-  });
+  }, [recipe]);
 
   const placeholders = {
     sm: <div className={`${styles.placeholderSm} ${styles.placeholder}`}></div>,
@@ -60,6 +51,23 @@ const RecipeDetails = () => {
       <div className={`${styles.placeholderText} ${styles.placeholder}`}></div>
     ),
   };
+
+  const handleLikeClicked = () => {
+    if (user && recipe) {
+      if (liked) {
+        const newfavorites = user?.favorites.filter((id) => id != recipe?.id);
+        user.favorites = newfavorites;
+        setUser(user);
+        console.log(user);
+      } else {
+        user?.favorites.push(recipe?.id);
+        setUser(user);
+        console.log(user);
+      }
+    }
+    setLiked(!liked);
+  };
+
   return (
     <Grid container spacing={2} className={styles.pdpContainer} mt={3}>
       {!recipe && <Loading></Loading>}
@@ -88,9 +96,17 @@ const RecipeDetails = () => {
       <Grid item xs={12} md={5} justifyContent="center" alignItems="center">
         <div className={styles.pdpHeader}>
           {liked ? (
-            <FavoriteIcon sx={{ fill: "red" }} />
+            <FavoriteIcon
+              style={{ cursor: "pointer" }}
+              sx={{ fill: "red" }}
+              onClick={() => handleLikeClicked()}
+            />
           ) : (
-            <FavoriteBorderIcon sx={{ fill: "red" }} />
+            <FavoriteBorderIcon
+              style={{ cursor: "pointer" }}
+              sx={{ fill: "red" }}
+              onClick={handleLikeClicked}
+            />
           )}
           {recipe ? <h3>{recipe.title}</h3> : placeholders.md}
         </div>

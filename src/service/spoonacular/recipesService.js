@@ -1,5 +1,7 @@
 import axios from "axios";
 import { mockProductReviews } from "./mockProductReviews";
+import apiUrl from "../apiConfig";
+import { UserContext } from "../../client/contextProviders/user/UserContext";
 
 const API_KEY = "28f92c9674274356b51f77cb7c8ce68e";
 
@@ -50,4 +52,15 @@ export const getRecipeById = async (id) => {
     url: `https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`,
   });
   return recipeMatchingId.data;
+};
+
+export const addRecipeToLiked = async (favorites) => {
+  const likeRecipe = await axios({
+    method: "PATCH",
+    url: `${apiUrl}/favorites`,
+    data: {
+      favorites: favorites,
+    },
+  });
+  return likeRecipe;
 };
