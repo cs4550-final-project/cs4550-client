@@ -1,8 +1,6 @@
 import React from "react";
-import { FormControl, Grid } from "@mui/material";
-import { Box } from "@mui/system";
+import { FormControl, Grid, TextField } from "@mui/material";
 import styles from "../auth.module.scss";
-import { TextField } from "@mui/material";
 import Button from "../../components/button/button";
 import { useNavigate } from "react-router-dom";
 
