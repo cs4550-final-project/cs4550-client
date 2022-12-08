@@ -33,7 +33,11 @@ const Nav = ({ signOut }: { signOut: Function }) => {
 
   const handleSignInOut = () => {
     if (user) {
-      signOut(user).finally(() => signOut);
+      signOut(user)
+        .finally(() => signOut)
+        .catch((e: any) => {
+          console.log(e);
+        });
     } else {
       navigateTo("/signin");
     }

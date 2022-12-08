@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
-import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import UserProvider from "./contextProviders/user/UserProvider";
 import "./App.scss";
 import Nav from "./components/nav/nav";
@@ -14,10 +14,23 @@ import { User } from "./types/user";
 import RecipeDetails from "./recipeDetails/recipeDetails";
 
 function App() {
-  const [user, setUser] = useState<User | undefined>(undefined);
+  const navigateTo = useNavigate();
+  const [user, setUser] = useState<User | undefined>(
+    sessionStorage.getItem("user")
+      ? JSON.parse(sessionStorage.getItem("user") || "")
+      : undefined
+  );
   const onSignOut = () => {
     setUser(undefined);
+    sessionStorage.clear();
+    navigateTo("/");
   };
+
+  const handleUserChange = (user: User) => {
+    setUser(user);
+    sessionStorage.setItem("user", JSON.stringify(user));
+  };
+
   return (
     <UserProvider user={user}>
       <Nav signOut={onSignOut}></Nav>
@@ -37,7 +50,10 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/details/:id" element={<RecipeDetails />} />
-          <Route path="/signin" element={<SignIn setUser={setUser} />} />
+          <Route
+            path="/signin"
+            element={<SignIn setUser={handleUserChange} />}
+          />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Box>
