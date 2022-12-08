@@ -34,7 +34,7 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   const [liked, setLiked] = useState<Boolean>(false);
 
   useEffect(() => {
-    setRecipe(mockRecipes.results[0]);
+    // setRecipe(mockRecipes.results[0]);
     setTimeout(async () => {
       const reviews = getRecipeReviews(id);
       setReviews(reviews);

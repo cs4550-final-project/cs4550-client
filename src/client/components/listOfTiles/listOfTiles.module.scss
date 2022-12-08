@@ -1,0 +1,9 @@
+.tilesContainer {
+  padding: 16px 0;
+  margin-left: -12px;
+  width: calc(100% + 12px);
+
+  .recipeItem {
+    cursor: pointer;
+  }
+}
