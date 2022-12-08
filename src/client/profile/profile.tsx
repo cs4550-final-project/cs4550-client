@@ -12,10 +12,10 @@ import { User } from "../types/user";
 
 const Profile = () => {
   const [tabValue, setTabValue] = useState(0);
-  const tabs = ["Profile", "Favorites"];
-  const [user, setUser] = useState<User | undefined>();
   const { id } = useParams();
   const currentUser = useContext(UserContext);
+  const [user, setUser] = useState<User | undefined>();
+  const tabs = ["Profile", "Favorites"];
   useEffect(() => {
     if (id) {
       getUserById(id).then((res) => {
@@ -25,12 +25,13 @@ const Profile = () => {
     if (!id && currentUser) {
       setUser(currentUser);
     }
-  });
+    console.log(user);
+  }, []);
 
   const getPanel = (u: User) => {
     switch (tabValue) {
       case 0:
-        return <ProfilePanel value={tabValue} user={u} />;
+        return <ProfilePanel value={tabValue} user={user} />;
       case 1:
         return <FavoritesPanel value={tabValue} />;
     }

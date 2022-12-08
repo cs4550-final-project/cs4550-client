@@ -9,13 +9,13 @@ import Button from "../../../components/button/button";
 import { colors } from "../../../styles/colors";
 
 interface ProfilePanelProps extends TabPanelProps {
-  user: User;
+  user: User | undefined;
 }
 
 const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
   const [editing, setEditing] = useState(false);
   const currentUser = useContext(UserContext);
-  const isCurrentUser = user._id === currentUser?._id;
+  const isCurrentUser = user?._id === currentUser?._id;
 
   const handleEditClick = () => {
     setEditing(true);
@@ -41,11 +41,11 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
             }}
           >
             <div>
-              <h3>{user.username}</h3>
-              <h5> {user.role}</h5>
+              <h3>{user?.username}</h3>
+              <h5> {user?.role}</h5>
               <p></p>
             </div>
-            {!isCurrentUser && !editing && (
+            {isCurrentUser && !editing && (
               <Button
                 label={"Edit Profile"}
                 variant="outlined"
@@ -57,7 +57,7 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
                 onClick={handleEditClick}
               />
             )}
-            {!isCurrentUser && editing && (
+            {isCurrentUser && editing && (
               <Button
                 label={"Save"}
                 variant="contained"
@@ -77,7 +77,7 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
                   readOnly: !editing,
                 }}
                 defaultValue={
-                  user.bio ? user.bio : "This user does not have a bio yet."
+                  user?.bio ? user?.bio : "This user does not have a bio yet."
                 }
                 sx={{ marginTop: "16px", width: "100%" }}
               />
@@ -89,10 +89,10 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
                 InputProps={{
                   readOnly: !editing,
                 }}
-                defaultValue={user.username}
+                defaultValue={user?.username}
                 sx={{ marginTop: "16px" }}
               />
-              {!isCurrentUser && (
+              {isCurrentUser && (
                 <>
                   {editing && (
                     <label>
@@ -104,7 +104,6 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
                   <TextField
                     id="password"
                     type="password"
-                    defaultValue={"placeholder"}
                     value={!editing ? "placeholder" : ""}
                     autoComplete="current-password"
                     sx={{ marginTop: "16px" }}

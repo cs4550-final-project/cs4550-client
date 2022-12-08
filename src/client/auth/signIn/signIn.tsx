@@ -6,11 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { signIn } from "../../../service/auth/authService";
 import { User } from "../../types/user";
 
-const SignIn = ({
-  setUser,
-}: {
-  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
-}) => {
+const SignIn = ({ setUser }: { setUser: Function }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
