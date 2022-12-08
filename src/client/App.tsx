@@ -1,13 +1,11 @@
 import Box from "@mui/material/Box";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import UserProvider from "./contextProviders/user/UserProvider";
 import "./App.scss";
 import Nav from "./components/nav/nav";
 import Home from "./home/home";
-import Guide from "./guide/guide";
 import Profile from "./profile/profile";
-import Store from "./store/store";
 import SignIn from "./auth/signIn/signIn";
 import SignUp from "./auth/signUp/signUp";
 import { User } from "./types/user";

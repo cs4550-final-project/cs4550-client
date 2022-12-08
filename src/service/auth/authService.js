@@ -5,14 +5,7 @@ export const signUp = (user) => {
   return axios({
     method: "POST",
     url: apiUrl + "/sign-up",
-    data: {
-      user: {
-        username: user.username,
-        password: user.password,
-        password_confirmation: user.passwordConfirmation,
-        role: user.role,
-      },
-    },
+    data: user,
   });
 };
 

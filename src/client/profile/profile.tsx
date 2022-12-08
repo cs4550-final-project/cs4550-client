@@ -16,16 +16,17 @@ const Profile = () => {
   const currentUser = useContext(UserContext);
   const [user, setUser] = useState<User | undefined>();
   const tabs = ["Profile", "Favorites"];
+
   useEffect(() => {
     if (id) {
       getUserById(id).then((res) => {
+        console.log(res);
         setUser(res.data.user);
       });
     }
     if (!id && currentUser) {
       setUser(currentUser);
     }
-    console.log(user);
   }, []);
 
   const getPanel = (u: User) => {

@@ -20,7 +20,6 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import ListingTile from "../components/listingTile/recipeTile";
 import Button from "../components/button/button";
-import { getAllProducts } from "../../service/products/productService";
 import {
   getRandomRecipes,
   getRecipesBySearchTerm,
