@@ -17,7 +17,6 @@ import styles from "./nav.module.scss";
 import { colors } from "../../styles/colors";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contextProviders/user/UserContext";
-import { signOut } from "../../../service/auth/authService";
 
 const Nav = ({ signOut }: { signOut: Function }) => {
   const user = useContext(UserContext);
@@ -33,11 +32,7 @@ const Nav = ({ signOut }: { signOut: Function }) => {
 
   const handleSignInOut = () => {
     if (user) {
-      signOut(user)
-        .finally(() => signOut)
-        .catch((e: any) => {
-          console.log(e);
-        });
+      signOut(user);
     } else {
       navigateTo("/signin");
     }
