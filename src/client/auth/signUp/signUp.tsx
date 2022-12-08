@@ -10,10 +10,11 @@ import { signUp, signIn } from "../../../service/auth/authService";
 
 const SignUp = ({ setUser }: { setUser: Function }) => {
   const [role, setRole] = useState<string>("user");
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
-  const [password_confirmation, setPasswordConfirmation] = useState();
-  const [company, setCompany] = useState();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [password_confirmation, setPasswordConfirmation] = useState("");
+  const [company, setCompany] = useState("");
+  const [error, setError] = useState("");
   const navigateTo = useNavigate();
 
   const handleSignInClick = () => {
@@ -22,22 +23,28 @@ const SignUp = ({ setUser }: { setUser: Function }) => {
 
   const handleSignUp = (e: any) => {
     e.preventDefault();
-    const payload = {
-      username,
-      password,
-      password_confirmation,
-      company,
-    };
-    signUp(payload)
-      .then(() => signIn(payload))
-      .then((res) => {
-        console.log(res.data);
-        setUser(res.data.user);
-      })
-      .then(() => navigateTo("/"))
-      .catch((e) => {
-        console.log(e);
-      });
+    if (
+      (role === "critic" && !company) ||
+      !username ||
+      !password ||
+      !password_confirmation
+    ) {
+      setError("Missing required fields. Please fill in all information.");
+    } else {
+      setError("");
+      let newUser = {
+        user: { username, password, password_confirmation, company, role },
+      };
+      signUp(newUser)
+        .then(() => signIn({ username, password }))
+        .then((res) => {
+          setUser(res.data.user);
+        })
+        .then(() => navigateTo("/"))
+        .catch((e) => {
+          setError(e.message);
+        });
+    }
   };
 
   const handleChange = (e: any) => {
@@ -121,7 +128,7 @@ const SignUp = ({ setUser }: { setUser: Function }) => {
               sx={{ marginTop: "16px" }}
             />
           )}
-
+          {error && <p className={`caption ${styles.errorMsg}`}>{error}</p>}
           <Button
             label={"Sign Up"}
             onClick={handleSignUp}
