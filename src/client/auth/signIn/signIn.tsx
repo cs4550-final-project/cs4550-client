@@ -15,7 +15,7 @@ const SignIn = () => {
     <Grid container justifyContent="center" className={styles.authContainer}>
       <Grid item xs={12} md={4}>
         <h3>Sign In</h3>
-        <p className={styles.description}> Welcome back to SandWitches!</p>
+        <p className={styles.description}> Welcome back to Sandwiches!</p>
         <FormControl className={styles.formControl}>
           <TextField
             id="username"

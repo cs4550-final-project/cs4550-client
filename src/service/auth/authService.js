@@ -1,28 +1,29 @@
 import apiUrl from "../apiConfig";
 import axios from "axios";
 
-export const signUp = (credentials) => {
+export const signUp = (user) => {
   return axios({
     method: "POST",
     url: apiUrl + "/sign-up",
     data: {
-      credentials: {
-        username: credentials.username,
-        password: credentials.password,
-        password_confirmation: credentials.passwordConfirmation,
+      user: {
+        username: user.username,
+        password: user.password,
+        password_confirmation: user.passwordConfirmation,
+        role: user.role,
       },
     },
   });
 };
 
-export const signIn = (credentials) => {
+export const signIn = (user) => {
   return axios({
     url: apiUrl + "/sign-in",
     method: "POST",
     data: {
-      credentials: {
-        username: credentials.username,
-        password: credentials.password,
+      user: {
+        username: user.username,
+        password: user.password,
       },
     },
   });

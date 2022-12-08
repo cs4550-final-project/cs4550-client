@@ -12,7 +12,7 @@ import { User } from "../types/user";
 
 const Profile = () => {
   const [tabValue, setTabValue] = useState(0);
-  const tabs = ["Profile", "Likes"];
+  const tabs = ["Profile", "Favorited Recipes"];
   const [user, setUser] = useState<User | undefined>();
   const { id } = useParams();
   const currentUser = useContext(UserContext);

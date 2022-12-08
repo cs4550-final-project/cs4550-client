@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from "./productDetails.module.scss";
+import styles from "./recipeDetails.module.scss";
 import { Product } from "../types/product";
 import Loading from "../components/loading/loading";
 import productDetailImg from "./switches.jpeg";
@@ -17,7 +17,7 @@ import { UserProductReview } from "../types/userProductReview";
 import Review from "../components/review/review";
 import { UserContext } from "../contextProviders/user/UserContext";
 
-const ProductDetails = () => {
+const RecipeDetails = () => {
   let { id } = useParams();
   const user = useContext(UserContext);
   const [product, setProduct] = useState<Product | undefined>();
@@ -106,4 +106,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default RecipeDetails;

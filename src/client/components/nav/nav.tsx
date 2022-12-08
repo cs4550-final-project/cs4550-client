@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import KeyboardIcon from "@mui/icons-material/Keyboard";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
 import styles from "./nav.module.scss";
 import { colors } from "../../styles/colors";
 import { useNavigate } from "react-router-dom";
@@ -61,10 +61,7 @@ const Nav = () => {
     navigateTo(link);
   };
 
-  const pages = [
-    { title: "Shop", link: "/" },
-    { title: "Switches Guide", link: "/guide" },
-  ];
+  const pages = [{ title: "Shop", link: "/" }];
   const settings = [
     { title: "Profile", link: user ? `/profile/${user._id}` : "/profile/test" },
     { title: "My Store", link: "/store" },
@@ -76,12 +73,18 @@ const Nav = () => {
       sx={{ backgroundColor: "white", color: colors.primary }}
     >
       <Box
-        sx={{ 
-          margin: {xl: "0 180px", lg: "0 160px", md: "0 100px", sm: "0 64px", xs: "0 32px"} 
+        sx={{
+          margin: {
+            xl: "0 180px",
+            lg: "0 160px",
+            md: "0 100px",
+            sm: "0 64px",
+            xs: "0 32px",
+          },
         }}
       >
         <Toolbar disableGutters>
-          <KeyboardIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <FastfoodIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -97,7 +100,7 @@ const Nav = () => {
               textDecoration: "none",
             }}
           >
-            S<span className={styles.tertiary}>and</span>Witches
+            Sandwiches
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -155,7 +158,7 @@ const Nav = () => {
               textDecoration: "none",
             }}
           >
-            S<span className={styles.tertiary}>and</span>Witches
+            Sandwiches
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (

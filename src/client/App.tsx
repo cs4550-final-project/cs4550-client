@@ -10,8 +10,8 @@ import Profile from "./profile/profile";
 import Store from "./store/store";
 import SignIn from "./auth/signIn/signIn";
 import SignUp from "./auth/signUp/signUp";
-import ProductDetails from "./productDetails/productDetails";
 import { User } from "./types/user";
+import RecipeDetails from "./recipeDetails/recipeDetails";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -31,11 +31,9 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/guide" element={<Guide />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<Profile />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/details/:id" element={<ProductDetails />} />
+          <Route path="/details/:id" element={<RecipeDetails />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
