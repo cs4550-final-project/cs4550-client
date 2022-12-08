@@ -18,7 +18,7 @@ import {
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import ListingTile from "../components/listingTile/recipeTile";
+import ListingTile from "../components/recipeTile/recipeTile";
 import Button from "../components/button/button";
 import {
   getRandomRecipes,
@@ -27,6 +27,7 @@ import {
 import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import { Recipe } from "../types/recipes";
 import filters from "./filters";
+import ListOfTiles from "../components/listOfTiles/listOfTiles";
 
 const Home = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -198,33 +199,7 @@ const Home = () => {
               />
             </div>
           </Box>
-          <Grid
-            columns={12}
-            container
-            spacing={2}
-            className={styles.listingsContainer}
-          >
-            {recipes ? (
-              Object.values(recipes).map((recipe) => (
-                <Grid
-                  key={`grid-${recipe.id}`}
-                  className={styles.listingItem}
-                  item
-                  xs={false}
-                  onClick={() => console.log("Navigate to item details")}
-                >
-                  <ListingTile
-                    key={recipe.id}
-                    title={recipe.title}
-                    image={recipe.image}
-                    id={recipe.id}
-                  />
-                </Grid>
-              ))
-            ) : (
-              <></>
-            )}
-          </Grid>
+          {recipes ? <ListOfTiles recipes={recipes} /> : <></>}
         </Grid>
       </Grid>
     </Box>

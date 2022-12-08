@@ -34,7 +34,7 @@ const Profile = () => {
       case 0:
         return <ProfilePanel value={tabValue} user={user} />;
       case 1:
-        return <FavoritesPanel value={tabValue} />;
+        return <FavoritesPanel value={tabValue} user={currentUser} />;
     }
   };
 

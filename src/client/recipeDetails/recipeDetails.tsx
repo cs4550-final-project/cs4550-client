@@ -34,8 +34,9 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   const [liked, setLiked] = useState<Boolean>(false);
 
   useEffect(() => {
-    setRecipe(mockRecipes.results[0]);
+    // setRecipe(mockRecipes.results[0]);
     setTimeout(async () => {
+      getRecipeById(id);
       const reviews = getRecipeReviews(id);
       setReviews(reviews);
       if (user && recipe && user.favorites.includes(recipe?.id)) {
