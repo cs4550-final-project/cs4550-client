@@ -66,7 +66,7 @@ const Nav = ({ signOut }: { signOut: Function }) => {
   const settings = [
     {
       title: "Profile",
-      link: user ? `/profile/${user._id}` : "/profile/639122103af9ff52d272424e",
+      link: "/profile",
     },
   ];
 
