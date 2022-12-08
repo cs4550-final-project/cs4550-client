@@ -15,9 +15,12 @@ import RecipeDetails from "./recipeDetails/recipeDetails";
 
 function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
+  const onSignOut = () => {
+    setUser(undefined);
+  };
   return (
     <UserProvider user={user}>
-      <Nav></Nav>
+      <Nav signOut={onSignOut}></Nav>
       <Box
         sx={{
           margin: {
@@ -34,7 +37,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/details/:id" element={<RecipeDetails />} />
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signin" element={<SignIn setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Box>
