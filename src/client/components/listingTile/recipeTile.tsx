@@ -28,7 +28,7 @@ const RecipeTile = ({
         <img src={image} className={styles.recipeTileImage} />
       </div>
       <div className={styles.recipeTileContentContainer}>
-        <Typography variant="body1" noWrap={false}>
+        <Typography variant="body1" className={styles.recipeTileTitle}>
           {title}
         </Typography>
       </div>
