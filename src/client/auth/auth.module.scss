@@ -1,11 +1,12 @@
 @use "../styles/colors.scss" as c;
 .authContainer {
   height: 100%;
-  margin-top: 64px;
+  padding: 64px 0;
 }
 
 .formControl {
   width: 100%;
+  padding-top: 24px;
 
   button {
     margin-top: 16px;
@@ -19,7 +20,7 @@
 }
 
 .description {
-  margin: 8px 0;
+  margin: 16px 0 8px 0;
 }
 
 .bottomLink {
@@ -29,4 +30,8 @@
     color: c.$primary2;
     cursor: pointer;
   }
+}
+
+.roleDescription {
+  margin: 16px 0 8px 0;
 }

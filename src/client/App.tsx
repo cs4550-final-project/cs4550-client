@@ -54,7 +54,10 @@ function App() {
             path="/signin"
             element={<SignIn setUser={handleUserChange} />}
           />
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/signup"
+            element={<SignUp setUser={handleUserChange} />}
+          />
         </Routes>
       </Box>
     </UserProvider>

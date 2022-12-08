@@ -29,7 +29,11 @@ const ToggleButtons = ({
       aria-label="text alignment"
     >
       {options.map((option) => (
-        <ToggleButton value={option.value} aria-label={option.label}>
+        <ToggleButton
+          key={option.value}
+          value={option.value}
+          aria-label={option.label}
+        >
           {option.label}
         </ToggleButton>
       ))}

@@ -16,11 +16,11 @@ const SignIn = ({ setUser }: { setUser: Function }) => {
   };
 
   const handleChange = (e: any) => {
-    const target = e.target.name;
-    if (target === "username") {
-      setUsername(e.target.value);
+    const target = e.target;
+    if (target.name === "username") {
+      setUsername(target.value);
     } else {
-      setPassword(e.target.value);
+      setPassword(target.value);
     }
   };
 
@@ -70,6 +70,7 @@ const SignIn = ({ setUser }: { setUser: Function }) => {
             variant="contained"
             style="primary"
             onClick={handleSignIn}
+            sx={{ marginTop: "16px" }}
           />
         </FormControl>
         <p className={`caption ${styles.bottomLink}`}>
