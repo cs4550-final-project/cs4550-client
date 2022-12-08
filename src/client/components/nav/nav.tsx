@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
+import PersonIcon from "@mui/icons-material/Person";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
@@ -16,8 +17,9 @@ import styles from "./nav.module.scss";
 import { colors } from "../../styles/colors";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contextProviders/user/UserContext";
+import { signOut } from "../../../service/auth/authService";
 
-const Nav = () => {
+const Nav = ({ signOut }: { signOut: Function }) => {
   const user = useContext(UserContext);
   const navigateTo = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -31,7 +33,7 @@ const Nav = () => {
 
   const handleSignInOut = () => {
     if (user) {
-      // do logout stuff
+      signOut(user).finally(() => signOut);
     } else {
       navigateTo("/signin");
     }
@@ -61,10 +63,12 @@ const Nav = () => {
     navigateTo(link);
   };
 
-  const pages = [{ title: "Shop", link: "/" }];
+  const pages = [{ title: "Recipes", link: "/" }];
   const settings = [
-    { title: "Profile", link: user ? `/profile/${user._id}` : "/profile/test" },
-    { title: "My Store", link: "/store" },
+    {
+      title: "Profile",
+      link: user ? `/profile/${user._id}` : "/profile/639122103af9ff52d272424e",
+    },
   ];
 
   return (
@@ -174,8 +178,12 @@ const Nav = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton
+                onClick={handleOpenUserMenu}
+                sx={{ p: 0, padding: "8px", borderRadius: "15px" }}
+              >
+                <PersonIcon sx={{ marginRight: "4px" }} />
+                <p className="caption">{user && user.username}</p>
               </IconButton>
             </Tooltip>
             <Menu
@@ -194,9 +202,7 @@ const Nav = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* TODO add a case to check if user exists so settings don't show otherwise */}
-              {
-                // user &&
+              {user &&
                 settings.map((setting) => (
                   <MenuItem
                     key={setting.title}
@@ -206,8 +212,7 @@ const Nav = () => {
                   >
                     <p className={styles.tertiary}>{setting.title}</p>
                   </MenuItem>
-                ))
-              }
+                ))}
               <MenuItem key="sign-in-out" onClick={handleSignInOut}>
                 <p className={styles.tertiary}>
                   {user ? "Sign Out" : "Sign In"}

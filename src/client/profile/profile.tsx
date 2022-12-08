@@ -6,13 +6,13 @@ import { UserContext } from "../contextProviders/user/UserContext";
 import { Box } from "@mui/system";
 import VerticalTabs from "../components/verticalTabs/verticalTabs";
 import ProfilePanel from "./panels/profilePanel/profilePanel";
-import LikesPanel from "./panels/likesPanel/likesPanel";
+import FavoritesPanel from "./panels/favoritesPanel/favoritesPanel";
 import { getUserById } from "../../service/users/userService";
 import { User } from "../types/user";
 
 const Profile = () => {
   const [tabValue, setTabValue] = useState(0);
-  const tabs = ["Profile", "Favorited Recipes"];
+  const tabs = ["Profile", "Favorites"];
   const [user, setUser] = useState<User | undefined>();
   const { id } = useParams();
   const currentUser = useContext(UserContext);
@@ -32,7 +32,7 @@ const Profile = () => {
       case 0:
         return <ProfilePanel value={tabValue} user={u} />;
       case 1:
-        return <LikesPanel value={tabValue} />;
+        return <FavoritesPanel value={tabValue} />;
     }
   };
 

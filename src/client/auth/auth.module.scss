@@ -10,6 +10,12 @@
   button {
     margin-top: 16px;
   }
+
+  .errorMsg {
+    color: c.$red;
+    font-weight: 600;
+    margin-top: 8px;
+  }
 }
 
 .description {

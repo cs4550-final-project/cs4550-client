@@ -10,4 +10,5 @@ export const colors: colorOptions = {
   tertiary: "#515151",
   tertiary2: "#3D3D3D",
   white: "#ffffff",
+  lightGray: "#f6f6f6",
 };

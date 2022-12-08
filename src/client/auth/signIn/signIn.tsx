@@ -1,16 +1,45 @@
-import React from "react";
-import { FormControl, Grid } from "@mui/material";
-import { Box } from "@mui/system";
+import React, { useState } from "react";
+import { FormControl, Grid, TextField } from "@mui/material";
 import styles from "../auth.module.scss";
-import { TextField } from "@mui/material";
 import Button from "../../components/button/button";
 import { useNavigate } from "react-router-dom";
+import { signIn } from "../../../service/auth/authService";
+import { User } from "../../types/user";
 
-const SignIn = () => {
+const SignIn = ({
+  setUser,
+}: {
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
+}) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   const navigateTo = useNavigate();
   const handleSignUpClick = () => {
     navigateTo("/signup");
   };
+
+  const handleChange = (e: any) => {
+    const target = e.target.name;
+    if (target === "username") {
+      setUsername(e.target.value);
+    } else {
+      setPassword(e.target.value);
+    }
+  };
+
+  const handleSignIn = (e: any) => {
+    e.preventDefault();
+    signIn({ username, password })
+      .then((res) => {
+        setUser(res.data.user);
+      })
+      .then(() => navigateTo("/"))
+      .catch(() => {
+        setError(true);
+      });
+  };
+
   return (
     <Grid container justifyContent="center" className={styles.authContainer}>
       <Grid item xs={12} md={4}>
@@ -19,17 +48,33 @@ const SignIn = () => {
         <FormControl className={styles.formControl}>
           <TextField
             id="username"
+            name="username"
             label="Username"
+            onChange={handleChange}
+            value={username}
             sx={{ marginTop: "16px" }}
           />
           <TextField
             id="password"
             label="Password"
+            name="password"
+            onChange={handleChange}
+            value={password}
             type="password"
             autoComplete="current-password"
             sx={{ marginTop: "16px" }}
           />
-          <Button label={"Sign In"} variant="contained" style="primary" />
+          {error && (
+            <p className={`caption ${styles.errorMsg}`}>
+              There was an error with your credentials. Please try again.
+            </p>
+          )}
+          <Button
+            label={"Sign In"}
+            variant="contained"
+            style="primary"
+            onClick={handleSignIn}
+          />
         </FormControl>
         <p className={`caption ${styles.bottomLink}`}>
           Don't have an account?{" "}

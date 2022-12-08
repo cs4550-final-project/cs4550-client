@@ -1,5 +1,6 @@
 .profileContainer {
   padding: 0 48px;
+  width: 100%;
   .profileHeader {
     width: 100%;
   }
@@ -7,5 +8,11 @@
   .profileImg {
     max-width: 100%;
     border-radius: 50%;
+  }
+
+  .formControl {
+    label {
+      margin-top: 16px;
+    }
   }
 }
