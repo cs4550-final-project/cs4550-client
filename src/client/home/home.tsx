@@ -186,7 +186,7 @@ const Home = () => {
                   padding: "1px 8px",
                 },
               }}
-              placeholder="placeholder asjkd"
+              placeholder="Search for recipes"
               variant="outlined"
               className={styles.searchInput}
               onChange={(e) => setSearchInput(e.target.value)}

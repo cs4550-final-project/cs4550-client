@@ -1,7 +1,7 @@
 export type User = {
   _id: string;
   username: string;
-  favorites: string[];
+  favorites: number[];
   role: string;
   bio?: string;
   createdAt: string;
