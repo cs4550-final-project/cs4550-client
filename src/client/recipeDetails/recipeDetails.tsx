@@ -79,9 +79,9 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
           </AccordionSummary>
           <AccordionDetails>
             {recipe?.analyzedInstructions.map((instruction) => (
-              <div>
-                {instruction.steps.map((step) => (
-                  <div className={styles.stepContainer}>
+              <div key={`div-${recipe.id}`}>
+                {instruction.steps.map((step, index) => (
+                  <div className={styles.stepContainer} key={`step${index}`}>
                     <p
                       className={styles.stepNumber}
                     >{`Step ${step.number}: `}</p>
@@ -134,8 +134,9 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         <ReviewInput></ReviewInput>
         <div className={styles.recipeReviews}>
           <h5>Critic Reviews:</h5>
-          {reviews?.map((review) => (
+          {reviews?.map((review, index) => (
             <Review
+              key={`review-${index}`}
               user={review.owner}
               rating={review.rating}
               review={review.review}

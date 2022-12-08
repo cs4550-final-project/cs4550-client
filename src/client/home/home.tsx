@@ -208,6 +208,7 @@ const Home = () => {
             {recipes ? (
               Object.values(recipes).map((recipe) => (
                 <Grid
+                  key={`grid-${recipe.id}`}
                   className={styles.listingItem}
                   item
                   xs={false}
