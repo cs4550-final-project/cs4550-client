@@ -66,7 +66,7 @@ const VerticalTabs = ({ value, setValue, tabs }: VerticalTabProps) => {
         sx={{ borderRight: 1, borderColor: "divider", height: "80vh" }}
       >
         {tabs.map((tab, index) => (
-          <Tab label={tab} {...a11yProps(index)} />
+          <Tab key={index} label={tab} {...a11yProps(index)} />
         ))}
       </Tabs>
     </Box>

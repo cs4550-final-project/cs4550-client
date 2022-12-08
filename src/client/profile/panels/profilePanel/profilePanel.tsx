@@ -7,7 +7,7 @@ import { Grid } from "@mui/material";
 import styles from "./profilePanel.module.scss";
 import profileImg from "./profile.png";
 import { User } from "../../../types/user";
-import { getUserById } from "../../../../service/users/userService";
+
 interface ProfilePanelProps extends TabPanelProps {
   user: User;
 }
@@ -24,10 +24,11 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
             <img src={profileImg} className={styles.profileImg} />
           </Grid>
           <Grid item xs={12} md={9}>
-            <h3></h3>
+            <h3>{user.username}</h3>
+            <h5> {user.role}</h5>
           </Grid>
           <Grid item xs={12}>
-            extra details
+            {user.username}
           </Grid>
         </Grid>
       </Box>

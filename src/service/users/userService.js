@@ -1,3 +1,5 @@
+import axios from "axios";
+import apiUrl from "../apiConfig";
 const mockUser = {
   _id: "6383fc7204f869887c676b98",
   favorites: [],
@@ -8,5 +10,8 @@ const mockUser = {
 };
 
 export const getUserById = (id) => {
-  return mockUser;
+  return axios({
+    method: "GET",
+    url: apiUrl + "/users/" + id,
+  });
 };

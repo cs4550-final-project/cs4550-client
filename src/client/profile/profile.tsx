@@ -18,7 +18,9 @@ const Profile = () => {
   const currentUser = useContext(UserContext);
   useEffect(() => {
     if (id) {
-      setUser(getUserById(id));
+      getUserById(id).then((res) => {
+        setUser(res.data.user);
+      });
     }
     if (!id && currentUser) {
       setUser(currentUser);
