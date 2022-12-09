@@ -15,30 +15,21 @@ const FavoritesPanel = ({ value, user }: FavoritesPanelProps) => {
     Recipe[] | undefined
   >();
 
-  const findRecipe = (id: number) => {
-    const fetchRecipe = async (id: number) => {
-      const recipe = getRecipeById(id);
-      return recipe;
-    };
-
-    fetchRecipe(id).then((res) => {
-      setFavoritedRecipes(res);
+  const addRecipes = async (ids: number[]) => {
+    const populated: Recipe[] = [];
+    const promises = await ids.map(async (id) => {
+      await getRecipeById(id).then((res: Recipe) => {
+        populated.push(res);
+      });
+    });
+    Promise.all(promises).then(() => {
+      setFavoritedRecipes(populated);
     });
   };
 
-  const addRecipes = async (ids: number[]) => {
-    await Promise.all(
-      ids.map(async (id) => {
-        await findRecipe(id);
-      })
-    );
-  };
-
   useEffect(() => {
-    console.log(user);
-    console.log(user?.favorites);
     if (user) {
-      addRecipes(user?.favorites);
+      addRecipes(user.favorites);
     }
   }, []);
 
