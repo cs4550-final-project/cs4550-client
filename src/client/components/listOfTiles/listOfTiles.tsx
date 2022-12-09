@@ -20,6 +20,7 @@ const ListOfTiles = ({ recipes }: { recipes: Recipe[] }) => {
               title={recipe.title}
               image={recipe.image}
               id={recipe.id}
+              readyInMins={recipe.readyInMinutes}
             />
           </Grid>
         ))

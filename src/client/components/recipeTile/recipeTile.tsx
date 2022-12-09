@@ -7,10 +7,12 @@ const RecipeTile = ({
   title,
   id,
   image,
+  readyInMins,
 }: {
   title: string;
   id: number;
   image: string;
+  readyInMins: number;
 }) => {
   const navigateTo = useNavigate();
 
@@ -31,6 +33,7 @@ const RecipeTile = ({
         <Typography variant="body1" className={styles.recipeTileTitle}>
           {title}
         </Typography>
+        <p>{`Ready in ${readyInMins}m`}</p>
       </div>
     </Box>
   );
