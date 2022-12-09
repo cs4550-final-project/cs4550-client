@@ -33,10 +33,21 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   const [reviews, setReviews] = useState<UserRecipeReview[] | undefined>();
   const [liked, setLiked] = useState<Boolean>(false);
 
+  const getRecipeDetails = () => {
+    const fetchRecipes = async () => {
+      const recipe = getRecipeById(id);
+      return recipe;
+    };
+    fetchRecipes().then((res) => {
+      setRecipe(res);
+    });
+  };
+
   useEffect(() => {
-    // setRecipe(mockRecipes.results[0]);
     setTimeout(async () => {
-      getRecipeById(id);
+      setRecipe(mockRecipes.results[0]);
+      // uncomment later
+      // getRecipeDetails();
       const reviews = getRecipeReviews(id);
       setReviews(reviews);
       if (user && recipe && user.favorites.includes(recipe?.id)) {
