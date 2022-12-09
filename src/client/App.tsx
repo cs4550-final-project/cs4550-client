@@ -45,8 +45,14 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:id" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={<Profile handleUserChange={handleUserChange} />}
+          />
+          <Route
+            path="/profile/:id"
+            element={<Profile handleUserChange={handleUserChange} />}
+          />
           <Route
             path="/details/:id"
             element={<RecipeDetails setUser={handleUserChange} />}

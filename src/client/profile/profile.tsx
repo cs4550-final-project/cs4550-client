@@ -11,7 +11,7 @@ import { getUserById } from "../../service/users/userService";
 import { User } from "../types/user";
 import Loading from "../components/loading/loading";
 
-const Profile = () => {
+const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
   const { id } = useParams();
@@ -41,7 +41,13 @@ const Profile = () => {
   const getPanel = (u: User) => {
     switch (tabValue) {
       case 0:
-        return <ProfilePanel value={tabValue} user={user} />;
+        return (
+          <ProfilePanel
+            value={tabValue}
+            user={user}
+            setUser={handleUserChange}
+          />
+        );
       case 1:
         return <FavoritesPanel value={tabValue} user={currentUser} />;
     }

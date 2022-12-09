@@ -15,3 +15,14 @@ export const getUserById = (id) => {
     url: apiUrl + "/users/" + id,
   });
 };
+
+export const updateUserInfo = (payload, user) => {
+  return axios({
+    method: "PATCH",
+    url: apiUrl + "/update-info",
+    headers: {
+      Authorization: `Token token=${user.token}`,
+    },
+    data: payload,
+  });
+};

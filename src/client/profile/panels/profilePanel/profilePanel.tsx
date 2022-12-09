@@ -7,15 +7,17 @@ import { User } from "../../../types/user";
 import { FormControl, Grid, TextField } from "@mui/material";
 import Button from "../../../components/button/button";
 import { colors } from "../../../styles/colors";
+import { updateUserInfo } from "../../../../service/users/userService";
+import { changePassword } from "../../../../service/auth/authService";
 
 interface ProfilePanelProps extends TabPanelProps {
   user: User | undefined;
+  setUser: Function;
 }
 
-const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
+const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   const [editing, setEditing] = useState(false);
-  const [bio, setBio] = useState("");
-  const [username, setUsername] = useState("");
+  const [bio, setBio] = useState(user?.bio || "");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const currentUser = useContext(UserContext);
@@ -27,14 +29,18 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
 
   const handleSaveClick = () => {
     setEditing(false);
+    updateUserInfo({ bio }, user);
+    setUser({ ...user, bio });
+    if (oldPassword && newPassword) {
+      changePassword({ oldPassword, newPassword }, user);
+      setOldPassword("");
+      setNewPassword("");
+    }
   };
 
   const handleChange = (e: any) => {
     const target = e.target;
     switch (target.name) {
-      case "username":
-        setUsername(target.value);
-        break;
       case "bio":
         setBio(target.value);
         break;
@@ -46,6 +52,7 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
         break;
     }
   };
+
   return (
     <TabPanel value={value}>
       <Box>
@@ -97,9 +104,9 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
                 InputProps={{
                   readOnly: !editing,
                 }}
-                defaultValue={
-                  user?.bio ? user?.bio : "This user does not have a bio yet."
-                }
+                name="bio"
+                value={bio || "This user does not have a bio yet."}
+                onChange={handleChange}
                 sx={{ marginTop: "16px", width: "100%" }}
               />
             </div>
@@ -107,10 +114,11 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
               <label>Username:</label>
               <TextField
                 id="username"
+                name="username"
                 InputProps={{
-                  readOnly: !editing,
+                  readOnly: true,
                 }}
-                defaultValue={user?.username}
+                value={user?.username}
                 sx={{ marginTop: "16px" }}
               />
               {isCurrentUser && (
@@ -123,9 +131,11 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
                   )}
                   <label>Current Password:</label>
                   <TextField
-                    id="password"
+                    id="oldPassword"
                     type="password"
-                    value={!editing ? "placeholder" : ""}
+                    name="oldPassword"
+                    onChange={handleChange}
+                    value={!editing ? "placeholder" : oldPassword}
                     autoComplete="current-password"
                     sx={{ marginTop: "16px" }}
                     InputProps={{
@@ -136,12 +146,15 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
                     <>
                       <label>New Password:</label>
                       <TextField
-                        id="password"
+                        id="newPassword"
                         type="password"
+                        name="newPassword"
+                        onChange={handleChange}
                         sx={{ marginTop: "16px" }}
                         InputProps={{
                           readOnly: !editing,
                         }}
+                        value={newPassword}
                       />
                     </>
                   )}
