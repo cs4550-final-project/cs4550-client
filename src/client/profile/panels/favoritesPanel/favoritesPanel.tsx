@@ -5,15 +5,23 @@ import { Box } from "@mui/system";
 import { Recipe } from "../../../types/recipes";
 import ListOfTiles from "../../../components/listOfTiles/listOfTiles";
 import { getRecipeById } from "../../../../service/spoonacular/recipesService";
+import Loading from "../../../components/loading/loading";
 
 interface FavoritesPanelProps extends TabPanelProps {
   user: User | undefined;
 }
 
 const FavoritesPanel = ({ value, user }: FavoritesPanelProps) => {
+  const [loading, setLoading] = useState(true);
   const [favoritedRecipes, setFavoritedRecipes] = useState<
     Recipe[] | undefined
   >();
+
+  const finishLoading = () => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  };
 
   const addRecipes = async (ids: number[]) => {
     const populated: Recipe[] = [];
@@ -30,10 +38,13 @@ const FavoritesPanel = ({ value, user }: FavoritesPanelProps) => {
   useEffect(() => {
     if (user) {
       addRecipes(user.favorites);
+      finishLoading();
     }
   }, []);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <TabPanel value={value}>
       <h6>Favorite Recipes:</h6>
       {favoritedRecipes && favoritedRecipes?.length > 0 ? (

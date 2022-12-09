@@ -9,23 +9,32 @@ import ProfilePanel from "./panels/profilePanel/profilePanel";
 import FavoritesPanel from "./panels/favoritesPanel/favoritesPanel";
 import { getUserById } from "../../service/users/userService";
 import { User } from "../types/user";
+import Loading from "../components/loading/loading";
 
 const Profile = () => {
+  const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
   const { id } = useParams();
   const currentUser = useContext(UserContext);
   const [user, setUser] = useState<User | undefined>();
   const tabs = ["Profile", "Favorites"];
 
+  const finishLoading = () => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  };
+
   useEffect(() => {
     if (id) {
       getUserById(id).then((res) => {
-        console.log(res);
         setUser(res.data.user);
+        finishLoading();
       });
     }
     if (!id && currentUser) {
       setUser(currentUser);
+      finishLoading();
     }
   }, []);
 
@@ -38,7 +47,9 @@ const Profile = () => {
     }
   };
 
-  return user ? (
+  return loading ? (
+    <Loading />
+  ) : user ? (
     <Box
       sx={{
         flexGrow: 1,

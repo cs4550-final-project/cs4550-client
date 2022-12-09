@@ -14,6 +14,10 @@ interface ProfilePanelProps extends TabPanelProps {
 
 const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
   const [editing, setEditing] = useState(false);
+  const [bio, setBio] = useState("");
+  const [username, setUsername] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const currentUser = useContext(UserContext);
   const isCurrentUser = user?._id === currentUser?._id;
 
@@ -25,6 +29,23 @@ const ProfilePanel = ({ value, user }: ProfilePanelProps) => {
     setEditing(false);
   };
 
+  const handleChange = (e: any) => {
+    const target = e.target;
+    switch (target.name) {
+      case "username":
+        setUsername(target.value);
+        break;
+      case "bio":
+        setBio(target.value);
+        break;
+      case "oldPassword":
+        setOldPassword(target.value);
+        break;
+      case "newPassword":
+        setNewPassword(target.value);
+        break;
+    }
+  };
   return (
     <TabPanel value={value}>
       <Box>

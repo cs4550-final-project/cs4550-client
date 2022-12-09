@@ -29,9 +29,15 @@ import Accordion from "@mui/material/Accordion";
 const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   let { id } = useParams();
   const user = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
   const [recipe, setRecipe] = useState<Recipe | undefined>();
   const [reviews, setReviews] = useState<UserRecipeReview[] | undefined>();
   const [liked, setLiked] = useState<Boolean>(false);
+  const finishLoading = () => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  };
 
   const getRecipeDetails = () => {
     const fetchRecipes = async () => {
@@ -44,16 +50,15 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   };
 
   useEffect(() => {
-    setTimeout(async () => {
-      setRecipe(mockRecipes.results[0]);
-      // uncomment later
-      // getRecipeDetails();
-      const reviews = getRecipeReviews(id);
-      setReviews(reviews);
-      if (user && recipe && user.favorites.includes(recipe?.id)) {
-        setLiked(true);
-      }
-    }, 1000);
+    setRecipe(mockRecipes.results[0]);
+    // uncomment later
+    // getRecipeDetails();
+    const reviews = getRecipeReviews(id);
+    setReviews(reviews);
+    if (user && recipe && user.favorites.includes(recipe?.id)) {
+      setLiked(true);
+    }
+    finishLoading();
   }, [recipe]);
 
   const placeholders = {
@@ -70,11 +75,9 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         const newfavorites = user?.favorites.filter((id) => id != recipe?.id);
         user.favorites = newfavorites;
         setUser(user);
-        console.log(user);
       } else {
         user?.favorites.push(recipe?.id);
         setUser(user);
-        console.log(user);
       }
     }
     setLiked(!liked);
@@ -82,7 +85,7 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
 
   return (
     <Grid container spacing={2} className={styles.pdpContainer} mt={3}>
-      {!recipe && <Loading></Loading>}
+      {loading && <Loading></Loading>}
       <Grid item xs={12} md={7} justifyContent="center" alignItems="center">
         <img className={styles.recipeDetailImg} src={recipe?.image} />
         <Accordion key={recipe?.id} className={styles.instructionsContainer}>
@@ -120,10 +123,10 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
               onClick={handleLikeClicked}
             />
           )}
-          {recipe ? <h3>{recipe.title}</h3> : placeholders.md}
+          {!loading && recipe ? <h3>{recipe.title}</h3> : placeholders.md}
         </div>
         <div className={styles.pdpMain}>
-          {recipe ? (
+          {!loading && recipe ? (
             <div className={styles.pdpDetails}>
               <h4>Summary</h4>
               <div
