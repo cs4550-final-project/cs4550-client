@@ -16,6 +16,21 @@ export const getUserById = (id) => {
   });
 };
 
+export const getAllUsers = (id) => {
+  return axios({
+    method: "GET",
+    url: apiUrl + "/users",
+  });
+};
+
+export const getFollowing = async (id) => {
+  const following = await axios({
+    method: "GET",
+    url: apiUrl + "/users/" + id + "/following",
+  });
+  return following.data;
+};
+
 export const updateUserInfo = (payload, user) => {
   return axios({
     method: "PATCH",

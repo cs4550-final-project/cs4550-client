@@ -10,6 +10,7 @@ import SignIn from "./auth/signIn/signIn";
 import SignUp from "./auth/signUp/signUp";
 import { User } from "./types/user";
 import RecipeDetails from "./recipeDetails/recipeDetails";
+import Users from "./users/users";
 
 function App() {
   const navigateTo = useNavigate();
@@ -45,6 +46,7 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/users" element={<Users />}></Route>
           <Route
             path="/profile"
             element={<Profile handleUserChange={handleUserChange} />}

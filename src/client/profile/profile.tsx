@@ -7,6 +7,7 @@ import { Box } from "@mui/system";
 import VerticalTabs from "../components/verticalTabs/verticalTabs";
 import ProfilePanel from "./panels/profilePanel/profilePanel";
 import FavoritesPanel from "./panels/favoritesPanel/favoritesPanel";
+import FollowingPanel from "./panels/followingPanel/followingPanel";
 import { getUserById } from "../../service/users/userService";
 import { User } from "../types/user";
 import Loading from "../components/loading/loading";
@@ -17,7 +18,7 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
   const { id } = useParams();
   const currentUser = useContext(UserContext);
   const [user, setUser] = useState<User | undefined>();
-  const tabs = ["Profile", "Favorites"];
+  const tabs = ["Profile", "Favorites", "Following"];
 
   const finishLoading = () => {
     setTimeout(() => {
@@ -50,6 +51,8 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
         );
       case 1:
         return <FavoritesPanel value={tabValue} user={currentUser} />;
+      case 2:
+        return <FollowingPanel value={tabValue} user={currentUser} />;
     }
   };
 
