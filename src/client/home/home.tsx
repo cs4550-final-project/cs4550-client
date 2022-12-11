@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Accordion from "@mui/material/Accordion";
 import styles from "./home.module.scss";
@@ -18,18 +13,12 @@ import {
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import ListingTile from "../components/recipeTile/recipeTile";
 import Button from "../components/button/button";
-import {
-  getRandomRecipes,
-  getRecipesBySearchTerm,
-} from "../../service/spoonacular/recipesService";
+import { getRecipesBySearchTerm } from "../../service/spoonacular/recipesService";
 import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import { Recipe } from "../types/recipes";
 import ListOfTiles from "../components/listOfTiles/listOfTiles";
-import { optionUnstyledClasses } from "@mui/base";
 import filters from "./filters";
-import { filterOption } from "./filters";
 
 const Home = () => {
   const [searchInput, setSearchInput] = useState("");

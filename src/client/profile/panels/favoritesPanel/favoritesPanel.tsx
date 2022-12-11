@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TabPanel, { TabPanelProps } from "../../../components/tabPanel/tabPanel";
 import { User } from "../../../types/user";
-import { Box } from "@mui/system";
 import { Recipe } from "../../../types/recipes";
 import ListOfTiles from "../../../components/listOfTiles/listOfTiles";
 import { getRecipeById } from "../../../../service/spoonacular/recipesService";

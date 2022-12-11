@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FormControl, Grid } from "@mui/material";
-import { Box } from "@mui/system";
 import styles from "../auth.module.scss";
 import { TextField } from "@mui/material";
 import Button from "../../components/button/button";
@@ -130,7 +129,7 @@ const SignUp = ({ setUser }: { setUser: Function }) => {
             label={"Sign Up"}
             onClick={handleSignUp}
             variant="contained"
-            style="primary"
+            style={"primary"}
             sx={{ marginTop: "16px" }}
           />
         </FormControl>

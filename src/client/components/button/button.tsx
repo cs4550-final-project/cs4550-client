@@ -1,5 +1,4 @@
 import * as React from "react";
-import Stack from "@mui/material/Stack";
 import MuiButton from "@mui/material/Button";
 import { colors } from "../../styles/colors";
 

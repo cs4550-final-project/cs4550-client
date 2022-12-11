@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TabPanel, { TabPanelProps } from "../../../components/tabPanel/tabPanel";
-import { useNavigate } from "react-router-dom";
 import { User } from "../../../types/user";
-import { Box } from "@mui/system";
-import ListOfTiles from "../../../components/listOfTiles/listOfTiles";
-import { getRecipeById } from "../../../../service/spoonacular/recipesService";
 import Loading from "../../../components/loading/loading";
-import { getFollowing } from "../../../../service/users/userService";
 import UserTileList from "../../../components/userTileList/userTileList";
 
 interface FollowingPanelProps extends TabPanelProps {
