@@ -1,5 +1,5 @@
 .profileContainer {
-  padding: 0 48px;
+  padding: 0px 48px;
   width: 100%;
   .profileHeader {
     width: 100%;
@@ -14,5 +14,16 @@
     label {
       margin-top: 16px;
     }
+  }
+  .usernameText {
+    margin-top: 16px;
+  }
+
+  .profileLabels {
+    margin-top: 24px;
+  }
+
+  p {
+    margin-top: 6px !important;
   }
 }

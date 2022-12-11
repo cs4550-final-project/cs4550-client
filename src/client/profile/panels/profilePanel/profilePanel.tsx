@@ -7,8 +7,13 @@ import { User } from "../../../types/user";
 import { FormControl, Grid, TextField } from "@mui/material";
 import Button from "../../../components/button/button";
 import { colors } from "../../../styles/colors";
-import { updateUserInfo } from "../../../../service/users/userService";
+import {
+  getUserById,
+  updateFollowing,
+  updateUserInfo,
+} from "../../../../service/users/userService";
 import { changePassword } from "../../../../service/auth/authService";
+import { useParams } from "react-router-dom";
 
 interface ProfilePanelProps extends TabPanelProps {
   user: User | undefined;
@@ -16,15 +21,55 @@ interface ProfilePanelProps extends TabPanelProps {
 }
 
 const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
+  let { id } = useParams();
+
+  const getFollowingStatus = () => {
+    console.log(id);
+
+    currentUser?.following?.forEach((user) => {
+      if (user._id === id) {
+        return true;
+      }
+    });
+    return false;
+  };
+
   const [editing, setEditing] = useState(false);
   const [bio, setBio] = useState(user?.bio || "");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const currentUser = useContext(UserContext);
   const isCurrentUser = user?._id === currentUser?._id;
+  const [isFollowing, setIsFollowing] = useState(getFollowingStatus());
 
   const handleEditClick = () => {
     setEditing(true);
+  };
+
+  const handleFollow = () => {
+    if (id) {
+      getUserById(id).then((res) => {
+        const updatedFollowing = user?.following;
+        updatedFollowing?.push(res.data.user);
+        updateFollowing(updatedFollowing, user);
+        setIsFollowing(true);
+      });
+    }
+  };
+
+  const handleUnfollow = () => {
+    if (id) {
+      getUserById(id).then((res) => {
+        const updatedFollowing = user?.following;
+        updateFollowing(
+          updatedFollowing?.filter(
+            (followedUser) => followedUser._id !== res.data.user._id
+          ),
+          user
+        );
+        setIsFollowing(false);
+      });
+    }
   };
 
   const handleSaveClick = () => {
@@ -73,7 +118,7 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
               <h5> {user?.role}</h5>
               <p></p>
             </div>
-            {isCurrentUser && !editing && (
+            {isCurrentUser && !editing ? (
               <Button
                 label={"Edit Profile"}
                 variant="outlined"
@@ -83,6 +128,17 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
                   width: "160px",
                 }}
                 onClick={handleEditClick}
+              />
+            ) : (
+              <Button
+                label={isFollowing ? "Unfollow" : "Follow"}
+                variant="outlined"
+                style="primary"
+                sx={{
+                  height: "48px",
+                  width: "160px",
+                }}
+                onClick={isFollowing ? handleUnfollow : handleFollow}
               />
             )}
             {isCurrentUser && editing && (
@@ -97,70 +153,79 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
           </Grid>
           <Grid item xs={12} sx={{ padding: "24px" }}>
             <div>
-              <h6>About</h6>
-              <TextField
-                multiline
-                id="bio"
-                InputProps={{
-                  readOnly: !editing,
-                }}
-                name="bio"
-                value={bio || "This user does not have a bio yet."}
-                onChange={handleChange}
-                sx={{ marginTop: "16px", width: "100%" }}
-              />
-            </div>
-            <FormControl className={styles.formControl}>
-              <label>Username:</label>
-              <TextField
-                id="username"
-                name="username"
-                InputProps={{
-                  readOnly: true,
-                }}
-                value={user?.username}
-                sx={{ marginTop: "16px" }}
-              />
-              {isCurrentUser && (
-                <>
-                  {editing && (
-                    <label>
-                      To update your password, please enter your old password
-                      and your new password.
-                    </label>
-                  )}
-                  <label>Current Password:</label>
-                  <TextField
-                    id="oldPassword"
-                    type="password"
-                    name="oldPassword"
-                    onChange={handleChange}
-                    value={!editing ? "placeholder" : oldPassword}
-                    autoComplete="current-password"
-                    sx={{ marginTop: "16px" }}
-                    InputProps={{
-                      readOnly: !editing,
-                    }}
-                  />
-                  {editing && (
-                    <>
-                      <label>New Password:</label>
-                      <TextField
-                        id="newPassword"
-                        type="password"
-                        name="newPassword"
-                        onChange={handleChange}
-                        sx={{ marginTop: "16px" }}
-                        InputProps={{
-                          readOnly: !editing,
-                        }}
-                        value={newPassword}
-                      />
-                    </>
-                  )}
-                </>
+              <h6 className={styles.profileLabels}>About</h6>
+              {isCurrentUser ? (
+                <TextField
+                  multiline
+                  id="bio"
+                  InputProps={{
+                    readOnly: !editing,
+                  }}
+                  name="bio"
+                  value={bio || "This user does not have a bio yet."}
+                  onChange={handleChange}
+                  sx={{ marginTop: "16px", width: "100%" }}
+                />
+              ) : (
+                <p>{bio}</p>
               )}
-            </FormControl>
+            </div>
+            {isCurrentUser ? (
+              <FormControl className={styles.formControl}>
+                {/* <TextField
+                  id="username"
+                  name="username"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={user?.username}
+                  sx={{ marginTop: "16px" }}
+                /> */}
+                <h6 className={styles.profileLabels}>Username:</h6>
+                <p className={styles.usernameText}>{user?.username}</p>
+                {isCurrentUser && (
+                  <>
+                    {editing && (
+                      <label>
+                        To update your password, please enter your old password
+                        and your new password.
+                      </label>
+                    )}
+                    <h6 className={styles.profileLabels}>Current Password:</h6>
+                    <TextField
+                      id="oldPassword"
+                      type="password"
+                      name="oldPassword"
+                      onChange={handleChange}
+                      value={!editing ? "placeholder" : oldPassword}
+                      autoComplete="current-password"
+                      sx={{ marginTop: "16px" }}
+                      InputProps={{
+                        readOnly: !editing,
+                      }}
+                    />
+                    {editing && (
+                      <>
+                        <h6 className={styles.profileLabels}>New Password:</h6>
+                        <TextField
+                          id="newPassword"
+                          type="password"
+                          name="newPassword"
+                          onChange={handleChange}
+                          sx={{ marginTop: "16px" }}
+                          InputProps={{
+                            readOnly: !editing,
+                          }}
+                          value={newPassword}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </FormControl>
+            ) : (
+              <></>
+            )}
           </Grid>
         </Grid>
       </Box>

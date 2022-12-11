@@ -31,6 +31,17 @@ export const getFollowing = async (id) => {
   return following.data;
 };
 
+export const updateFollowing = (payload, user) => {
+  return axios({
+    method: "PATCH",
+    url: apiUrl + "/following",
+    headers: {
+      Authorization: `Token token=${user.token}`,
+    },
+    data: payload,
+  });
+};
+
 export const updateUserInfo = (payload, user) => {
   return axios({
     method: "PATCH",
