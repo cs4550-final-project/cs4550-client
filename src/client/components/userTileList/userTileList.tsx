@@ -8,9 +8,11 @@ import { User } from "../../types/user";
 const UserTileList = ({
   currentUser,
   users,
+  setTabValue,
 }: {
   currentUser: User;
   users: User[];
+  setTabValue: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
     <Grid columns={12} container spacing={2} className={styles.tilesContainer}>
@@ -24,7 +26,7 @@ const UserTileList = ({
               item
               xs={false}
             >
-              <UserTile user={user} />
+              <UserTile user={user} setTabValue={setTabValue} />
             </Grid>
           ))
       ) : (

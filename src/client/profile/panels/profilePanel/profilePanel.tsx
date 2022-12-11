@@ -24,7 +24,7 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   let { id } = useParams();
 
   const [editing, setEditing] = useState(false);
-  const [bio, setBio] = useState(user?.bio || "");
+  const [bio, setBio] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const currentUser = useContext(UserContext);
@@ -32,7 +32,6 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
-    console.log(user);
     if (currentUser && user && !isCurrentUser) {
       currentUser.following?.forEach((followedUser) => {
         if (followedUser._id === id) {
@@ -40,6 +39,7 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
         }
       });
     }
+    setBio(user?.bio || "");
   }, [user]);
   const handleEditClick = () => {
     setEditing(true);
@@ -153,7 +153,7 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
           <Grid item xs={12} sx={{ padding: "24px" }}>
             <div>
               <h6 className={styles.profileLabels}>About</h6>
-              {isCurrentUser ? (
+              {isCurrentUser && editing ? (
                 <TextField
                   multiline
                   id="bio"

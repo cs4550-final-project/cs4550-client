@@ -40,7 +40,7 @@ const Users = () => {
       </Box>
       <Divider />
       <Grid py={1} container spacing={2} className={styles.homeContainer}>
-        {user && users && <UserTileList currentUser={user} users={users} />}
+        {/* {user && users && <UserTileList currentUser={user} users={users} />} */}
       </Grid>
     </Box>
   );

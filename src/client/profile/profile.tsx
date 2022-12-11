@@ -52,7 +52,13 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
       case 1:
         return <FavoritesPanel value={tabValue} user={currentUser} />;
       case 2:
-        return <FollowingPanel value={tabValue} user={currentUser} />;
+        return (
+          <FollowingPanel
+            value={tabValue}
+            user={currentUser}
+            setTabValue={setTabValue}
+          />
+        );
     }
   };
 

@@ -40,7 +40,7 @@ const FavoritesPanel = ({ value, user }: FavoritesPanelProps) => {
       addRecipes(user.favorites);
       finishLoading();
     }
-  }, []);
+  }, [user]);
 
   return loading ? (
     <Loading />

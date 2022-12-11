@@ -11,9 +11,10 @@ import UserTileList from "../../../components/userTileList/userTileList";
 
 interface FollowingPanelProps extends TabPanelProps {
   user: User | undefined;
+  setTabValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const FollowingPanel = ({ value, user }: FollowingPanelProps) => {
+const FollowingPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
   const [loading, setLoading] = useState(true);
   const [usersFollowed, setUsersFollowed] = useState<User[] | undefined>();
   const navigateTo = useNavigate();
@@ -25,14 +26,9 @@ const FollowingPanel = ({ value, user }: FollowingPanelProps) => {
   };
 
   useEffect(() => {
-    console.log("useEffect");
-    console.log("user", user);
-    if (user) {
-      console.log("users followed: ", user.following);
-      setUsersFollowed(user.following);
-      finishLoading();
-    }
-  }, []);
+    setUsersFollowed(user?.following);
+    finishLoading();
+  }, [user]);
 
   return loading ? (
     <Loading />
@@ -43,7 +39,11 @@ const FollowingPanel = ({ value, user }: FollowingPanelProps) => {
         // <ListOfTiles recipes={usersFollowed} />
         <div>
           {user && usersFollowed && (
-            <UserTileList currentUser={user} users={usersFollowed} />
+            <UserTileList
+              currentUser={user}
+              users={usersFollowed}
+              setTabValue={setTabValue}
+            />
           )}
         </div>
       ) : (
