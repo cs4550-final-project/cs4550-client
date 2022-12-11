@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import styles from "./profile";
+import { useParams } from "react-router-dom";
 import Error404 from "../components/error404/error404";
 import { UserContext } from "../contextProviders/user/UserContext";
 import { Box } from "@mui/system";
@@ -40,7 +39,7 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
       setUser(currentUser);
       finishLoading();
     }
-  }, [id]);
+  }, [id, currentUser]);
 
   const getPanel = (u: User) => {
     switch (tabValue) {

@@ -1,7 +1,5 @@
 import axios from "axios";
-import { mockProductReviews } from "./mockProductReviews";
 import apiUrl from "../apiConfig";
-import { UserContext } from "../../client/contextProviders/user/UserContext";
 
 const API_KEY = "28f92c9674274356b51f77cb7c8ce68e";
 
@@ -39,7 +37,6 @@ export const getRandomRecipes = async () => {
 };
 
 export const getRecipeReviews = async (id) => {
-  // return mockProductReviews;
   console.log("getRecipeReviews called with id: ", id);
   const recipeReviews = await axios({
     method: "GET",

@@ -124,17 +124,16 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
         message="You must have an account to follow users"
       />
       <Box>
-        <Grid container className={styles.profileContainer}>
-          <Grid
-            item
-            xs={12}
-            direction={{ md: "row", sm: "column", xs: "column" }}
+        <Grid className={styles.profileContainer}>
+          <Box
             sx={{
               display: "flex",
+              flexDirection: { md: "row", sm: "column", xs: "column" },
               alignItems: { md: "center", sm: "start", xs: "start" },
               justifyContent: "space-between",
               backgroundColor: colors.lightGray,
               padding: "24px 16px",
+              width: "100%",
             }}
           >
             <div>
@@ -151,8 +150,8 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
               {isCurrentUser && !editing && (
                 <Button
                   label={"Edit Profile"}
-                  variant="outlined"
-                  style="primary"
+                  variant={"outlined"}
+                  style={"primary"}
                   sx={{
                     height: "48px",
                     width: { md: "160px", sm: "100%", xs: "100%" },
@@ -163,8 +162,8 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
               {!isCurrentUser && (
                 <Button
                   label={isFollowing ? "Unfollow" : "Follow"}
-                  variant="outlined"
-                  style="primary"
+                  variant={"outlined"}
+                  style={"primary"}
                   sx={{
                     height: "48px",
                     width: { md: "160px", sm: "100%", xs: "100%" },
@@ -177,7 +176,7 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
                 <Button
                   label={"Save"}
                   variant="contained"
-                  style="primary"
+                  style={"primary"}
                   sx={{
                     height: "48px",
                     width: { md: "160px", sm: "100%", xs: "100%" },
@@ -186,7 +185,7 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
                 />
               )}
             </Box>
-          </Grid>
+          </Box>
           <Grid item xs={12} sx={{ padding: "24px" }}>
             <div>
               <h6 className={styles.profileLabels}>About</h6>

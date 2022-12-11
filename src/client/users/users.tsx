@@ -7,15 +7,8 @@ import { getAllUsers } from "../../service/users/userService";
 import { UserContext } from "../contextProviders/user/UserContext";
 import UserPageTileList from "../components/userTileList/userPageTileList";
 const Users = () => {
-  const [user, setUser] = useState<User | undefined>();
   const [users, setUsers] = useState<User[] | undefined>();
   const currentUser = useContext(UserContext);
-
-  useEffect(() => {
-    if (currentUser) {
-      setUser(currentUser);
-    }
-  }, []);
 
   useEffect(() => {
     const fetchUsers = async () => {

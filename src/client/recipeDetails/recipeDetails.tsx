@@ -17,13 +17,12 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {
   getRecipeReviews,
   getRecipeById,
-  addRecipeToLiked,
 } from "../../service/spoonacular/recipesService";
 import { UserRecipeReview } from "../types/userRecipeReview";
 import Review from "../components/review/review";
 import { UserContext } from "../contextProviders/user/UserContext";
 import { Recipe } from "../types/recipes";
-import { mockRecipes } from "../../service/spoonacular/mockRecipes";
+// import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import Accordion from "@mui/material/Accordion";
 
 const RecipeDetails = ({ setUser }: { setUser: Function }) => {
@@ -63,9 +62,9 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   };
 
   useEffect(() => {
-    setRecipe(mockRecipes.results[0]);
+    // setRecipe(mockRecipes.results[0]);
     // uncomment later
-    // getRecipeDetails();
+    getRecipeDetails();
     getRecipeReviewsById();
     if (user && recipe && user.favorites.includes(recipe?.id)) {
       setLiked(true);
@@ -85,7 +84,7 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   const handleLikeClicked = () => {
     if (user && recipe) {
       if (liked) {
-        const newfavorites = user?.favorites.filter((id) => id != recipe?.id);
+        const newfavorites = user?.favorites.filter((id) => id !== recipe?.id);
         user.favorites = newfavorites;
         setUser(user);
       } else {
@@ -124,7 +123,11 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         message="You must have an account to save this recipe"
       />
       <Grid item xs={12} md={7} justifyContent="center" alignItems="center">
-        <img className={styles.recipeDetailImg} src={recipe?.image} />
+        <img
+          alt="recipe"
+          className={styles.recipeDetailImg}
+          src={recipe?.image}
+        />
         <Accordion key={recipe?.id} className={styles.instructionsContainer}>
           <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
             <Typography>Instructions</Typography>
