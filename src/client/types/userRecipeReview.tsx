@@ -1,7 +1,7 @@
 import { User } from "./user";
 
 export type UserRecipeReview = {
-  product: string;
+  recipe: string;
   owner: {
     _id: string;
     username: string;

@@ -3,12 +3,12 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  Snackbar,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./recipeDetails.module.scss";
 import Loading from "../components/loading/loading";
-import recipeDetailImg from "./switches.jpeg";
 import Button from "../components/button/button";
 import ReviewInput from "../components/reviewInput/reviewInput";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -49,17 +49,30 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
     });
   };
 
+  const getRecipeReviewsById = () => {
+    // const reviewsFromUser = getRecipeReviews(user?._id);
+    // console.log("reviewsFromUser :", reviewsFromUser);
+    const fetchReviews = async () => {
+      const recievedReviews = getRecipeReviews(id);
+      return recievedReviews;
+    };
+    fetchReviews().then((res) => {
+      console.log("res.reviews", res.reviews);
+      setReviews(res.reviews);
+    });
+  };
+
   useEffect(() => {
     setRecipe(mockRecipes.results[0]);
     // uncomment later
     // getRecipeDetails();
-    const reviews = getRecipeReviews(id);
-    setReviews(reviews);
+    getRecipeReviewsById();
     if (user && recipe && user.favorites.includes(recipe?.id)) {
       setLiked(true);
     }
     finishLoading();
-  }, [recipe]);
+    console.log(reviews);
+  }, []);
 
   const placeholders = {
     sm: <div className={`${styles.placeholderSm} ${styles.placeholder}`}></div>,
@@ -79,13 +92,37 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         user?.favorites.push(recipe?.id);
         setUser(user);
       }
+      setLiked(!liked);
+    } else {
+      handleOpenSnackbar();
     }
-    setLiked(!liked);
+  };
+
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const handleOpenSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
   };
 
   return (
     <Grid container spacing={2} className={styles.pdpContainer} mt={3}>
       {loading && <Loading></Loading>}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="You must have an account to save this recipe"
+      />
       <Grid item xs={12} md={7} justifyContent="center" alignItems="center">
         <img className={styles.recipeDetailImg} src={recipe?.image} />
         <Accordion key={recipe?.id} className={styles.instructionsContainer}>
@@ -146,17 +183,20 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         </div>
       </Grid>
       <Grid item xs={12} justifyContent="center" alignItems="center">
-        <ReviewInput></ReviewInput>
+        {user && id && <ReviewInput user={user} recipeId={id}></ReviewInput>}
         <div className={styles.recipeReviews}>
           <h5>Critic Reviews:</h5>
-          {reviews?.map((review, index) => (
-            <Review
-              key={`review-${index}`}
-              user={review.owner}
-              rating={review.rating}
-              review={review.review}
-            />
-          ))}
+          {reviews
+            ?.slice(0)
+            .reverse()
+            .map((review, index) => (
+              <Review
+                key={`review-${index}`}
+                user={review.owner}
+                rating={review.rating}
+                review={review.review}
+              />
+            ))}
         </div>
       </Grid>
     </Grid>

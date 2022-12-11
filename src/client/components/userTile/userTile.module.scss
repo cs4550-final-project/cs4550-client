@@ -1,45 +1,12 @@
-.recipeTileContainer {
-  width: 200px;
+.userTileContainer {
   box-shadow: 1px 1px 3px #b0b3b8;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition: all 0.2s ease-in-out;
+  width: 100%;
   &:hover {
     transform: scale(1.05);
-  }
-
-  .recipeTileImageContainer {
-    display: flex;
-    width: 224px;
-    height: 150px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    margin: 0;
-
-    .recipeTileImage {
-      flex-shrink: 0;
-      min-width: 100%;
-      min-height: 100%;
-    }
-  }
-  .recipeTileContentContainer {
-    width: 200px;
-    padding: 8px 12px;
-    display: flex;
-    overflow: hidden;
-    white-space: nowrap;
-    display: flex;
-    flex-direction: column;
-    .recipeTileTitle {
-      text-overflow: ellipsis;
-      width: 200px;
-      overflow: hidden;
-      white-space: nowrap;
-    }
   }
 }

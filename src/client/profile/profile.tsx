@@ -11,6 +11,7 @@ import FollowingPanel from "./panels/followingPanel/followingPanel";
 import { getUserById } from "../../service/users/userService";
 import { User } from "../types/user";
 import Loading from "../components/loading/loading";
+import ReviewsPanel from "./panels/reviewsPanel/reviewsPanel";
 
 const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
   const [loading, setLoading] = useState(true);
@@ -19,6 +20,7 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
   const currentUser = useContext(UserContext);
   const [user, setUser] = useState<User | undefined>();
   const tabs = ["Profile", "Favorites", "Following"];
+  const critictabs = ["Profile", "Favorites", "Following", "Reviews"];
 
   const finishLoading = () => {
     setTimeout(() => {
@@ -27,6 +29,7 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
   };
 
   useEffect(() => {
+    console.log("id: ", id);
     if (id) {
       getUserById(id).then((res) => {
         setUser(res.data.user);
@@ -50,12 +53,20 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
           />
         );
       case 1:
-        return <FavoritesPanel value={tabValue} user={currentUser} />;
+        return <FavoritesPanel value={tabValue} user={user} />;
       case 2:
         return (
           <FollowingPanel
             value={tabValue}
-            user={currentUser}
+            user={user}
+            setTabValue={setTabValue}
+          />
+        );
+      case 3:
+        return (
+          <ReviewsPanel
+            value={tabValue}
+            user={user}
             setTabValue={setTabValue}
           />
         );
@@ -76,7 +87,7 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
       <VerticalTabs
         value={tabValue}
         setValue={setTabValue}
-        tabs={tabs}
+        tabs={user?.role === "critic" ? critictabs : tabs}
       ></VerticalTabs>
       {getPanel(user)}
     </Box>

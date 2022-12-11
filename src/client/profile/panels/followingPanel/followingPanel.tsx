@@ -17,7 +17,6 @@ interface FollowingPanelProps extends TabPanelProps {
 const FollowingPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
   const [loading, setLoading] = useState(true);
   const [usersFollowed, setUsersFollowed] = useState<User[] | undefined>();
-  const navigateTo = useNavigate();
 
   const finishLoading = () => {
     setTimeout(() => {
@@ -26,6 +25,7 @@ const FollowingPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
   };
 
   useEffect(() => {
+    console.log(user);
     setUsersFollowed(user?.following);
     finishLoading();
   }, [user]);

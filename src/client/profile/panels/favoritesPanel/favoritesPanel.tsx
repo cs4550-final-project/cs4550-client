@@ -36,6 +36,7 @@ const FavoritesPanel = ({ value, user }: FavoritesPanelProps) => {
   };
 
   useEffect(() => {
+    console.log(user);
     if (user) {
       addRecipes(user.favorites);
       finishLoading();
@@ -50,7 +51,7 @@ const FavoritesPanel = ({ value, user }: FavoritesPanelProps) => {
       {favoritedRecipes && favoritedRecipes?.length > 0 ? (
         <ListOfTiles recipes={favoritedRecipes} />
       ) : (
-        <></>
+        <p>No favorited recipes</p>
       )}
     </TabPanel>
   );

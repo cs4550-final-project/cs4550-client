@@ -4,18 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { User } from "../../types/user";
 import styles from "./userTile.module.scss";
 
-const UserTile = ({
-  user,
-  setTabValue,
-}: {
-  user: User;
-  setTabValue: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+const UserPageTile = ({ user }: { user: User }) => {
   const navigateTo = useNavigate();
 
   const handleClickTile = () => {
     navigateTo(`/profile/${user._id}`);
-    setTabValue(0);
   };
 
   return (
@@ -29,4 +22,4 @@ const UserTile = ({
   );
 };
 
-export default UserTile;
+export default UserPageTile;

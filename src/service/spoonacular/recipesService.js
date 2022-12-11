@@ -38,12 +38,37 @@ export const getRandomRecipes = async () => {
   return randomRecipes.data;
 };
 
-export const getRecipeReviews = (id) => {
-  return mockProductReviews;
-  // return axios({
-  //     method: "GET",
-  //     url: apiUrl + "/recipes/" + id + "/reviews",
-  //   });
+export const getRecipeReviews = async (id) => {
+  // return mockProductReviews;
+  console.log("getRecipeReviews called with id: ", id);
+  const recipeReviews = await axios({
+    method: "GET",
+    url: apiUrl + "/recipes/" + id + "/reviews",
+  });
+  console.log("recipeReviews.data: ", recipeReviews.data);
+  return recipeReviews.data;
+};
+
+export const getRecipeReviewsFromCritic = async (id) => {
+  const recipeReviews = await axios({
+    method: "GET",
+    url: apiUrl + "/" + id + "/reviews",
+  });
+  console.log("recipeReviews.data: ", recipeReviews.data);
+  return recipeReviews.data;
+};
+
+export const addRecipeReview = async (payload, user) => {
+  console.log(user);
+  const reviewRecipe = await axios({
+    method: "POST",
+    url: `${apiUrl}/reviews`,
+    data: payload,
+    headers: {
+      Authorization: `Token token=${user.token}`,
+    },
+  });
+  return reviewRecipe;
 };
 
 export const getRecipeById = async (id) => {

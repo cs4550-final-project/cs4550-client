@@ -15,14 +15,28 @@ const UserTileList = ({
   setTabValue: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
-    <Grid columns={12} container spacing={2} className={styles.tilesContainer}>
+    <Grid
+      columns={12}
+      direction={"column"}
+      container
+      spacing={2}
+      className={styles.tilesContainer}
+      sx={{
+        maxWidth: {
+          md: "300px",
+          sm: "calc((100%) - 16px)",
+          xs: "calc((100%) - 16px)",
+        },
+      }}
+    >
       {users ? (
         Object.values(users)
           .filter((_user) => _user._id !== currentUser?._id)
           .map((user) => (
             <Grid
+              direction={"row"}
               key={`grid-${user._id}`}
-              className={styles.recipeItem}
+              className={styles.userItem}
               item
               xs={false}
             >

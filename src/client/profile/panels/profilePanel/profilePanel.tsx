@@ -4,7 +4,7 @@ import { UserContext } from "../../../contextProviders/user/UserContext";
 import { Box } from "@mui/system";
 import styles from "./profilePanel.module.scss";
 import { User } from "../../../types/user";
-import { FormControl, Grid, TextField } from "@mui/material";
+import { FormControl, Grid, TextField, Snackbar } from "@mui/material";
 import Button from "../../../components/button/button";
 import { colors } from "../../../styles/colors";
 import {
@@ -30,6 +30,7 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   const currentUser = useContext(UserContext);
   const isCurrentUser = user?._id === currentUser?._id;
   const [isFollowing, setIsFollowing] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   useEffect(() => {
     if (currentUser && user && !isCurrentUser) {
@@ -45,30 +46,47 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
     setEditing(true);
   };
 
+  const handleOpenSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
   const handleFollow = () => {
-    // if (id) {
-    //   getUserById(id).then((res) => {
-    //     const updatedFollowing = user?.following;
-    //     updatedFollowing?.push(res.data.user);
-    //     updateFollowing(updatedFollowing, user);
-    //     setIsFollowing(true);
-    //   });
-    // }
+    console.log(user);
+    if (id && currentUser) {
+      getUserById(id).then((res) => {
+        const updatedFollowing = user?.following;
+        updatedFollowing?.push(res.data.user);
+        updateFollowing(updatedFollowing, user);
+        setIsFollowing(true);
+      });
+    } else {
+      handleOpenSnackbar();
+    }
+  };
+
+  const handleCloseSnackbar = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
   };
 
   const handleUnfollow = () => {
-    // if (id) {
-    //   getUserById(id).then((res) => {
-    //     const updatedFollowing = user?.following;
-    //     updateFollowing(
-    //       updatedFollowing?.filter(
-    //         (followedUser) => followedUser._id !== res.data.user._id
-    //       ),
-    //       user
-    //     );
-    //     setIsFollowing(false);
-    //   });
-    // }
+    if (id) {
+      getUserById(id).then((res) => {
+        const updatedFollowing = user?.following;
+        updateFollowing(
+          updatedFollowing?.filter(
+            (followedUser) => followedUser._id !== res.data.user._id
+          ),
+          user
+        );
+        setIsFollowing(false);
+      });
+    }
   };
 
   const handleSaveClick = () => {
@@ -99,14 +117,21 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
 
   return (
     <TabPanel value={value}>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="You must have an account to follow users"
+      />
       <Box>
         <Grid container className={styles.profileContainer}>
           <Grid
             item
             xs={12}
+            direction={{ md: "row", sm: "column", xs: "column" }}
             sx={{
               display: "flex",
-              alignItems: "center",
+              alignItems: { md: "center", sm: "start", xs: "start" },
               justifyContent: "space-between",
               backgroundColor: colors.lightGray,
               padding: "24px 16px",
@@ -117,38 +142,50 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
               <h5> {user?.role}</h5>
               <p></p>
             </div>
-            {isCurrentUser && !editing ? (
-              <Button
-                label={"Edit Profile"}
-                variant="outlined"
-                style="primary"
-                sx={{
-                  height: "48px",
-                  width: "160px",
-                }}
-                onClick={handleEditClick}
-              />
-            ) : (
-              <Button
-                label={isFollowing ? "Unfollow" : "Follow"}
-                variant="outlined"
-                style="primary"
-                sx={{
-                  height: "48px",
-                  width: "160px",
-                }}
-                onClick={isFollowing ? handleUnfollow : handleFollow}
-              />
-            )}
-            {isCurrentUser && editing && (
-              <Button
-                label={"Save"}
-                variant="contained"
-                style="primary"
-                sx={{ height: "48px", width: "160px" }}
-                onClick={handleSaveClick}
-              />
-            )}
+            <Box
+              width={"100%"}
+              display={"flex"}
+              justifyContent={"end"}
+              marginTop={{ md: "0px", sm: "8px", xs: "8px" }}
+            >
+              {isCurrentUser && !editing && (
+                <Button
+                  label={"Edit Profile"}
+                  variant="outlined"
+                  style="primary"
+                  sx={{
+                    height: "48px",
+                    width: { md: "160px", sm: "100%", xs: "100%" },
+                  }}
+                  onClick={handleEditClick}
+                />
+              )}
+              {!isCurrentUser && (
+                <Button
+                  label={isFollowing ? "Unfollow" : "Follow"}
+                  variant="outlined"
+                  style="primary"
+                  sx={{
+                    height: "48px",
+                    width: { md: "160px", sm: "100%", xs: "100%" },
+                  }}
+                  onClick={isFollowing ? handleUnfollow : handleFollow}
+                />
+              )}
+
+              {isCurrentUser && editing && (
+                <Button
+                  label={"Save"}
+                  variant="contained"
+                  style="primary"
+                  sx={{
+                    height: "48px",
+                    width: { md: "160px", sm: "100%", xs: "100%" },
+                  }}
+                  onClick={handleSaveClick}
+                />
+              )}
+            </Box>
           </Grid>
           <Grid item xs={12} sx={{ padding: "24px" }}>
             <div>

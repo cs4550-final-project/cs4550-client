@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import Grid from "@mui/material/Grid";
 import styles from "./users.module.scss";
 import { Typography, Divider } from "@mui/material";
 import Box from "@mui/material/Box";
 import { User } from "../types/user";
 import { getAllUsers } from "../../service/users/userService";
 import { UserContext } from "../contextProviders/user/UserContext";
-import UserTileList from "../components/userTileList/userTileList";
-
+import UserPageTileList from "../components/userTileList/userPageTileList";
 const Users = () => {
   const [user, setUser] = useState<User | undefined>();
   const [users, setUsers] = useState<User[] | undefined>();
@@ -31,17 +29,19 @@ const Users = () => {
 
   return (
     <Box>
-      <Box pb={2} className={styles.homeHeader}>
+      <Box pb={2} className={styles.usersHeader}>
         <Typography variant="h6">
           {users && users.length !== 1
-            ? `${Object.keys(users).length - 1} Recipeasy Users`
+            ? `${
+                currentUser
+                  ? Object.keys(users).length - 1
+                  : Object.keys(users).length
+              } Recipeasy Users`
             : `1 Recipeasy User`}
         </Typography>
       </Box>
       <Divider />
-      <Grid py={1} container spacing={2} className={styles.homeContainer}>
-        {/* {user && users && <UserTileList currentUser={user} users={users} />} */}
-      </Grid>
+      {users && <UserPageTileList users={users} />}
     </Box>
   );
 };
