@@ -1,7 +1,7 @@
 export const mockRecipes = {
   results: [
     {
-      vegetarian: false,
+      vegetarian: true,
       vegan: false,
       glutenFree: false,
       dairyFree: false,
@@ -190,7 +190,7 @@ export const mockRecipes = {
     {
       vegetarian: false,
       vegan: false,
-      glutenFree: false,
+      glutenFree: true,
       dairyFree: false,
       veryHealthy: false,
       cheap: false,
@@ -508,7 +508,7 @@ export const mockRecipes = {
     },
     {
       vegetarian: false,
-      vegan: false,
+      vegan: true,
       glutenFree: false,
       dairyFree: true,
       veryHealthy: false,
@@ -834,7 +834,7 @@ export const mockRecipes = {
       vegetarian: false,
       vegan: false,
       glutenFree: false,
-      dairyFree: false,
+      dairyFree: true,
       veryHealthy: false,
       cheap: false,
       veryPopular: false,
@@ -1253,7 +1253,7 @@ export const mockRecipes = {
     },
     {
       vegetarian: false,
-      vegan: false,
+      vegan: true,
       glutenFree: false,
       dairyFree: false,
       veryHealthy: false,
@@ -2840,7 +2840,7 @@ export const mockRecipes = {
     },
     {
       vegetarian: false,
-      vegan: false,
+      vegan: true,
       glutenFree: false,
       dairyFree: true,
       veryHealthy: false,
@@ -3096,7 +3096,7 @@ export const mockRecipes = {
     {
       vegetarian: true,
       vegan: false,
-      glutenFree: false,
+      glutenFree: true,
       dairyFree: false,
       veryHealthy: false,
       cheap: false,
@@ -3672,7 +3672,7 @@ export const mockRecipes = {
     {
       vegetarian: false,
       vegan: false,
-      glutenFree: false,
+      glutenFree: true,
       dairyFree: false,
       veryHealthy: false,
       cheap: false,

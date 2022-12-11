@@ -26,13 +26,46 @@ import {
 } from "../../service/spoonacular/recipesService";
 import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import { Recipe } from "../types/recipes";
-import filters from "./filters";
 import ListOfTiles from "../components/listOfTiles/listOfTiles";
+import { optionUnstyledClasses } from "@mui/base";
+import filters from "./filters";
+import { filterOption } from "./filters";
 
 const Home = () => {
   const [searchInput, setSearchInput] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [filterOptions, setFilterOptions] = useState(filters);
+  const [filteredRecipes, setFilteredRecipes] = useState<
+    Recipe[] | undefined
+  >();
   const [recipes, setRecipes] = useState<Recipe[] | undefined>();
+
+  const filterRecipes = () => {
+    const filtered = recipes?.filter((recipe) => {
+      let ret = true;
+      const options = filterOptions.options;
+      Object.keys(options).every((key) => {
+        if (
+          options[key as keyof typeof options].value &&
+          !recipe[key as keyof typeof recipe]
+        ) {
+          ret = false;
+          return false;
+        }
+        return true;
+      });
+      return ret;
+    });
+    setFilteredRecipes(filtered);
+  };
+
+  const handleFilterClick = (e: any) => {
+    const name = e.target.name;
+    let newFilter = filterOptions;
+    newFilter.options[name].value = !newFilter.options[name].value;
+    setFilterOptions(newFilter);
+    filterRecipes();
+  };
 
   const closeMobileFilterOnResize = () => {
     if (window.innerWidth >= 900) {
@@ -47,12 +80,15 @@ const Home = () => {
     };
     fetchRecipes().then((res) => {
       setRecipes(res.results);
+      filterRecipes();
     });
   };
 
   // Run on initial load
   useEffect(() => {
     setRecipes(mockRecipes.results);
+    setFilteredRecipes(mockRecipes.results);
+    console.log(mockRecipes.results);
     // const fetchRecipes = async () => {
     //   const randomRecipes = getRandomRecipes();
     //   return randomRecipes;
@@ -79,10 +115,6 @@ const Home = () => {
     };
   }, [handleWindowResize]);
 
-  const applyFilters = () => {
-    console.log("Apply filters");
-  };
-
   return (
     <Box>
       <>
@@ -97,35 +129,37 @@ const Home = () => {
               onClick={() => setFilterOpen(false)}
               label="Close"
             />
-            <Button
-              variant="outlined"
-              onClick={() => applyFilters()}
-              label="Apply Filters"
-            />
-            {Object.values(filters).map((filter) => (
-              <Accordion key={filter.id} className={styles.filterContainer}>
-                <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-                  <Typography>{filter.name}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {filter.options.map((option) => (
-                    <div
-                      key={filter.id + option}
-                      className={styles.filterCheckbox}
-                    >
-                      <Checkbox defaultChecked={false} />
-                      <div>{option}</div>
-                    </div>
-                  ))}
-                </AccordionDetails>
-              </Accordion>
-            ))}
+            <Accordion className={styles.filterContainer}>
+              <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+                <Typography>Dietary Restrictions</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {Object.keys(filterOptions.options).map((name) => (
+                  <div
+                    className={styles.filterCheckbox}
+                    key={filterOptions.options[name].label + "-modal"}
+                  >
+                    <Checkbox
+                      key={Math.random()}
+                      name={name}
+                      defaultChecked={filterOptions.options[name].value}
+                      onClick={handleFilterClick}
+                    />
+                    <div>{filterOptions.options[name].label}</div>
+                  </div>
+                ))}
+              </AccordionDetails>
+            </Accordion>
           </Box>
         </Modal>
       </>
       <Box pb={2} className={styles.homeHeader}>
         <Typography variant="h6">
-          {recipes ? `${Object.keys(recipes).length} listings` : <></>}
+          {filteredRecipes ? (
+            `${Object.keys(filteredRecipes).length} listings`
+          ) : (
+            <></>
+          )}
         </Typography>
         <Box sx={{ display: { md: "none", sm: "block", xs: "block" } }}>
           <Button
@@ -145,34 +179,31 @@ const Home = () => {
             }}
           >
             <Typography variant="h6">Filters</Typography>
-            {Object.values(filters).map((filter) => (
-              <Accordion
-                defaultExpanded={true}
-                key={filter.id}
-                className={styles.filterContainer}
-              >
-                <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
-                  <Typography>{filter.name}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {filter.options.map((option) => (
-                    <div
-                      key={filter.id + option}
-                      className={styles.filterCheckbox}
-                    >
-                      <Checkbox defaultChecked={false} />
-                      <div>{option}</div>
-                    </div>
-                  ))}
-                </AccordionDetails>
-              </Accordion>
-            ))}
+            <Accordion
+              defaultExpanded={true}
+              className={styles.filterContainer}
+            >
+              <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+                <Typography>Dietary Restrictions</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {Object.keys(filterOptions.options).map((name) => (
+                  <div
+                    key={filterOptions.options[name].label}
+                    className={styles.filterCheckbox}
+                  >
+                    <Checkbox
+                      key={Math.random()}
+                      name={name}
+                      defaultChecked={filterOptions.options[name].value}
+                      onClick={handleFilterClick}
+                    />
+                    <div>{filterOptions.options[name].label}</div>
+                  </div>
+                ))}
+              </AccordionDetails>
+            </Accordion>
           </Box>
-          <Button
-            variant="outlined"
-            onClick={() => applyFilters()}
-            label="Apply Filters"
-          />
         </Grid>
         <Grid item md={9} sm={12} xs={12} className={styles.browseContainer}>
           <Box
@@ -199,7 +230,13 @@ const Home = () => {
               />
             </div>
           </Box>
-          {recipes ? <ListOfTiles recipes={recipes} /> : <></>}
+          {filteredRecipes?.length ? (
+            <ListOfTiles recipes={filteredRecipes} />
+          ) : (
+            <p className={styles.noResults}>
+              No recipes matched your search and filter results.
+            </p>
+          )}
         </Grid>
       </Grid>
     </Box>

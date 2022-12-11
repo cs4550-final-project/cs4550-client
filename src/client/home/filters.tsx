@@ -1,25 +1,21 @@
-type filterOption = {
-    id: number,
-    name: string,
-    options: string[],
-}
+export type filterOption = {
+  name: string;
+  options: {
+    [key: string]: {
+      label: string;
+      value: boolean;
+    };
+  };
+};
 
-const filterOptions : filterOption[] = [
-  {
-    id: 1,
-    name: "filter 1",
-    options: ["option 1", "option 2", "option 3"],
+const filters: filterOption = {
+  name: "Dietary Restrictions",
+  options: {
+    vegetarian: { label: "Vegetarian", value: false },
+    vegan: { label: "Vegan", value: false },
+    glutenFree: { label: "Gluten Free", value: false },
+    dairyFree: { label: "Dairy Free", value: false },
   },
-  {
-    id: 2,
-    name: "filter 2",
-    options: ["option 1", "option 2", "option 3"],
-  },
-  {
-    id: 3,
-    name: "filter 3",
-    options: ["option 1", "option 2", "option 3"],
-  },
-];
+};
 
-export default filterOptions;
+export default filters;
