@@ -40,7 +40,7 @@ const SignIn = ({ setUser }: { setUser: Function }) => {
     <Grid container justifyContent="center" className={styles.authContainer}>
       <Grid item xs={12} md={4}>
         <h3>Sign In</h3>
-        <p className={styles.description}> Welcome back to Sandwiches!</p>
+        <p className={styles.description}> Welcome back to Recipeasy!</p>
         <FormControl className={styles.formControl}>
           <TextField
             id="username"

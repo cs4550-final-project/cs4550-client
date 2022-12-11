@@ -34,8 +34,11 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   useEffect(() => {
     console.log(user);
     if (currentUser && user && !isCurrentUser) {
-      const following = currentUser.following?.includes(user._id);
-      setIsFollowing(following);
+      currentUser.following?.forEach((followedUser) => {
+        if (followedUser._id === id) {
+          setIsFollowing(true);
+        }
+      });
     }
   }, [user]);
   const handleEditClick = () => {
@@ -43,29 +46,36 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   };
 
   const handleFollow = () => {
-    // if (id) {
-    //   getUserById(id).then((res) => {
-    //     const updatedFollowing = user?.following;
-    //     updatedFollowing?.push(res.data.user);
-    //     updateFollowing(updatedFollowing, user);
-    //     setIsFollowing(true);
-    //   });
-    // }
+    if (id) {
+      getUserById(id).then((res) => {
+        const updatedFollowing = user?.following;
+        updatedFollowing?.push(res.data.user);
+        updateFollowing(updatedFollowing, user);
+        setIsFollowing(true);
+        console.log("user after updateFollow", user);
+      });
+    }
   };
 
   const handleUnfollow = () => {
-    // if (id) {
-    //   getUserById(id).then((res) => {
-    //     const updatedFollowing = user?.following;
-    //     updateFollowing(
-    //       updatedFollowing?.filter(
-    //         (followedUser) => followedUser._id !== res.data.user._id
-    //       ),
-    //       user
-    //     );
-    //     setIsFollowing(false);
-    //   });
-    // }
+    if (id) {
+      getUserById(id).then((res) => {
+        const updatedFollowing = user?.following;
+        const updatedUnfollow = updatedFollowing?.filter(
+          (followedUser) => followedUser._id !== res.data.user._id
+        );
+
+        if (updatedFollowing) {
+          console.log("updatedFollowing", updatedFollowing[0]._id);
+        }
+        console.log("res.data.user._id", res.data.user._id);
+        console.log("updatedUnfollow", updatedUnfollow);
+
+        updateFollowing(updatedUnfollow, user);
+        setIsFollowing(false);
+        console.log("user after updateUnfollow", user);
+      });
+    }
   };
 
   const handleSaveClick = () => {

@@ -14,7 +14,7 @@ interface FollowingPanelProps extends TabPanelProps {
 
 const FollowingPanel = ({ value, user }: FollowingPanelProps) => {
   const [loading, setLoading] = useState(true);
-  const [usersFollowed, setUsersFollowed] = useState<string[] | undefined>();
+  const [usersFollowed, setUsersFollowed] = useState<User[] | undefined>();
   const navigateTo = useNavigate();
 
   const finishLoading = () => {

@@ -73,7 +73,7 @@ const SignUp = ({ setUser }: { setUser: Function }) => {
       <Grid item xs={12} md={4}>
         <h3>Sign Up</h3>
         <p className={styles.description}>
-          Welcome to Sandwiches! Enter a username and password to get started.
+          Welcome to Recipeasy! Enter a username and password to get started.
         </p>
         <FormControl className={styles.formControl}>
           <p>I am a:</p>
