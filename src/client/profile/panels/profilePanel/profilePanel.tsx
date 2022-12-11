@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TabPanel, { TabPanelProps } from "../../../components/tabPanel/tabPanel";
 import { UserContext } from "../../../contextProviders/user/UserContext";
 import { Box } from "@mui/system";
@@ -23,53 +23,49 @@ interface ProfilePanelProps extends TabPanelProps {
 const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   let { id } = useParams();
 
-  const getFollowingStatus = () => {
-    console.log(id);
-
-    currentUser?.following?.forEach((user) => {
-      if (user._id === id) {
-        return true;
-      }
-    });
-    return false;
-  };
-
   const [editing, setEditing] = useState(false);
   const [bio, setBio] = useState(user?.bio || "");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const currentUser = useContext(UserContext);
   const isCurrentUser = user?._id === currentUser?._id;
-  const [isFollowing, setIsFollowing] = useState(getFollowingStatus());
+  const [isFollowing, setIsFollowing] = useState(false);
 
+  useEffect(() => {
+    console.log(user);
+    if (currentUser && user && !isCurrentUser) {
+      const following = currentUser.following?.includes(user._id);
+      setIsFollowing(following);
+    }
+  }, [user]);
   const handleEditClick = () => {
     setEditing(true);
   };
 
   const handleFollow = () => {
-    if (id) {
-      getUserById(id).then((res) => {
-        const updatedFollowing = user?.following;
-        updatedFollowing?.push(res.data.user);
-        updateFollowing(updatedFollowing, user);
-        setIsFollowing(true);
-      });
-    }
+    // if (id) {
+    //   getUserById(id).then((res) => {
+    //     const updatedFollowing = user?.following;
+    //     updatedFollowing?.push(res.data.user);
+    //     updateFollowing(updatedFollowing, user);
+    //     setIsFollowing(true);
+    //   });
+    // }
   };
 
   const handleUnfollow = () => {
-    if (id) {
-      getUserById(id).then((res) => {
-        const updatedFollowing = user?.following;
-        updateFollowing(
-          updatedFollowing?.filter(
-            (followedUser) => followedUser._id !== res.data.user._id
-          ),
-          user
-        );
-        setIsFollowing(false);
-      });
-    }
+    // if (id) {
+    //   getUserById(id).then((res) => {
+    //     const updatedFollowing = user?.following;
+    //     updateFollowing(
+    //       updatedFollowing?.filter(
+    //         (followedUser) => followedUser._id !== res.data.user._id
+    //       ),
+    //       user
+    //     );
+    //     setIsFollowing(false);
+    //   });
+    // }
   };
 
   const handleSaveClick = () => {
@@ -167,22 +163,15 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
                   sx={{ marginTop: "16px", width: "100%" }}
                 />
               ) : (
-                <p>{bio}</p>
+                <p className={styles.infoText}>
+                  {bio || "This user does not have a bio yet."}
+                </p>
               )}
             </div>
+            <h6 className={styles.profileLabels}>Username:</h6>
+            <p className={styles.infoText}>{user?.username}</p>
             {isCurrentUser ? (
               <FormControl className={styles.formControl}>
-                {/* <TextField
-                  id="username"
-                  name="username"
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  value={user?.username}
-                  sx={{ marginTop: "16px" }}
-                /> */}
-                <h6 className={styles.profileLabels}>Username:</h6>
-                <p className={styles.usernameText}>{user?.username}</p>
                 {isCurrentUser && (
                   <>
                     {editing && (

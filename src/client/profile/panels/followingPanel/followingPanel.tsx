@@ -14,7 +14,7 @@ interface FollowingPanelProps extends TabPanelProps {
 
 const FollowingPanel = ({ value, user }: FollowingPanelProps) => {
   const [loading, setLoading] = useState(true);
-  const [usersFollowed, setUsersFollowed] = useState<User[] | undefined>();
+  const [usersFollowed, setUsersFollowed] = useState<string[] | undefined>();
   const navigateTo = useNavigate();
 
   const finishLoading = () => {
@@ -42,9 +42,10 @@ const FollowingPanel = ({ value, user }: FollowingPanelProps) => {
         // <ListOfTiles recipes={usersFollowed} />
         <div>
           {usersFollowed.map((following) => (
-            <li onClick={() => navigateTo(`/profile/${following._id}`)}>
-              {following.username}
-            </li>
+            <p>hi</p>
+            // <li onClick={() => navigateTo(`/profile/${following._id}`)}>
+            //   {following.username}
+            // </li>
           ))}
         </div>
       ) : (

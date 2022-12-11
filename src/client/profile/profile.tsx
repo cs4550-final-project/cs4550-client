@@ -37,7 +37,7 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
       setUser(currentUser);
       finishLoading();
     }
-  }, []);
+  }, [id]);
 
   const getPanel = (u: User) => {
     switch (tabValue) {
