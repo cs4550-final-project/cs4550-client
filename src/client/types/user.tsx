@@ -6,5 +6,6 @@ export type User = {
   bio?: string;
   createdAt: string;
   updatedAt: string;
+  following: User[];
   __v: number;
 };

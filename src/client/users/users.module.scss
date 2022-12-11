@@ -1,0 +1,44 @@
+.homeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.homeContainerDivider {
+  margin: 0px, 16px;
+}
+.homeContainer {
+  .searchButton {
+    margin-left: 4px;
+  }
+}
+.browseContainer {
+  .searchBarContainer {
+    display: flex;
+
+    .searchInput {
+      display: flex;
+      flex: 1;
+    }
+    .searchButton {
+      margin-left: 8px;
+    }
+  }
+  .listingsContainer {
+    margin-top: 12px;
+    margin-left: -12px;
+    width: calc(100% + 12px);
+
+    .listingItem {
+      cursor: pointer;
+    }
+  }
+}
+.filterModal {
+  background-color: white;
+}
+.filterCheckbox {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex: 1;
+}

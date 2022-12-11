@@ -62,7 +62,10 @@ const Nav = ({ signOut }: { signOut: Function }) => {
     navigateTo(link);
   };
 
-  const pages = [{ title: "Recipes", link: "/" }];
+  const pages = [
+    { title: "Recipes", link: "/" },
+    { title: "Users", link: "/users" },
+  ];
   const settings = [
     {
       title: "Profile",
