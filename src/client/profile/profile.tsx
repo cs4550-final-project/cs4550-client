@@ -28,7 +28,6 @@ const Profile = ({ handleUserChange }: { handleUserChange: Function }) => {
   };
 
   useEffect(() => {
-    console.log("id: ", id);
     if (id) {
       getUserById(id).then((res) => {
         setUser(res.data.user);

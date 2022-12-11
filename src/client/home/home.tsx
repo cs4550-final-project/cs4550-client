@@ -88,7 +88,6 @@ const Home = () => {
   useEffect(() => {
     setRecipes(mockRecipes.results);
     setFilteredRecipes(mockRecipes.results);
-    console.log(mockRecipes.results);
     // const fetchRecipes = async () => {
     //   const randomRecipes = getRandomRecipes();
     //   return randomRecipes;

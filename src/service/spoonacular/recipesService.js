@@ -37,12 +37,10 @@ export const getRandomRecipes = async () => {
 };
 
 export const getRecipeReviews = async (id) => {
-  console.log("getRecipeReviews called with id: ", id);
   const recipeReviews = await axios({
     method: "GET",
     url: apiUrl + "/recipes/" + id + "/reviews",
   });
-  console.log("recipeReviews.data: ", recipeReviews.data);
   return recipeReviews.data;
 };
 
@@ -51,12 +49,10 @@ export const getRecipeReviewsFromCritic = async (id) => {
     method: "GET",
     url: apiUrl + "/" + id + "/reviews",
   });
-  console.log("recipeReviews.data: ", recipeReviews.data);
   return recipeReviews.data;
 };
 
 export const addRecipeReview = async (payload, user) => {
-  console.log(user);
   const reviewRecipe = await axios({
     method: "POST",
     url: `${apiUrl}/reviews`,

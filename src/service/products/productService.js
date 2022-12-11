@@ -15,6 +15,5 @@ export const getAllProducts = async () => {
     method: "GET",
     url: API_CONFIG + "/products",
   });
-  console.log("allProducts:", allProducts);
   return allProducts.data;
 };

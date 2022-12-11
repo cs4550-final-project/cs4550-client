@@ -65,9 +65,6 @@ const SignUp = ({ setUser }: { setUser: Function }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(username, password, company);
-  }, []);
   return (
     <Grid container justifyContent="center" className={styles.authContainer}>
       <Grid item xs={12} md={4}>

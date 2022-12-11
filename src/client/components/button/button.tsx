@@ -53,7 +53,7 @@ const Button = ({
   return (
     <MuiButton
       onClick={(e) => {
-        onClick ? onClick(e) : console.log("clicked");
+        onClick && onClick(e);
       }}
       variant={variant}
       disabled={disabled}

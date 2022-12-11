@@ -50,13 +50,11 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
 
   const getRecipeReviewsById = () => {
     // const reviewsFromUser = getRecipeReviews(user?._id);
-    // console.log("reviewsFromUser :", reviewsFromUser);
     const fetchReviews = async () => {
       const recievedReviews = getRecipeReviews(id);
       return recievedReviews;
     };
     fetchReviews().then((res) => {
-      console.log("res.reviews", res.reviews);
       setReviews(res.reviews);
     });
   };
@@ -70,7 +68,6 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
       setLiked(true);
     }
     finishLoading();
-    console.log(reviews);
   }, []);
 
   const placeholders = {

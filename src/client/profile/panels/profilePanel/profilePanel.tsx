@@ -51,7 +51,6 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   };
 
   const handleFollow = () => {
-    console.log(user);
     if (id && currentUser) {
       getUserById(id).then((res) => {
         const updatedFollowing = user?.following;

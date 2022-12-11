@@ -20,7 +20,6 @@ const ReviewInput = ({ user, recipeId }: { user: User; recipeId: string }) => {
       rating: value,
       review: reviewText,
     };
-    console.log(payload);
     addRecipeReview(payload, user);
   };
 
@@ -41,7 +40,6 @@ const ReviewInput = ({ user, recipeId }: { user: User; recipeId: string }) => {
             value={value}
             sx={{ marginBottom: "16px" }}
             onChange={(e, newValue) => {
-              console.log(newValue);
               setValue(newValue);
             }}
           />

@@ -58,7 +58,6 @@ const ProfileReview = ({ rating, review, user, recipeId }: ReviewProps) => {
         readOnly
         sx={{ margin: "4px 0" }}
         onChange={(e, newValue) => {
-          console.log(newValue);
           setValue(newValue);
         }}
       />
