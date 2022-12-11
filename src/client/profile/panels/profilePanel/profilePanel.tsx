@@ -34,8 +34,11 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   useEffect(() => {
     console.log(user);
     if (currentUser && user && !isCurrentUser) {
-      const following = currentUser.following?.includes(user._id);
-      setIsFollowing(following);
+      currentUser.following?.forEach((followedUser) => {
+        if (followedUser._id === id) {
+          setIsFollowing(true);
+        }
+      });
     }
   }, [user]);
   const handleEditClick = () => {

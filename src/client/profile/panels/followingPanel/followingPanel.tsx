@@ -7,6 +7,7 @@ import ListOfTiles from "../../../components/listOfTiles/listOfTiles";
 import { getRecipeById } from "../../../../service/spoonacular/recipesService";
 import Loading from "../../../components/loading/loading";
 import { getFollowing } from "../../../../service/users/userService";
+import UserTileList from "../../../components/userTileList/userTileList";
 
 interface FollowingPanelProps extends TabPanelProps {
   user: User | undefined;
@@ -14,7 +15,7 @@ interface FollowingPanelProps extends TabPanelProps {
 
 const FollowingPanel = ({ value, user }: FollowingPanelProps) => {
   const [loading, setLoading] = useState(true);
-  const [usersFollowed, setUsersFollowed] = useState<string[] | undefined>();
+  const [usersFollowed, setUsersFollowed] = useState<User[] | undefined>();
   const navigateTo = useNavigate();
 
   const finishLoading = () => {
@@ -41,12 +42,9 @@ const FollowingPanel = ({ value, user }: FollowingPanelProps) => {
       {usersFollowed && usersFollowed?.length > 0 ? (
         // <ListOfTiles recipes={usersFollowed} />
         <div>
-          {usersFollowed.map((following) => (
-            <p>hi</p>
-            // <li onClick={() => navigateTo(`/profile/${following._id}`)}>
-            //   {following.username}
-            // </li>
-          ))}
+          {user && usersFollowed && (
+            <UserTileList currentUser={user} users={usersFollowed} />
+          )}
         </div>
       ) : (
         <p>No users followed</p>
