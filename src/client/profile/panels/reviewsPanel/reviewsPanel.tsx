@@ -22,7 +22,6 @@ const ReviewsPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
   };
 
   const getRecipeReviews = () => {
-    // const reviewsFromUser = getRecipeReviews(user?._id);
     const fetchReviews = async () => {
       const recievedReviews = getRecipeReviewsFromCritic(user?._id);
       return recievedReviews;
@@ -33,12 +32,9 @@ const ReviewsPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
   };
 
   useEffect(() => {
+    getRecipeReviews();
     finishLoading();
   }, [user]);
-
-  useEffect(() => {
-    getRecipeReviews();
-  }, [reviews]);
 
   return loading ? (
     <Loading />

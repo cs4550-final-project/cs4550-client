@@ -35,7 +35,6 @@ const Review = ({ rating, review, user, id }: ReviewProps) => {
     getUserById(user).then((res) => {
       setReviewUser(res.data.user);
     });
-    console.log("reviewUser: ", reviewUser);
   }, [user]);
 
   return (

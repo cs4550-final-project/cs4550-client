@@ -33,8 +33,6 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   useEffect(() => {
-    console.log("useEffect called");
-    console.log(currentUser);
     if (currentUser && user && !isCurrentUser) {
       currentUser.following?.forEach((followedUser) => {
         if (followedUser._id === id) {
@@ -66,16 +64,10 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   const handleFollow = () => {
     if (id && currentUser) {
       getUserById(id).then((res) => {
-        console.log("FOLLOW");
-        console.log("user (me): ", currentUser);
-        console.log("user to follow: ", res.data.user);
         const following = currentUser?.following;
-        console.log("current following list before follow: ", following);
         following?.push(res.data.user);
-        console.log("current following list after follow: ", following);
         updateFollowing({ following }, currentUser);
         setUser({ ...currentUser, following });
-        console.log("setUser called with: ", following);
         setIsFollowing(true);
       });
     } else {
@@ -86,21 +78,12 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   const handleUnfollow = () => {
     if (id && currentUser) {
       getUserById(id).then((res) => {
-        console.log("UNFOLLOW");
-        console.log("user (me): ", currentUser);
-        console.log("user to follow: ", res.data.user);
         const updatedFollowing = currentUser?.following;
-        console.log(
-          "current following list before unfollow: ",
-          updatedFollowing
-        );
         const following = updatedFollowing?.filter(
           (followedUser) => followedUser._id !== res.data.user._id
         );
-        console.log("current following list after unfollow: ", following);
         updateFollowing({ following }, currentUser);
         setUser({ ...currentUser, following });
-        console.log("setUser called with: ", following);
         setIsFollowing(false);
       });
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TabPanel, { TabPanelProps } from "../../../components/tabPanel/tabPanel";
 import { User } from "../../../types/user";
 import { Recipe } from "../../../types/recipes";
@@ -22,23 +22,23 @@ const FavoritesPanel = ({ value, user }: FavoritesPanelProps) => {
     }, 500);
   };
 
-  const addRecipes = async (ids: number[]) => {
+  const addRecipes = async () => {
     const populated: Recipe[] = [];
-    const promises = await ids.map(async (id) => {
-      await getRecipeById(id).then((res: Recipe) => {
-        populated.push(res);
+    if (user) {
+      const promises = await user.favorites.map(async (id) => {
+        await getRecipeById(id).then((res: Recipe) => {
+          populated.push(res);
+        });
       });
-    });
-    Promise.all(promises).then(() => {
-      setFavoritedRecipes(populated);
-    });
+      Promise.all(promises).then(() => {
+        setFavoritedRecipes(populated);
+      });
+    }
   };
 
   useEffect(() => {
-    if (user) {
-      addRecipes(user.favorites);
-      finishLoading();
-    }
+    addRecipes();
+    finishLoading();
   }, [user]);
 
   return loading ? (

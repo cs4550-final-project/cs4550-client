@@ -1,7 +1,8 @@
 import axios from "axios";
 import apiUrl from "../apiConfig";
 
-const API_KEY = "28f92c9674274356b51f77cb7c8ce68e";
+// const API_KEY = "28f92c9674274356b51f77cb7c8ce68e";
+const API_KEY = "47ab2d15d91246ab96b956ebc319f492";
 
 export const getRecipesBySearchTerm = async (term) => {
   const recipesMatchingSearchTerm = await axios({

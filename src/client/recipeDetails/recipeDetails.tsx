@@ -41,15 +41,18 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   };
 
   const getRecipeDetails = () => {
-    const newRecipe = mockRecipes.results[0];
-    setRecipe(newRecipe);
-    // const fetchRecipes = async () => {
-    //   const recipe = getRecipeById(id);
-    //   return recipe;
-    // };
-    // fetchRecipes().then((res) => {
-    //   setRecipe(res);
-    // });
+    // const newRecipe = mockRecipes.results[0];
+    // setRecipe(newRecipe);
+    const fetchRecipes = async () => {
+      const recipe = getRecipeById(id);
+      return recipe;
+    };
+    fetchRecipes().then((res) => {
+      setRecipe(res);
+      if (user && user.favorites.includes(res?.id)) {
+        setLiked(true);
+      }
+    });
   };
 
   const getRecipeReviewsById = () => {
@@ -69,18 +72,12 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
     // uncomment later
     getRecipeDetails();
     getRecipeReviewsById();
-    // const currentRecipe = getRecipeDetails();
-    console.log(user?.favorites);
-    console.log(recipe);
-    if (user && recipe && user.favorites.includes(recipe?.id)) {
-      setLiked(true);
-    }
     finishLoading();
   }, []);
 
   useEffect(() => {
     getRecipeReviewsById();
-  }, [reviews]);
+  }, []);
 
   const placeholders = {
     sm: <div className={`${styles.placeholderSm} ${styles.placeholder}`}></div>,
@@ -93,15 +90,15 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   const handleLikeClicked = () => {
     if (user && recipe) {
       if (liked) {
-        const newfavorites = user?.favorites.filter((id) => id !== recipe?.id);
-        user.favorites = newfavorites;
+        const favorites = user?.favorites.filter((id) => id !== recipe?.id);
+        user.favorites = favorites;
         setUser(user);
-        updateFavorites(newfavorites, user);
+        updateFavorites({ favorites }, user);
       } else {
-        const newfavorites = user?.favorites;
-        newfavorites.push(recipe?.id);
+        const favorites = user?.favorites;
+        favorites.push(recipe?.id);
         setUser(user);
-        updateFavorites(newfavorites, user);
+        updateFavorites({ favorites }, user);
       }
       setLiked(!liked);
     } else {

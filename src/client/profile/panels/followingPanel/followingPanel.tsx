@@ -20,7 +20,6 @@ const FollowingPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
   };
 
   useEffect(() => {
-    console.log(user?.following);
     setUsersFollowed(user?.following);
     finishLoading();
   }, [user]);
@@ -31,7 +30,6 @@ const FollowingPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
     <TabPanel value={value}>
       <h6>Following:</h6>
       {usersFollowed && usersFollowed?.length > 0 ? (
-        // <ListOfTiles recipes={usersFollowed} />
         <div>
           {user && usersFollowed && (
             <UserTileList
