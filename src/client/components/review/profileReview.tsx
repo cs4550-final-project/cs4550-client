@@ -14,14 +14,10 @@ type ReviewProps = {
   id: string;
   rating: number;
   review: string;
-  user: {
-    _id: string;
-    username: string;
-  };
   recipeId: string;
 };
 
-const ProfileReview = ({ rating, review, user, recipeId, id }: ReviewProps) => {
+const ProfileReview = ({ rating, review, recipeId, id }: ReviewProps) => {
   const navigateTo = useNavigate();
   const [recipe, setRecipe] = useState<Recipe | undefined>();
   const currentUser = useContext(UserContext);

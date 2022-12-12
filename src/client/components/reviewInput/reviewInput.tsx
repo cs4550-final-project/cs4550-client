@@ -1,26 +1,73 @@
 import React, { useState } from "react";
 import { Box } from "@mui/system";
-import { TextField, Rating } from "@mui/material";
+import { TextField, Rating, Snackbar } from "@mui/material";
 import Button from "../button/button";
 import { addRecipeReview } from "../../../service/spoonacular/recipesService";
 import { User } from "../../types/user";
+import { UserRecipeReview } from "../../types/userRecipeReview";
 
-const ReviewInput = ({ user, recipeId }: { user: User; recipeId: string }) => {
+const ReviewInput = ({
+  user,
+  recipeId,
+  reviews,
+  refreshReviews,
+}: {
+  user: User;
+  recipeId: string;
+  reviews: UserRecipeReview[];
+  refreshReviews: Function;
+}) => {
   const [value, setValue] = React.useState<number | null>(2);
   const [reviewText, setReviewText] = useState("");
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   const handleReviewTextChange = (e: any) => {
     setReviewText(e.target.value);
   };
 
+  const handleSetReview = (reviews: UserRecipeReview[]) => {
+    refreshReviews();
+  };
+
   const handleSubmit = () => {
+    const checkForDoops = reviews.filter((review) => {
+      console.log("review", review);
+      console.log("review.owner._id", review.owner);
+      console.log("user._id", user._id);
+
+      return review.owner === user._id;
+    });
+
+    console.log("here", checkForDoops);
+    if (checkForDoops.length) {
+      setOpenSnackbar(true);
+      return;
+    }
+
     const payload = {
       recipe: recipeId,
       owner: user._id,
       rating: value,
       review: reviewText,
     };
-    addRecipeReview(payload, user);
+    addRecipeReview(payload, user).then((res) => {
+      const newRecipeReviews: UserRecipeReview[] = reviews;
+      newRecipeReviews.push(res.review);
+      console.log(reviews);
+      console.log(newRecipeReviews);
+      handleSetReview(newRecipeReviews);
+    });
+    setReviewText("");
+  };
+
+  const handleCloseSnackbar = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
   };
 
   return (
@@ -32,6 +79,12 @@ const ReviewInput = ({ user, recipeId }: { user: User; recipeId: string }) => {
       noValidate
       autoComplete="off"
     >
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="You've already reviewed this recipe"
+      />
       {user.role === "critic" ? (
         <>
           <Rating

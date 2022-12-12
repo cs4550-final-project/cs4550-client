@@ -7,18 +7,27 @@ import { User } from "../../types/user";
 import { Delete } from "@mui/icons-material";
 import { UserContext } from "../../contextProviders/user/UserContext";
 import { deleteRecipeReview } from "../../../service/spoonacular/recipesService";
+import { UserRecipeReview } from "../../types/userRecipeReview";
 
 type ReviewProps = {
   id: string;
   rating: number;
   review: string;
-  user: {
-    _id: string;
-    username: string;
-  };
+  user: string;
+  setReviews: React.Dispatch<
+    React.SetStateAction<UserRecipeReview[] | undefined>
+  >;
+  reviews: UserRecipeReview[];
 };
 
-const Review = ({ rating, review, user, id }: ReviewProps) => {
+const Review = ({
+  rating,
+  review,
+  user,
+  id,
+  setReviews,
+  reviews,
+}: ReviewProps) => {
   const navigateTo = useNavigate();
   const [reviewUser, setReviewUser] = useState<User | undefined>();
   const currentUser = useContext(UserContext);
@@ -29,6 +38,7 @@ const Review = ({ rating, review, user, id }: ReviewProps) => {
 
   const handleDeleteReview = () => {
     deleteRecipeReview(id, currentUser);
+    setReviews(reviews.filter((review) => review._id !== id));
   };
 
   useEffect(() => {

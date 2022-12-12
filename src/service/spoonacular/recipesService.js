@@ -2,7 +2,8 @@ import axios from "axios";
 import apiUrl from "../apiConfig";
 
 // const API_KEY = "28f92c9674274356b51f77cb7c8ce68e";
-const API_KEY = "47ab2d15d91246ab96b956ebc319f492";
+// const API_KEY = "47ab2d15d91246ab96b956ebc319f492";
+const API_KEY = "fad508a910d94092b3ef2fc9b215f305";
 
 export const getRecipesBySearchTerm = async (term) => {
   const recipesMatchingSearchTerm = await axios({
@@ -62,7 +63,7 @@ export const addRecipeReview = async (payload, user) => {
       Authorization: `Token token=${user.token}`,
     },
   });
-  return reviewRecipe;
+  return reviewRecipe.data;
 };
 
 export const deleteRecipeReview = async (id, user) => {

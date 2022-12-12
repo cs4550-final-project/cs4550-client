@@ -56,7 +56,6 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   };
 
   const getRecipeReviewsById = () => {
-    // const reviewsFromUser = getRecipeReviews(user?._id);
     const fetchReviews = async () => {
       const recievedReviews = getRecipeReviews(id);
       return recievedReviews;
@@ -64,6 +63,10 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
     fetchReviews().then((res) => {
       setReviews(res.reviews);
     });
+  };
+
+  const refreshReviews = () => {
+    getRecipeReviewsById();
   };
 
   useEffect(() => {
@@ -75,9 +78,7 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
     finishLoading();
   }, []);
 
-  useEffect(() => {
-    getRecipeReviewsById();
-  }, []);
+  useEffect(() => {}, [reviews]);
 
   const placeholders = {
     sm: <div className={`${styles.placeholderSm} ${styles.placeholder}`}></div>,
@@ -195,7 +196,14 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         </div>
       </Grid>
       <Grid item xs={12} justifyContent="center" alignItems="center">
-        {user && id && <ReviewInput user={user} recipeId={id}></ReviewInput>}
+        {user && id && reviews && (
+          <ReviewInput
+            user={user}
+            recipeId={id}
+            refreshReviews={refreshReviews}
+            reviews={reviews}
+          ></ReviewInput>
+        )}
         <div className={styles.recipeReviews}>
           <h5>Critic Reviews:</h5>
           {reviews
@@ -208,6 +216,8 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
                 rating={review.rating}
                 review={review.review}
                 id={review._id}
+                setReviews={setReviews}
+                reviews={reviews}
               />
             ))}
         </div>

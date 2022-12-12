@@ -49,7 +49,6 @@ const ReviewsPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
             <ProfileReview
               id={review._id}
               key={`review-${index}`}
-              user={review.owner}
               rating={review.rating}
               review={review.review}
               recipeId={review.recipe}
