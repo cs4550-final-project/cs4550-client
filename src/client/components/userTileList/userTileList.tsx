@@ -34,7 +34,6 @@ const UserTileList = ({
           .filter((_user) => _user._id !== currentUser?._id)
           .map((user) => (
             <Grid
-              direction={"row"}
               key={`grid-${user._id}`}
               className={styles.userItem}
               item

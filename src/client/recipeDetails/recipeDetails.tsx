@@ -24,6 +24,8 @@ import { UserContext } from "../contextProviders/user/UserContext";
 import { Recipe } from "../types/recipes";
 // import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import Accordion from "@mui/material/Accordion";
+import { mockRecipes } from "../../service/spoonacular/mockRecipes";
+import { updateFavorites } from "../../service/users/userService";
 
 const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   let { id } = useParams();
@@ -39,13 +41,15 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   };
 
   const getRecipeDetails = () => {
-    const fetchRecipes = async () => {
-      const recipe = getRecipeById(id);
-      return recipe;
-    };
-    fetchRecipes().then((res) => {
-      setRecipe(res);
-    });
+    const newRecipe = mockRecipes.results[0];
+    setRecipe(newRecipe);
+    // const fetchRecipes = async () => {
+    //   const recipe = getRecipeById(id);
+    //   return recipe;
+    // };
+    // fetchRecipes().then((res) => {
+    //   setRecipe(res);
+    // });
   };
 
   const getRecipeReviewsById = () => {
@@ -60,15 +64,23 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   };
 
   useEffect(() => {
+    // console.log(mockRecipes.results[0]);
     // setRecipe(mockRecipes.results[0]);
     // uncomment later
     getRecipeDetails();
     getRecipeReviewsById();
+    // const currentRecipe = getRecipeDetails();
+    console.log(user?.favorites);
+    console.log(recipe);
     if (user && recipe && user.favorites.includes(recipe?.id)) {
       setLiked(true);
     }
     finishLoading();
   }, []);
+
+  useEffect(() => {
+    getRecipeReviewsById();
+  }, [reviews]);
 
   const placeholders = {
     sm: <div className={`${styles.placeholderSm} ${styles.placeholder}`}></div>,
@@ -84,9 +96,12 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         const newfavorites = user?.favorites.filter((id) => id !== recipe?.id);
         user.favorites = newfavorites;
         setUser(user);
+        updateFavorites(newfavorites, user);
       } else {
-        user?.favorites.push(recipe?.id);
+        const newfavorites = user?.favorites;
+        newfavorites.push(recipe?.id);
         setUser(user);
+        updateFavorites(newfavorites, user);
       }
       setLiked(!liked);
     } else {
@@ -195,6 +210,7 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
                 user={review.owner}
                 rating={review.rating}
                 review={review.review}
+                id={review._id}
               />
             ))}
         </div>

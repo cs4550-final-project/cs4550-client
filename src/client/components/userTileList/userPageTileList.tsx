@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import React, { useContext } from "react";
 import styles from "./userTileList.module.scss";
-import UserPageTile from "../userTile/userPageTile copy";
+import UserPageTile from "../userTile/userPageTile";
 import { User } from "../../types/user";
 import { UserContext } from "../../contextProviders/user/UserContext";
 

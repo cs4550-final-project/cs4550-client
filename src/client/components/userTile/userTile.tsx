@@ -12,6 +12,7 @@ const UserTile = ({
   setTabValue: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const navigateTo = useNavigate();
+  const userRole = user.role;
 
   const handleClickTile = () => {
     navigateTo(`/profile/${user._id}`);
@@ -20,11 +21,21 @@ const UserTile = ({
 
   return (
     <Box
-      sx={{ width: { md: "100%", sm: "100%", xs: "100%" }, padding: "16px;" }}
+      sx={{ width: { md: "100%", sm: "100%", xs: "100%" }, padding: "0" }}
       className={styles.userTileContainer}
       onClick={() => handleClickTile()}
     >
-      <h6 onClick={() => handleClickTile()}>{user.username}</h6>
+      <Box
+        className={styles.userTypeIndicator}
+        sx={{ backgroundColor: userRole === "critic" ? "#435480" : "#C44A87" }}
+      >
+        <Typography className={styles.userRoleLabel}>
+          {userRole === "critic" ? "Critic" : "User"}
+        </Typography>
+      </Box>
+      <Box className={styles.userNameContainer}>
+        <h6 onClick={() => handleClickTile()}>{user.username}</h6>
+      </Box>
     </Box>
   );
 };

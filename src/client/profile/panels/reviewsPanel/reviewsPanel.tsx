@@ -33,27 +33,35 @@ const ReviewsPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
   };
 
   useEffect(() => {
-    getRecipeReviews();
     finishLoading();
   }, [user]);
+
+  useEffect(() => {
+    getRecipeReviews();
+  }, [reviews]);
 
   return loading ? (
     <Loading />
   ) : (
     <TabPanel value={value}>
       <h6>Reviews:</h6>
-      {reviews
-        ?.slice(0)
-        .reverse()
-        .map((review, index) => (
-          <ProfileReview
-            key={`review-${index}`}
-            user={review.owner}
-            rating={review.rating}
-            review={review.review}
-            recipeId={review.recipe}
-          />
-        ))}
+      {reviews && reviews?.length > 0 ? (
+        reviews
+          ?.slice(0)
+          .reverse()
+          .map((review, index) => (
+            <ProfileReview
+              id={review._id}
+              key={`review-${index}`}
+              user={review.owner}
+              rating={review.rating}
+              review={review.review}
+              recipeId={review.recipe}
+            />
+          ))
+      ) : (
+        <p>No reviewed recipes</p>
+      )}
     </TabPanel>
   );
 };

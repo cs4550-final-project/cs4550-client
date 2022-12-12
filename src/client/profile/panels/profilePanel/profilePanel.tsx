@@ -33,6 +33,8 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   useEffect(() => {
+    console.log("useEffect called");
+    console.log(currentUser);
     if (currentUser && user && !isCurrentUser) {
       currentUser.following?.forEach((followedUser) => {
         if (followedUser._id === id) {
@@ -42,25 +44,13 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
     }
     setBio(user?.bio || "");
   }, [user]);
+
   const handleEditClick = () => {
     setEditing(true);
   };
 
   const handleOpenSnackbar = () => {
     setOpenSnackbar(true);
-  };
-
-  const handleFollow = () => {
-    if (id && currentUser) {
-      getUserById(id).then((res) => {
-        const updatedFollowing = user?.following;
-        updatedFollowing?.push(res.data.user);
-        updateFollowing(updatedFollowing, user);
-        setIsFollowing(true);
-      });
-    } else {
-      handleOpenSnackbar();
-    }
   };
 
   const handleCloseSnackbar = (
@@ -73,16 +63,44 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
     setOpenSnackbar(false);
   };
 
-  const handleUnfollow = () => {
-    if (id) {
+  const handleFollow = () => {
+    if (id && currentUser) {
       getUserById(id).then((res) => {
-        const updatedFollowing = user?.following;
-        updateFollowing(
-          updatedFollowing?.filter(
-            (followedUser) => followedUser._id !== res.data.user._id
-          ),
-          user
+        console.log("FOLLOW");
+        console.log("user (me): ", currentUser);
+        console.log("user to follow: ", res.data.user);
+        const following = currentUser?.following;
+        console.log("current following list before follow: ", following);
+        following?.push(res.data.user);
+        console.log("current following list after follow: ", following);
+        updateFollowing({ following }, currentUser);
+        setUser({ ...currentUser, following });
+        console.log("setUser called with: ", following);
+        setIsFollowing(true);
+      });
+    } else {
+      handleOpenSnackbar();
+    }
+  };
+
+  const handleUnfollow = () => {
+    if (id && currentUser) {
+      getUserById(id).then((res) => {
+        console.log("UNFOLLOW");
+        console.log("user (me): ", currentUser);
+        console.log("user to follow: ", res.data.user);
+        const updatedFollowing = currentUser?.following;
+        console.log(
+          "current following list before unfollow: ",
+          updatedFollowing
         );
+        const following = updatedFollowing?.filter(
+          (followedUser) => followedUser._id !== res.data.user._id
+        );
+        console.log("current following list after unfollow: ", following);
+        updateFollowing({ following }, currentUser);
+        setUser({ ...currentUser, following });
+        console.log("setUser called with: ", following);
         setIsFollowing(false);
       });
     }
@@ -114,6 +132,10 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
     }
   };
 
+  const makeCapitalCase = (word: string) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
+
   return (
     <TabPanel value={value}>
       <Snackbar
@@ -137,7 +159,7 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
           >
             <div>
               <h3>{user?.username}</h3>
-              <h5> {user?.role}</h5>
+              <h5>{user?.role && makeCapitalCase(user?.role)}</h5>
               <p></p>
             </div>
             <Box

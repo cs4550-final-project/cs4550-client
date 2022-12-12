@@ -64,6 +64,17 @@ export const addRecipeReview = async (payload, user) => {
   return reviewRecipe;
 };
 
+export const deleteRecipeReview = async (id, user) => {
+  const deleteReview = await axios({
+    method: "DELETE",
+    url: `${apiUrl}/reviews/${id}`,
+    headers: {
+      Authorization: `Token token=${user.token}`,
+    },
+  });
+  return deleteReview;
+};
+
 export const getRecipeById = async (id) => {
   const recipeMatchingId = await axios({
     method: "GET",

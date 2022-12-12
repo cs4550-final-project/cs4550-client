@@ -20,6 +20,7 @@ const FollowingPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
   };
 
   useEffect(() => {
+    console.log(user?.following);
     setUsersFollowed(user?.following);
     finishLoading();
   }, [user]);

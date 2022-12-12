@@ -42,6 +42,17 @@ export const updateFollowing = (payload, user) => {
   });
 };
 
+export const updateFavorites = (payload, user) => {
+  return axios({
+    method: "PATCH",
+    url: apiUrl + "/favorites",
+    headers: {
+      Authorization: `Token token=${user.token}`,
+    },
+    data: payload,
+  });
+};
+
 export const updateUserInfo = (payload, user) => {
   return axios({
     method: "PATCH",
