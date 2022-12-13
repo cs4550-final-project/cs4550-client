@@ -201,9 +201,10 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
                     readOnly: !editing,
                   }}
                   name="bio"
-                  value={bio || "This user does not have a bio yet."}
+                  value={bio}
                   onChange={handleChange}
                   sx={{ marginTop: "16px", width: "100%" }}
+                  placeholder={"Tell the Recipeasy community about yourself..."}
                 />
               ) : (
                 <p className={styles.infoText}>
