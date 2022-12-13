@@ -18,7 +18,6 @@ import {
   getRandomRecipes,
   getRecipesBySearchTerm,
 } from "../../service/spoonacular/recipesService";
-import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import { Recipe } from "../types/recipes";
 import ListOfTiles from "../components/listOfTiles/listOfTiles";
 import filters from "./filters";
@@ -87,8 +86,6 @@ const Home = () => {
 
   // Run on initial load
   useEffect(() => {
-    // setRecipes(mockRecipes.results);
-    // setFilteredRecipes(mockRecipes.results);
     const fetchRecipes = async () => {
       const randomRecipes = getRandomRecipes();
       return randomRecipes;

@@ -9,7 +9,6 @@ const API_KEY = "cd5ed0a040b44226a736c56e58468976";
 export const getRecipesBySearchTerm = async (term) => {
   const recipesMatchingSearchTerm = await axios({
     method: "GET",
-    // url: "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/complexSearch",
     url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}`,
     params: {
       query: `${term}`,
@@ -17,10 +16,6 @@ export const getRecipesBySearchTerm = async (term) => {
       addRecipeInformation: "true",
       number: "20",
     },
-    // headers: {
-    //   "X-RapidAPI-Key": "eae00ca4a9msh9e0fa44b797861ap15a97cjsn0bb77c929b5e",
-    //   "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-    // },
   });
   return recipesMatchingSearchTerm.data;
 };
@@ -28,13 +23,8 @@ export const getRecipesBySearchTerm = async (term) => {
 export const getRandomRecipes = async () => {
   const randomRecipes = await axios({
     method: "GET",
-    // url: "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random",
     url: `https://api.spoonacular.com/recipes/random?apiKey=${API_KEY}`,
     params: { number: "20" },
-    // headers: {
-    //   "X-RapidAPI-Key": "eae00ca4a9msh9e0fa44b797861ap15a97cjsn0bb77c929b5e",
-    //   "X-RapidAPI-Host": "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com",
-    // },
   });
   return randomRecipes.data;
 };

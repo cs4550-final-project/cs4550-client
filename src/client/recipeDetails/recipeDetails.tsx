@@ -22,9 +22,7 @@ import { UserRecipeReview } from "../types/userRecipeReview";
 import Review from "../components/review/review";
 import { UserContext } from "../contextProviders/user/UserContext";
 import { Recipe } from "../types/recipes";
-// import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import Accordion from "@mui/material/Accordion";
-import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import { updateFavorites } from "../../service/users/userService";
 
 const RecipeDetails = ({ setUser }: { setUser: Function }) => {
@@ -41,8 +39,6 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   };
 
   const getRecipeDetails = () => {
-    // const newRecipe = mockRecipes.results[0];
-    // setRecipe(newRecipe);
     const fetchRecipes = async () => {
       const recipe = getRecipeById(id);
       return recipe;
@@ -70,9 +66,6 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
   };
 
   useEffect(() => {
-    // console.log(mockRecipes.results[0]);
-    // setRecipe(mockRecipes.results[0]);
-    // uncomment later
     getRecipeDetails();
     getRecipeReviewsById();
     finishLoading();
