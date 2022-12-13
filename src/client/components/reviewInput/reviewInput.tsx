@@ -31,14 +31,9 @@ const ReviewInput = ({
 
   const handleSubmit = () => {
     const checkForDoops = reviews.filter((review) => {
-      console.log("review", review);
-      console.log("review.owner._id", review.owner);
-      console.log("user._id", user._id);
-
       return review.owner === user._id;
     });
 
-    console.log("here", checkForDoops);
     if (checkForDoops.length) {
       setOpenSnackbar(true);
       return;
@@ -53,8 +48,6 @@ const ReviewInput = ({
     addRecipeReview(payload, user).then((res) => {
       const newRecipeReviews: UserRecipeReview[] = reviews;
       newRecipeReviews.push(res.review);
-      console.log(reviews);
-      console.log(newRecipeReviews);
       handleSetReview(newRecipeReviews);
     });
     setReviewText("");

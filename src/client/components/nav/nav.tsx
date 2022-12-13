@@ -179,7 +179,7 @@ const Nav = ({ signOut }: { signOut: Function }) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title={user?.role ? "Open Profile" : "Sign in"}>
               <IconButton
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0, padding: "8px", borderRadius: "15px" }}

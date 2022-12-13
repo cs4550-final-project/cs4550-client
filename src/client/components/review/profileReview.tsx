@@ -9,17 +9,21 @@ import {
 import { Recipe } from "../../types/recipes";
 import { UserContext } from "../../contextProviders/user/UserContext";
 import { Delete } from "@mui/icons-material";
+import { User } from "../../types/user";
+import { getUserById } from "../../../service/users/userService";
 
 type ReviewProps = {
   id: string;
   rating: number;
   review: string;
   recipeId: string;
+  user: string;
 };
 
-const ProfileReview = ({ rating, review, recipeId, id }: ReviewProps) => {
+const ProfileReview = ({ rating, review, recipeId, id, user }: ReviewProps) => {
   const navigateTo = useNavigate();
   const [recipe, setRecipe] = useState<Recipe | undefined>();
+  const [reviewUser, setReviewUser] = useState<User | undefined>();
   const currentUser = useContext(UserContext);
 
   const handleDeleteReview = () => {
@@ -27,7 +31,7 @@ const ProfileReview = ({ rating, review, recipeId, id }: ReviewProps) => {
   };
 
   const handleUsernameClick = () => {
-    navigateTo(`/details/${recipe}`);
+    navigateTo(`/details/${recipe?.id}`);
   };
 
   const getRecipeDetails = () => {
@@ -42,7 +46,10 @@ const ProfileReview = ({ rating, review, recipeId, id }: ReviewProps) => {
 
   useEffect(() => {
     getRecipeDetails();
-  }, []);
+    getUserById(user).then((res) => {
+      setReviewUser(res.data.user);
+    });
+  }, [user]);
 
   return (
     <>
@@ -58,7 +65,7 @@ const ProfileReview = ({ rating, review, recipeId, id }: ReviewProps) => {
         noValidate
         autoComplete="off"
       >
-        <Box>
+        <Box sx={{ paddingRight: "8px" }}>
           <Rating
             name="simple-controlled"
             value={rating}
@@ -77,7 +84,9 @@ const ProfileReview = ({ rating, review, recipeId, id }: ReviewProps) => {
           </h6>
           <p style={{ marginBottom: "4px", marginLeft: "4px" }}>{review}</p>
         </Box>
-        <Delete sx={{ cursor: "pointer" }} onClick={handleDeleteReview} />
+        {reviewUser?._id === currentUser?._id && (
+          <Delete sx={{ cursor: "pointer" }} onClick={handleDeleteReview} />
+        )}
       </Box>
       <hr></hr>
     </>

@@ -14,7 +14,10 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "../components/button/button";
-import { getRecipesBySearchTerm } from "../../service/spoonacular/recipesService";
+import {
+  getRandomRecipes,
+  getRecipesBySearchTerm,
+} from "../../service/spoonacular/recipesService";
 import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import { Recipe } from "../types/recipes";
 import ListOfTiles from "../components/listOfTiles/listOfTiles";
@@ -22,6 +25,8 @@ import filters from "./filters";
 
 const Home = () => {
   const [searchInput, setSearchInput] = useState("");
+  const [recipesSearched, setRecipesSearched] = useState(false);
+  const [currentSearchedTerm, setCurrentSearchedTerm] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
   const [filterOptions, setFilterOptions] = useState(filters);
   const [filteredRecipes, setFilteredRecipes] = useState<
@@ -67,23 +72,28 @@ const Home = () => {
       const recipesMatchingSearchTerm = getRecipesBySearchTerm(term);
       return recipesMatchingSearchTerm;
     };
-    fetchRecipes().then((res) => {
-      setRecipes(res.results);
-      filterRecipes();
-    });
+    fetchRecipes()
+      .then((res) => {
+        setRecipes(res.results);
+        setRecipesSearched(true);
+        setCurrentSearchedTerm(searchInput);
+      })
+      .then(() => {
+        filterRecipes();
+      });
   };
 
   // Run on initial load
   useEffect(() => {
-    setRecipes(mockRecipes.results);
-    setFilteredRecipes(mockRecipes.results);
-    // const fetchRecipes = async () => {
-    //   const randomRecipes = getRandomRecipes();
-    //   return randomRecipes;
-    // };
-    // fetchRecipes().then((res) => {
-    //   setRecipes(res.recipes);
-    // });
+    // setRecipes(mockRecipes.results);
+    // setFilteredRecipes(mockRecipes.results);
+    const fetchRecipes = async () => {
+      const randomRecipes = getRandomRecipes();
+      return randomRecipes;
+    };
+    fetchRecipes().then((res) => {
+      setRecipes(res.recipes);
+    });
 
     closeMobileFilterOnResize();
   }, []);
@@ -143,8 +153,22 @@ const Home = () => {
       </>
       <Box pb={2} className={styles.homeHeader}>
         <Typography variant="h6">
-          {filteredRecipes ? (
-            `${Object.keys(filteredRecipes).length} listings`
+          {recipes ? (
+            recipesSearched ? (
+              filteredRecipes && filteredRecipes?.length <= recipes.length ? (
+                `Showing ${
+                  Object.keys(filteredRecipes).length
+                } filtered results for "${currentSearchedTerm}"`
+              ) : (
+                `Showing ${
+                  Object.keys(recipes).length
+                } results for "${currentSearchedTerm}"`
+              )
+            ) : filteredRecipes && filteredRecipes?.length <= recipes.length ? (
+              `Showing ${Object.keys(filteredRecipes).length} filtered recipes`
+            ) : (
+              `Showing ${Object.keys(recipes).length} featured recipes`
+            )
           ) : (
             <></>
           )}
@@ -218,8 +242,18 @@ const Home = () => {
               />
             </div>
           </Box>
-          {filteredRecipes?.length ? (
-            <ListOfTiles recipes={filteredRecipes} />
+          {recipes?.length ? (
+            filteredRecipes ? (
+              filteredRecipes.length ? (
+                <ListOfTiles recipes={filteredRecipes} />
+              ) : (
+                <p className={styles.noResults}>
+                  No recipes matched your search and filter results.
+                </p>
+              )
+            ) : (
+              <ListOfTiles recipes={recipes} />
+            )
           ) : (
             <p className={styles.noResults}>
               No recipes matched your search and filter results.

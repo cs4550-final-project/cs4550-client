@@ -206,20 +206,24 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         )}
         <div className={styles.recipeReviews}>
           <h5>Critic Reviews:</h5>
-          {reviews
-            ?.slice(0)
-            .reverse()
-            .map((review, index) => (
-              <Review
-                key={`review-${index}`}
-                user={review.owner}
-                rating={review.rating}
-                review={review.review}
-                id={review._id}
-                setReviews={setReviews}
-                reviews={reviews}
-              />
-            ))}
+          {reviews && reviews?.length > 0 ? (
+            reviews
+              ?.slice(0)
+              .reverse()
+              .map((review, index) => (
+                <Review
+                  key={`review-${index}`}
+                  user={review.owner}
+                  rating={review.rating}
+                  review={review.review}
+                  id={review._id}
+                  setReviews={setReviews}
+                  reviews={reviews}
+                />
+              ))
+          ) : (
+            <p>This recipe has not been reviewed yet</p>
+          )}
         </div>
       </Grid>
     </Grid>

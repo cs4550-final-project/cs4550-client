@@ -61,7 +61,7 @@ const Review = ({
         noValidate
         autoComplete="off"
       >
-        <Box>
+        <Box sx={{ paddingRight: "8px" }}>
           <Rating
             name="simple-controlled"
             value={rating}
