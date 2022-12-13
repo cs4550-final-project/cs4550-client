@@ -26,7 +26,11 @@
     color: white;
   }
 }
-
+.signInContainer {
+  &:hover {
+    transform: scale(1.05);
+  }
+}
 .userNameContainer {
   padding-bottom: 12px;
   padding-left: 12px;

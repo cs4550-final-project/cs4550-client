@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Accordion from "@mui/material/Accordion";
 import styles from "./home.module.scss";
@@ -22,6 +22,8 @@ import { Recipe } from "../types/recipes";
 import ListOfTiles from "../components/listOfTiles/listOfTiles";
 import filters from "./filters";
 import Loading from "../components/loading/loading";
+import { UserContext } from "../contextProviders/user/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
@@ -34,6 +36,8 @@ const Home = () => {
     Recipe[] | undefined
   >();
   const [recipes, setRecipes] = useState<Recipe[] | undefined>();
+  const currentUser = useContext(UserContext);
+  const navigateTo = useNavigate();
 
   const filterRecipes = () => {
     const filtered = recipes?.filter((recipe) => {
@@ -152,14 +156,39 @@ const Home = () => {
         </Modal>
       </>
       <Box pb={2} className={styles.homeHeader}>
-        <Typography variant="h6">
-          {filteredRecipes &&
-            (recipesSearched
-              ? `Showing ${
-                  Object.keys(filteredRecipes).length
-                } results for "${currentSearchedTerm}"`
-              : `Showing ${filteredRecipes.length} results`)}
-        </Typography>
+        <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+          {!currentUser?.role && (
+            <Box
+              onClick={() => navigateTo("/signin")}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                backgroundColor: "#f57600",
+                width: "260px",
+                margin: "8px 0 16px 0",
+                borderRadius: "8px",
+                cursor: "pointer",
+                transition: "all 0.2s ease-in-out;",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                },
+              }}
+              className={styles.signInContainer}
+            >
+              <p className={styles.signInMessage}>
+                Sign in or sign up to access all of Recipeasy's great features!
+              </p>
+            </Box>
+          )}
+          <Typography variant="h6">
+            {filteredRecipes &&
+              (recipesSearched
+                ? `Showing ${
+                    Object.keys(filteredRecipes).length
+                  } results for "${currentSearchedTerm}"`
+                : `Showing ${filteredRecipes.length} results`)}
+          </Typography>
+        </Box>
         <Box sx={{ display: { md: "none", sm: "block", xs: "block" } }}>
           <Button
             variant="contained"
