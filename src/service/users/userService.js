@@ -54,6 +54,7 @@ export const updateFavorites = (payload, user) => {
 };
 
 export const updateUserInfo = (payload, user) => {
+  console.log(payload);
   return axios({
     method: "PATCH",
     url: apiUrl + "/update-info",

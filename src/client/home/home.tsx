@@ -67,21 +67,21 @@ const Home = () => {
     }
   };
 
-  const handleSearchForRecipes = (term: string) => {
+  const handleSearchForRecipes = () => {
     const fetchRecipes = async () => {
-      const recipesMatchingSearchTerm = getRecipesBySearchTerm(term);
+      const recipesMatchingSearchTerm = getRecipesBySearchTerm(searchInput);
       return recipesMatchingSearchTerm;
     };
-    fetchRecipes()
-      .then((res) => {
-        setRecipes(res.results);
-        setRecipesSearched(true);
-        setCurrentSearchedTerm(searchInput);
-      })
-      .then(() => {
-        filterRecipes();
-      });
+    fetchRecipes().then((res) => {
+      setRecipes(res.results);
+      setRecipesSearched(true);
+      setCurrentSearchedTerm(searchInput);
+    });
   };
+
+  useEffect(() => {
+    filterRecipes();
+  }, [recipes]);
 
   // Run on initial load
   useEffect(() => {
@@ -153,25 +153,12 @@ const Home = () => {
       </>
       <Box pb={2} className={styles.homeHeader}>
         <Typography variant="h6">
-          {recipes ? (
-            recipesSearched ? (
-              filteredRecipes && filteredRecipes?.length <= recipes.length ? (
-                `Showing ${
+          {filteredRecipes &&
+            (recipesSearched
+              ? `Showing ${
                   Object.keys(filteredRecipes).length
-                } filtered results for "${currentSearchedTerm}"`
-              ) : (
-                `Showing ${
-                  Object.keys(recipes).length
                 } results for "${currentSearchedTerm}"`
-              )
-            ) : filteredRecipes && filteredRecipes?.length <= recipes.length ? (
-              `Showing ${Object.keys(filteredRecipes).length} filtered recipes`
-            ) : (
-              `Showing ${Object.keys(recipes).length} featured recipes`
-            )
-          ) : (
-            <></>
-          )}
+              : `Showing ${filteredRecipes.length} results`)}
         </Typography>
         <Box sx={{ display: { md: "none", sm: "block", xs: "block" } }}>
           <Button
@@ -237,23 +224,13 @@ const Home = () => {
             <div className={styles.searchButton}>
               <Button
                 variant="outlined"
-                onClick={() => handleSearchForRecipes(searchInput)}
+                onClick={handleSearchForRecipes}
                 label="Search"
               />
             </div>
           </Box>
-          {recipes?.length ? (
-            filteredRecipes ? (
-              filteredRecipes.length ? (
-                <ListOfTiles recipes={filteredRecipes} />
-              ) : (
-                <p className={styles.noResults}>
-                  No recipes matched your search and filter results.
-                </p>
-              )
-            ) : (
-              <ListOfTiles recipes={recipes} />
-            )
+          {filteredRecipes && filteredRecipes.length ? (
+            <ListOfTiles recipes={filteredRecipes} />
           ) : (
             <p className={styles.noResults}>
               No recipes matched your search and filter results.
