@@ -196,7 +196,7 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
         </div>
       </Grid>
       <Grid item xs={12} justifyContent="center" alignItems="center">
-        {user && id && reviews && (
+        {user && id && reviews && user.role === "critic" && (
           <ReviewInput
             user={user}
             recipeId={id}
@@ -222,7 +222,11 @@ const RecipeDetails = ({ setUser }: { setUser: Function }) => {
                 />
               ))
           ) : (
-            <p>This recipe has not been reviewed yet</p>
+            <p>
+              {user?.role === "critic"
+                ? "Be the first critic to review this recipe!"
+                : "This recipe has not been reviewed by a critic yet."}
+            </p>
           )}
         </div>
       </Grid>

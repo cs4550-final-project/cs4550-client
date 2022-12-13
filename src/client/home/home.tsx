@@ -22,8 +22,10 @@ import { mockRecipes } from "../../service/spoonacular/mockRecipes";
 import { Recipe } from "../types/recipes";
 import ListOfTiles from "../components/listOfTiles/listOfTiles";
 import filters from "./filters";
+import Loading from "../components/loading/loading";
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
   const [recipesSearched, setRecipesSearched] = useState(false);
   const [currentSearchedTerm, setCurrentSearchedTerm] = useState("");
@@ -93,6 +95,7 @@ const Home = () => {
     };
     fetchRecipes().then((res) => {
       setRecipes(res.recipes);
+      setLoading(false);
     });
 
     closeMobileFilterOnResize();
@@ -229,7 +232,9 @@ const Home = () => {
               />
             </div>
           </Box>
-          {filteredRecipes && filteredRecipes.length ? (
+          {loading ? (
+            <Loading />
+          ) : filteredRecipes && filteredRecipes.length ? (
             <ListOfTiles recipes={filteredRecipes} />
           ) : (
             <p className={styles.noResults}>

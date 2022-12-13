@@ -78,31 +78,26 @@ const ReviewInput = ({
         onClose={handleCloseSnackbar}
         message="You've already reviewed this recipe"
       />
-      {user.role === "critic" ? (
-        <>
-          <Rating
-            name="simple-controlled"
-            size="large"
-            value={value}
-            sx={{ marginBottom: "16px" }}
-            onChange={(e, newValue) => {
-              setValue(newValue);
-            }}
-          />
-          <TextField
-            id="filled-multiline-static"
-            label="Leave A Review"
-            multiline
-            rows={4}
-            variant="filled"
-            onChange={handleReviewTextChange}
-            value={reviewText}
-          />
-        </>
-      ) : (
-        <></>
-      )}
-
+      <>
+        <Rating
+          name="simple-controlled"
+          size="large"
+          value={value}
+          sx={{ marginBottom: "16px" }}
+          onChange={(e, newValue) => {
+            setValue(newValue);
+          }}
+        />
+        <TextField
+          id="filled-multiline-static"
+          label="Leave A Review"
+          multiline
+          rows={4}
+          variant="filled"
+          onChange={handleReviewTextChange}
+          value={reviewText}
+        />
+      </>
       <Button
         label="Submit Review"
         variant="outlined"
