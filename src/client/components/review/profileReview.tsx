@@ -11,6 +11,7 @@ import { UserContext } from "../../contextProviders/user/UserContext";
 import { Delete } from "@mui/icons-material";
 import { User } from "../../types/user";
 import { getUserById } from "../../../service/users/userService";
+import { UserRecipeReview } from "../../types/userRecipeReview";
 
 type ReviewProps = {
   id: string;
@@ -18,9 +19,21 @@ type ReviewProps = {
   review: string;
   recipeId: string;
   user: string;
+  setReviews: React.Dispatch<
+    React.SetStateAction<UserRecipeReview[] | undefined>
+  >;
+  reviews: UserRecipeReview[];
 };
 
-const ProfileReview = ({ rating, review, recipeId, id, user }: ReviewProps) => {
+const ProfileReview = ({
+  rating,
+  review,
+  recipeId,
+  id,
+  user,
+  setReviews,
+  reviews,
+}: ReviewProps) => {
   const navigateTo = useNavigate();
   const [recipe, setRecipe] = useState<Recipe | undefined>();
   const [reviewUser, setReviewUser] = useState<User | undefined>();
@@ -28,9 +41,10 @@ const ProfileReview = ({ rating, review, recipeId, id, user }: ReviewProps) => {
 
   const handleDeleteReview = () => {
     deleteRecipeReview(id, currentUser);
+    setReviews(reviews.filter((review) => review._id !== id));
   };
 
-  const handleUsernameClick = () => {
+  const handleRecipeClick = () => {
     navigateTo(`/details/${recipe?.id}`);
   };
 
@@ -78,7 +92,7 @@ const ProfileReview = ({ rating, review, recipeId, id, user }: ReviewProps) => {
               marginLeft: "4px",
               cursor: "pointer",
             }}
-            onClick={handleUsernameClick}
+            onClick={handleRecipeClick}
           >
             {recipe?.title}
           </h6>

@@ -53,6 +53,8 @@ const ReviewsPanel = ({ value, user, setTabValue }: FollowingPanelProps) => {
               review={review.review}
               recipeId={review.recipe}
               user={review.owner}
+              setReviews={setReviews}
+              reviews={reviews}
             />
           ))
       ) : (

@@ -33,7 +33,11 @@ const Review = ({
   const currentUser = useContext(UserContext);
 
   const handleUsernameClick = () => {
-    navigateTo("/profile/" + reviewUser?._id);
+    if (reviewUser?._id === currentUser?._id) {
+      navigateTo("/profile");
+    } else {
+      navigateTo("/profile/" + reviewUser?._id);
+    }
   };
 
   const handleDeleteReview = () => {
