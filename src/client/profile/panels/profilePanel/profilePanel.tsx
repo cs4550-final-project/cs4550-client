@@ -214,6 +214,12 @@ const ProfilePanel = ({ value, user, setUser }: ProfilePanelProps) => {
             </div>
             <h6 className={styles.profileLabels}>Username:</h6>
             <p className={styles.infoText}>{user?.username}</p>
+            {user?.role === "critic" && (
+              <>
+                <h6 className={styles.profileLabels}>Company:</h6>
+                <p className={styles.infoText}>{user?.company}</p>
+              </>
+            )}
             {isCurrentUser ? (
               <FormControl className={styles.formControl}>
                 {isCurrentUser && (

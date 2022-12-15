@@ -3,6 +3,7 @@ export type User = {
   username: string;
   favorites: number[];
   role: string;
+  company?: string;
   bio?: string;
   createdAt: string;
   updatedAt: string;
